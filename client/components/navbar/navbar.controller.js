@@ -3,8 +3,19 @@
 angular.module('pitchPerfectApp')
   .controller('NavbarCtrl', function ($scope, $location, Auth) {
     $scope.menu = [{
-      'title': 'Home',
+      'title': 'Welcome',
       'link': '/'
+    }, {
+      'title': 'Home',
+      'link': '/home'
+    },{'title': 'Interview',
+      'link': '/interview'
+    },{
+      'title': 'Review',
+      'link': '/review'
+    },{
+      'title': 'Share',
+      'link': '/share'
     }];
 
     $scope.isCollapsed = true;
