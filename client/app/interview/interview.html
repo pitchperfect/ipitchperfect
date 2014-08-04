@@ -2,22 +2,24 @@
 <div class="container">
 	<div class="row clearfix">
 		<div class="col-md-12 column">
+
 			<div class="page-header">
 				<h1>Deck: Facebook
 					<div>
-            <small>Question #1:<span>"Tell my why you wanted to be a software engineer?"</span></small>
+            <small>Question #1:<span>"Tell me why you wanted to be a software engineer?"</span></small>
 					</div>
 				</h1>
 			</div>
+
 		</div>
 	</div>
 </div>
 
 
-<div class="container">
+<div class="container" >
   <div class="row clearfix">
-    <div class="col-md-12 column text-center">
 
+    <div class="col-md-12 column text-center">
       <!--  Press to start Prompt-->
       <button class="btn btn-primary"
         ng-show="!startPrompt && !startInterview && !processInterview"
@@ -40,7 +42,7 @@
       </a>
 
     </div>
-
+    <!-- alert box -->
     <div class="col-md-offset-3 col-md-6 column" ng-show="instructions">
       <div class="alert alert-success alert-dismissable">
         <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
@@ -64,19 +66,15 @@
 
 <div class="container">
 
+  <!-- View yourself & replaced by prompt at start of user interface-->
   <div class="row clearfix">
     <div class="col-md-12 column">
 
       <!--  View yourself -->
-      <div id="box1" ng-show="!startPrompt && !startInterview">
-        Yourself
-        <div class="col-md-12 center-block">
-        </div>
-      </div>
+      <div id="box1" ng-show="!startPrompt && !startInterview && !instructions">Yourself</div>
 
       <!--  Play Prompt -->
-      <div id="box1" ng-hide="!startPrompt">
-        Prompt
+      <div id="box1" ng-hide="!startPrompt">Prompt
         <div class="col-md-12 center-block">
           <span class="glyphicon glyphicon-play-circle"
           ng-show="startPrompt && !finishVideo" ng-click="changeFinishVideoStatus()"></span>
@@ -84,18 +82,19 @@
           ng-show="finishVideo" ng-click="changePromptStatus(); changeFinishVideoStatus()"></span>
         </div>
       </div>
+
     </div>
   </div>
 
   <!-- Record yourself -->
-  <div class="row clearfix add-margin-bottom"
+  <div class="row clearfix add-margin-bottom text-center"
   ng-show="startInterview && !processInterview">
-    <div class="col-md-12 column text-center">
+    <!-- <div class="col-md-12 column text-center"> -->
 
-      <span class="glyphicon glyphicon-facetime-video"
-      ng-click="changeProcessInterviewStatus()"></span>
-      <div id="box3" ng-click="changeProcessInterviewStatus()">{{min}} : {{sec}}</div>
-    </div>
+    <span class="glyphicon glyphicon-facetime-video"
+    ng-click="changeProcessInterviewStatus()"></span>
+    <div id="box3" ng-click="changeProcessInterviewStatus()">{{min}} : {{sec}}</div>
+    <!-- </div> -->
   </div>
 
   <div class="row clearfix">
