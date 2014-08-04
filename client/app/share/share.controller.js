@@ -16,9 +16,12 @@ angular.module('pitchPerfectApp')
 	};
 
 	$scope.showModal = function(){
-	modalService.showModal({}, modalOptions).then(function(result) {
-		$location.path('/home');
-	});
+	// modalService.showModal({}, modalOptions).then(function(/*result*/) {
+
+	// 	$location.path('/home');
+	// });
+  
+	$location.path('/home');
 
 	};
 
