@@ -1,3 +1,5 @@
+'use strict';
+
 angular.module('pitchPerfectApp').service('modalService', ['$modal',
     function ($modal) {
 
@@ -16,7 +18,7 @@ angular.module('pitchPerfectApp').service('modalService', ['$modal',
         };
 
         this.showModal = function (customModalDefaults, customModalOptions) {
-            if (!customModalDefaults) customModalDefaults = {};
+            if (!customModalDefaults) {customModalDefaults = {};}
             customModalDefaults.backdrop = 'static';
             return this.show(customModalDefaults, customModalOptions);
         };
@@ -38,10 +40,11 @@ angular.module('pitchPerfectApp').service('modalService', ['$modal',
                     $scope.modalOptions.ok = function (result) {
                         $modalInstance.close(result);
                     };
-                    $scope.modalOptions.close = function (result) {
+                    $scope.modalOptions.close = function () {
+                        //you ahve access to result
                         $modalInstance.dismiss('cancel');
                     };
-                }
+                };
             }
 
             return $modal.open(tempModalDefaults).result;
