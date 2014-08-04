@@ -7,7 +7,7 @@ Practice responding to interview questions by making short videos of yourself an
 
   - __Product Owner__: Chris Gray
   - __Scrum Master__: Celine Otter
-  - __Tech Lead__: David Desiro
+  - __Tech Lead__: David Deriso
 
 ## Table of Contents
 
