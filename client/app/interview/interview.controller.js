@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('pitchPerfectApp')
-  .controller('InterviewCtrl', function ($scope, $interval, $window) {
+  .controller('InterviewCtrl', function ($scope, $interval) {
     $scope.message = 'Hello';
 
     $scope.startPrompt = false;
