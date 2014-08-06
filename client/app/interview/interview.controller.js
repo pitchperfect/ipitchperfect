@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('pitchPerfectApp')
-  .controller('InterviewCtrl', function ($scope, $interval) {
+  .controller('InterviewCtrl', function ($scope, $window, $document, $interval) {
     $scope.message = 'Hello';
 
     $scope.startPrompt = false;
@@ -11,6 +11,7 @@ angular.module('pitchPerfectApp')
     $scope.reviewInterview = false;
     $scope.scriptingInterview = '';
     $scope.instructions = false;
+
 
     $scope.startStopWatch = function () {
       $scope.sec = 0;
@@ -58,5 +59,46 @@ angular.module('pitchPerfectApp')
     $scope.changeItemStatus = function (item) {
       $scope[item] = !$scope[item];
     };
+
+
+    $scope.startPreviewVideo = function() {
+      var navigator = $window.navigator;
+
+      var video = $document.getElementById('video-preview');
+      // var downloadURL = document.getElementById('download-url');
+      //
+      // var startRecording = document.getElementById('start-recording');
+      // var stopRecording = document.getElementById('stop-recording');
+
+
+      navigator.getUserMedia = navigator.getUserMedia ||
+                               navigator.webkitGetUserMedia ||
+                               navigator.mozGetUserMedia ||
+                               navigator.msGetUserMedia;
+
+      navigator.getUserMedia (
+        // Constraints
+        {
+          audio: true,
+          video: true
+        },
+
+        // Success callback
+        function(stream) {
+          video.src = URL.createObjectURL(stream);
+          video.muted = true;
+          video.controls = true;
+          video.play();
+          //callback(stream);
+        },
+
+        // Error callback
+        function(error) {
+          console.error(error);
+        }
+      );
+    };
+
+    $scope.startPreviewVideo();
 
   });
