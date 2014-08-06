@@ -107,7 +107,7 @@ angular.module('pitchPerfectApp')
 
     $scope.startPreviewVideo = function() {
       var navigator = $window.navigator;
-      if (navigator !== undefined) {
+      if ((navigator !== undefined) && (navigator !== null)) {
         var video = $window.document.getElementById('video-preview');
 
         navigator.getUserMedia = navigator.getUserMedia ||
@@ -115,27 +115,29 @@ angular.module('pitchPerfectApp')
                                  navigator.mozGetUserMedia ||
                                  navigator.msGetUserMedia;
 
-        navigator.getUserMedia (
-          // Constraints
-          {
-            audio: true,
-            video: true
-          },
+        if (navigator.getUserMedia !== undefined) {
+          navigator.getUserMedia (
+            // Constraints
+            {
+              audio: true,
+              video: true
+            },
 
-          // Success callback
-          function(stream) {
-            video.src = URL.createObjectURL(stream);
-            video.muted = true;
-            video.controls = true;
-            video.play();
-            //callback(stream);
-          },
+            // Success callback
+            function(stream) {
+              video.src = URL.createObjectURL(stream);
+              video.muted = true;
+              video.controls = true;
+              video.play();
+              //callback(stream);
+            },
 
-          // Error callback
-          function(error) {
-            console.error(error);
-          }
-        );
+            // Error callback
+            function(error) {
+              console.error(error);
+            }
+          );
+        }
       }
     };
     // Go ahead and start the preview video.
