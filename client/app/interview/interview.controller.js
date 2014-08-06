@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('pitchPerfectApp')
-  .controller('InterviewCtrl', function ($scope, $window, $document, $interval) {
+  .controller('InterviewCtrl', function ($scope, $window, $interval) {
     $scope.message = 'Hello';
 
     $scope.startPrompt = false;
@@ -60,45 +60,46 @@ angular.module('pitchPerfectApp')
       $scope[item] = !$scope[item];
     };
 
+    // $scope.startRecordingVideo = function() {
+    //   var navigator = $window.navigator;
+    //   if (navigator !== undefined) {
+    //     var video = $document.getElementById('video-record');
+    //   }
+    // };
 
     $scope.startPreviewVideo = function() {
       var navigator = $window.navigator;
+      if (navigator !== undefined) {
+        var video = $window.document.getElementById('video-preview');
 
-      var video = $document.getElementById('video-preview');
-      // var downloadURL = document.getElementById('download-url');
-      //
-      // var startRecording = document.getElementById('start-recording');
-      // var stopRecording = document.getElementById('stop-recording');
+        navigator.getUserMedia = navigator.getUserMedia ||
+                                 navigator.webkitGetUserMedia ||
+                                 navigator.mozGetUserMedia ||
+                                 navigator.msGetUserMedia;
 
+        navigator.getUserMedia (
+          // Constraints
+          {
+            audio: true,
+            video: true
+          },
 
-      navigator.getUserMedia = navigator.getUserMedia ||
-                               navigator.webkitGetUserMedia ||
-                               navigator.mozGetUserMedia ||
-                               navigator.msGetUserMedia;
+          // Success callback
+          function(stream) {
+            video.src = URL.createObjectURL(stream);
+            video.muted = true;
+            video.controls = true;
+            video.play();
+            //callback(stream);
+          },
 
-      navigator.getUserMedia (
-        // Constraints
-        {
-          audio: true,
-          video: true
-        },
-
-        // Success callback
-        function(stream) {
-          video.src = URL.createObjectURL(stream);
-          video.muted = true;
-          video.controls = true;
-          video.play();
-          //callback(stream);
-        },
-
-        // Error callback
-        function(error) {
-          console.error(error);
-        }
-      );
+          // Error callback
+          function(error) {
+            console.error(error);
+          }
+        );
+      }
     };
-
+    // Go ahead and start the preview video.
     $scope.startPreviewVideo();
-
   });
