@@ -76,7 +76,8 @@ angular.module('pitchPerfectApp')
                                navigator.mozGetUserMedia ||
                                navigator.msGetUserMedia;
 
-      navigator.getUserMedia (
+      if (navigator.getUserMedia !== undefined) {
+        navigator.getUserMedia (
         // Constraints
         {
           audio: true,
@@ -89,16 +90,18 @@ angular.module('pitchPerfectApp')
           video.muted = true;
           video.controls = true;
           video.play();
-          //callback(stream);
-        },
+            //callback(stream);
+          },
 
-        // Error callback
-        function(error) {
-          console.error(error);
-        }
-      );
+          // Error callback
+          function(error) {
+            console.error(error);
+          }
+        );
+      }
     };
 
+    // Note that this causes the unit tests to fail.
     $scope.startPreviewVideo();
 
   });
