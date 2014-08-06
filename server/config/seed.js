@@ -43,6 +43,7 @@ Userdeck.find({}).remove(function() { console.log('Userdecks deleted')});
 User.find({}).remove(function() {
   console.log('Users deleted');
 
+
   /** Create a NEW USER: 'test' **/
   User.create({
     provider: 'local',
@@ -53,6 +54,7 @@ User.find({}).remove(function() {
 
     var userId = newUser._id;
 
+
     /** This User creates a NEW DECK **/
     Deck.create({
       userId: userId,
@@ -62,6 +64,7 @@ User.find({}).remove(function() {
     }, function(err, newDeck) {
 
       var deckId = newDeck._id;
+
 
       /** This User creates a NEW QUESTION within the newly created Deck **/
       Question.create({
@@ -76,6 +79,7 @@ User.find({}).remove(function() {
         var questionId = newQuestion._id;
         var questionTitle = newQuestion.title;
 
+
         /** UPDATE DECK ASSOCIATED to this question by inserting a reference to itself **/
         Deck.findById(deckId, function (err, deck) {
           deck.questions.push(questionId);
@@ -83,32 +87,46 @@ User.find({}).remove(function() {
         });
 
 
-        /** This user creates a NEW RESPONSE to a Question**/
-        Response.create({
+
+        /** user ACCEPTS a deck & creates a NEW USERDECK **/
+        Userdeck.create({
           userId: userId,
-          deck: deckId,
-          question: questionId,
-          questionTitle: questionTitle,
-          description: "1min 30sec long",
-          video: "new video",
-          textVideo: "new text video",
+          deckId: deckId,
+          questionsResponded: {},
+          responsesReviewed: {},
           active: true,
-        }, function (err, newResponse) {
 
-          var responseId = newResponse._id;
+        }, function (err, newUserdeck) {
+          var userDeckId = newUserdeck._id;
 
-          /** The first response to a Deck by user creates a NEW USERDECK **/
-          Userdeck.create({
+          var questionsResponded = 'questionsResponded.' + questionId;
+
+          var keysToUpdate = {};
+          keysToUpdate[questionsResponded] = 0;
+
+          newUserdeck.update( { $set: keysToUpdate }, function() { console.log('Update Succeeded');});
+
+
+
+          /** This user creates a NEW RESPONSE to a Question in a UserDeck**/
+          Response.create({
             userId: userId,
             deck: deckId,
-            questionsResponded: {},
-            responsesReviewed: {},
+            userDeck: userDeckId,
+            question: questionId,
+            questionTitle: questionTitle,
+            description: "1min 30sec long",
+            video: "new video",
+            textVideo: "new text video",
             active: true,
+          }, function (err, newResponse) {
 
-          }, function (err, newUserdeck) {
-            var userdeckId = newUserdeck._id;
+            var responseId = newResponse._id;
 
-            // Userdeck.findById(userdeckId, function (err, userdeck) {
+
+            /** UPDATE USERDECK linked to this response. **/
+            Userdeck.findById(userDeckId, function (err, userdeck) {
+
               var questionsResponded = 'questionsResponded.' + questionId;
               var responsesReviewed = 'responsesReviewed.' + responseId;
 
@@ -116,8 +134,13 @@ User.find({}).remove(function() {
               keysToUpdate[questionsResponded] = responseId;
               keysToUpdate[responsesReviewed] = [];
 
-              newUserdeck.update( { $set: keysToUpdate }, function() { console.log('Update Succeeded');});
-            // });
+              newUserdeck.update( { $set: keysToUpdate }, function() {
+                console.log('Update Succeeded');
+              });
+
+            });
+
+
 
           });
 

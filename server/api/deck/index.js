@@ -5,6 +5,7 @@ var controller = require('./deck.controller');
 
 var router = express.Router();
 
+//router.get('/', controller.getAllDecks);
 router.get('/', controller.index);
 router.get('/:id', controller.show);
 router.post('/', controller.create);

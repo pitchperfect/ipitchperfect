@@ -9,10 +9,21 @@ var Deck = require('./deck.model');
 // Get list of decks
 exports.index = function(req, res) {
   Deck.find(function (err, decks) {
+    console.log('%%%%%', decks);
     if(err) { return handleError(res, err); }
     return res.json(200, decks);
   });
 };
+
+// Get a all deck
+// exports.show = function(req, res) {
+//   Deck.findById(req.params.id, function (err, deck) {
+//     if(err) { return handleError(res, err); }
+//     if(!deck) { return res.send(404); }
+//     return res.json(deck);
+//   });
+// };
+
 
 // Get a single deck
 exports.show = function(req, res) {

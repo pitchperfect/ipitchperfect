@@ -16,6 +16,16 @@ exports.index = function(req, res) {
   });
 };
 
+
+// Get a specific response
+// exports.getSpecificResponse = function(req, res) {
+//   Response.findById(req.params.id, function (err, response) {
+//     if(err) { return handleError(res, err); }
+//     if(!response) { return res.send(404); }
+//     return res.json(response);
+//   });
+// };
+
 // Get a single response
 exports.show = function(req, res) {
   Response.findById(req.params.id, function (err, response) {
@@ -31,27 +41,6 @@ exports.create = function(req, res) {
 
   Response.create(req.body, function(err, response) {
     if(err) { return handleError(res, err); }
-
-    UserDeck.findOne({ userId: req.user._id, deckId: req.params.deckId }, function (err, userDeck) {
-
-    if (userDeck) {
-    // if there exists a userdeck with this userId & this deck, update it
-      // var questionsResponded = 'questionsResponded.' + questionId;
-      // var responsesReviewed = 'responsesReviewed.' + responseId;
-      //
-      // var keysToUpdate = {};
-      // keysToUpdate[questionsResponded] = responseId;
-      // keysToUpdate[responsesReviewed] = [];
-      //
-      // userDeck.update( { $set: keysToUpdate }, function() { console.log('Update Succeeded');});
-    } else {
-    // else create a new one.
-    // req.params.responseId = response._id;
-    // UserDeckController.create(req, res);
-
-
-    }
-  });
 
     return res.json(201, response);
   });
