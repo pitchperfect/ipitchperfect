@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('pitchPerfectApp')
-  .controller('InterviewCtrl', function ($scope, $window, $document, $interval) {
+  .controller('InterviewCtrl', function ($scope, $window, $interval) {
     $scope.message = 'Hello';
 
     $scope.startPrompt = false;
@@ -64,7 +64,7 @@ angular.module('pitchPerfectApp')
     $scope.startPreviewVideo = function() {
       var navigator = $window.navigator;
 
-      var video = $document.getElementById('video-preview');
+      var video = $window.document.getElementById('video-preview');
       // var downloadURL = document.getElementById('download-url');
       //
       // var startRecording = document.getElementById('start-recording');
