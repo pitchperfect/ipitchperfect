@@ -22,14 +22,12 @@
 
     <div class="col-md-12 column text-center">
       <!--  Press to start Prompt-->
-      <button class="btn btn-primary"
+      <!-- Commented out until we are ready for this functionality
+			<button class="btn btn-primary"
         ng-show="!startPrompt && !startInterview && !processInterview"
         ng-click="changePromptStatus()">Start Prompt</button>
+			-->
 
-      <!-- Press to start recording yourself -->
-      <button class="btn btn-primary"
-        ng-show="!startInterview && !startPrompt && !processInterview"
-        ng-click="instructions = !instructions">Start Interview</button>
 
 
       <!--  Press to Re-record -->
@@ -72,7 +70,21 @@
     <div class="col-md-12 column">
 
       <!--  View yourself -->
-      <div id="box1" ng-show="!startPrompt && !startInterview && !instructions">Yourself</div>
+      <div id="box1"
+				ng-show="!startPrompt && !startInterview && !instructions">
+				<!-- Intended to show a preview of yourself so that you can see
+				     what you look like before the interview. -->
+				<video id="video-preview"></video>
+				<p>Camera and mic check. We're not recording yet.</p>
+			</div>
+
+			<div class="row clearfix col-md-2 col-md-offset-5">
+			<!-- Press to start recording yourself -->
+			<button class="btn btn-success"
+				ng-show="!startInterview && !startPrompt && !processInterview"
+				ng-click="instructions = !instructions">Begin Interview</button>
+			</div>
+
 
       <!--  Play Prompt -->
       <div id="box1" ng-hide="!startPrompt">Prompt

@@ -2,6 +2,7 @@
 
 angular.module('pitchPerfectApp')
   .controller('InterviewCtrl', function ($scope, $interval, InterviewFactory, $http, $window, $document) {
+
     $scope.message = 'Hello';
 
     $scope.startPrompt = false;
@@ -11,6 +12,7 @@ angular.module('pitchPerfectApp')
     $scope.reviewInterview = false;
     $scope.scriptingInterview = '';
     $scope.instructions = false;
+
 
     $scope.startStopWatch = function () {
       $scope.sec = 0;
