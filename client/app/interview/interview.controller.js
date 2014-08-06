@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('pitchPerfectApp')
-  .controller('InterviewCtrl', function ($scope, $window, $interval, InterviewFactory, $http, $window, $document) {
+  .controller('InterviewCtrl', function ($scope, $window, $interval, InterviewFactory, $http) {
 
     $scope.message = 'Hello';
 
@@ -101,7 +101,7 @@ angular.module('pitchPerfectApp')
     // $scope.startRecordingVideo = function() {
     //   var navigator = $window.navigator;
     //   if (navigator !== undefined) {
-    //     var video = $document.getElementById('video-record');
+    //     var video = $window.document.getElementById('video-record');
     //   }
     // };
 
