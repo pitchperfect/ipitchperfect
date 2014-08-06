@@ -60,12 +60,12 @@ angular.module('pitchPerfectApp')
       $scope[item] = !$scope[item];
     };
 
-    // $scope.startRecordingVideo = function() {
-    //   var navigator = $window.navigator;
-    //   if (navigator !== undefined) {
-    //     var video = $document.getElementById('video-record');
-    //   }
-    // };
+    $scope.startRecordingVideo = function() {
+      var navigator = $window.navigator;
+      if (navigator !== undefined) {
+        var video = $document.getElementById('video-record');
+      }
+    };
 
     $scope.startPreviewVideo = function() {
       var navigator = $window.navigator;
