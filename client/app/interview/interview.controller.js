@@ -1,7 +1,8 @@
 'use strict';
 
 angular.module('pitchPerfectApp')
-  .controller('InterviewCtrl', function ($scope, $window, $interval) {
+  .controller('InterviewCtrl', function ($scope, $window, $interval, InterviewFactory, $http, $window, $document) {
+
     $scope.message = 'Hello';
 
     $scope.startPrompt = false;
@@ -48,7 +49,6 @@ angular.module('pitchPerfectApp')
     };
 
     $scope.changeProcessInterviewStatus = function () {
-      //debugger;
       $scope.processInterview = !$scope.processInterview;
     };
 
@@ -60,12 +60,50 @@ angular.module('pitchPerfectApp')
       $scope[item] = !$scope[item];
     };
 
-    $scope.startRecordingVideo = function() {
-      var navigator = $window.navigator;
-      if (navigator !== undefined) {
-        var video = $document.getElementById('video-record');
-      }
+    $scope.getPreviousResponse = function () {
+      var response = InterviewFactory.retrieveResponse();
+      console.log(response);
     };
+
+
+    // the question object should have been transfered from home to interview
+    // upload the video in the video id.
+
+    // Submit video.
+    $scope.getAllDeckQuestions = function (videoId) {    // Actually want all questions from deck id.
+      console.log('InterviewFactory.questionObj', InterviewFactory.questionObj);
+      console.log('InterviewFactory.userDeck', InterviewFactory.userDeck);
+
+      var postObject = {
+        userId: InterviewFactory.questionObj.userId,
+        video: videoId,
+        deck: InterviewFactory.questionObj.deck,
+        userDeck: InterviewFactory.userDeck._id,
+        question: InterviewFactory.questionObj._id,
+        questionTitle: InterviewFactory.questionObj.title,
+        description: '1min 30sec long',
+        textVideo: 'new text video',
+        active: true,
+      };
+      console.log('postObject', postObject);
+
+      $http.post('/api/responses', postObject).success(function(createdResponse) {
+          console.log('@interview, response created', createdResponse);
+
+      }).error(function(err) {
+        console.log('error creating response', err);
+      }); //.bind(this));
+    };
+
+
+
+    /*  DAVID'S VIDEO INTEGRATIONS */
+    // $scope.startRecordingVideo = function() {
+    //   var navigator = $window.navigator;
+    //   if (navigator !== undefined) {
+    //     var video = $document.getElementById('video-record');
+    //   }
+    // };
 
     $scope.startPreviewVideo = function() {
       var navigator = $window.navigator;
@@ -102,4 +140,5 @@ angular.module('pitchPerfectApp')
     };
     // Go ahead and start the preview video.
     $scope.startPreviewVideo();
+    $scope.getAllDeckQuestions('Awesome Video');
   });
