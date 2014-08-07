@@ -10,9 +10,11 @@
 	            <!-- <small>Question #1:<span>"Tell me why you wanted to be a software engineer?"</span></small> -->
 	            <small ng-hide="startInterview && !processInterview"><span>{{description}}</span></small>
 						</div>
+						<!-- %%%%%%%%%%%%%%%%%%%%%% -->
 						<div>
 							<small ng-show="startInterview && !processInterview"><span>"Tell me why you wanted to be a software engineer?"</span></small>
 						</div>
+
 					</h1>
 				</div>
 
@@ -33,12 +35,12 @@
 				-->
 
 
-
+				<!-- %%%%%%%%%%%%%%%%%%%%%% -->
 	      <!--  Press to Re-record -->
 	      <button class="btn btn-primary"
 	        ng-show="processInterview"
 	        ng-click="changeProcessInterviewStatus(); changeInterviewStatus()">Re-record</button>
-
+				<!-- %%%%%%%%%%%%%%%%%%%%%% -->
 	      <!--  Press to Share video -->
 	      <a href="/share" ng-show="processInterview">
 	        <button class="btn btn-primary">Save & Share</button>
@@ -62,8 +64,12 @@
 
 				<ul class="list-group" ng-repeat="question in questions">
 					<li class="list-group-item list-group-item-info" ng-click="questionSelected(question)">Q#{{$index +1}} Status</li>
-					<li class="list-group-item" ng-class="getClassResponse(question._id)">Attempt</li>
-					<li class="list-group-item" ng-class="getClassReview(question._id)">Peer Review</li>
+					<li class="list-group-item"
+					ng-class="{'list-group-item-success': question.responseStatus === 'Attempted'}"
+					ng-click="questionSelected(question)">{{question.responseStatus}}</li>
+					<li class="list-group-item"
+					ng-class="{'list-group-item-success': question.peerReviewStatus === 'Peer Reviewed'}"
+					ng-click="questionSelected(question)">{{question.peerReviewStatus}}</li>
 				</ul>
 			</div>
 
@@ -99,26 +105,27 @@
 						ng-click="instructions = !instructions">Begin Interview</button>
 				</div>
 
-				<div class="row clearfix col-md-2 col-md-offset-4">
-				</div>
-				<!-- ng-show="!startPrompt && !startInterview && !instructions"> -->
-
+				<!-- ????????????????? -->
+				<div class="row clearfix col-md-2 col-md-offset-4"></div>
 
 	      <!--  Play Prompt -->
-	      <div id="box1" ng-hide="!startPrompt">Prompt
+	      <!-- <div id="box1" ng-hide="!startPrompt">Prompt
 	        <div class="col-md-12 center-block">
 	          <span class="glyphicon glyphicon-play-circle"
 	          ng-show="startPrompt && !finishVideo" ng-click="changeFinishVideoStatus()"></span>
 	          <span class="glyphicon glyphicon-pause"
 	          ng-show="finishVideo" ng-click="changePromptStatus(); changeFinishVideoStatus()"></span>
 	        </div>
-	      </div>
+	      </div> -->
 
 	    </div>
+			<!-- ?????????????????? -->
 			<div class="col-md-2 column"></div>
 
 	  </div>
 
+
+		<!-- %%%%%%%%%%%%%%%%%%%%%% -->
 	  <!-- Record yourself -->
 	  <div class="row clearfix add-margin-bottom text-center"
 	  ng-show="startInterview && !processInterview">
@@ -130,16 +137,16 @@
 	    <!-- </div> -->
 	  </div>
 
-	  <div class="row clearfix">
+		<!-- toy problem script -->
+	  <!-- <div class="row clearfix">
 	    <div class="col-md-12 center-block">
 	      <textarea id="script" placeholder="Complete toy problem here!"
 	      ng-show="startInterview && !processInterview"></textarea>
 	    </div>
-	  </div>
+	  </div> -->
 
 	  <!-- Review Your Video -->
 	  <div class="row clearfix">
-
 
 	    <div class="col-md-5 column text-center">
 	      <div id="box1-review" ng-show="processInterview">
@@ -156,7 +163,6 @@
 	      <textarea id="script-review" placeholder="Reviewing toy problem here!" ng-model="scriptingInterview"
 	      ng-show="processInterview"></textarea>
 	    </div>
-
 
 	  </div>
 

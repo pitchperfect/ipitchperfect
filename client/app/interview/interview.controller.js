@@ -16,22 +16,28 @@ angular.module('pitchPerfectApp')
     $scope.title = InterviewFactory.contextObject.title;
     $scope.description = InterviewFactory.contextObject.description;
     $scope.questions = InterviewFactory.questionObj;
+    $scope.questionsForView = [];
 
-    $scope.getClassResponse = function getClass(id) {
+
+    //$scope.getClassResponse = function getClass(id) {
+    $scope.getQuestionResponseStatus = function getClass(id) {
       if (InterviewFactory.contextObject.questionsResponded[id]) {
-        return {'list-group-item-success': true};
+        return 'Attempted';// {'list-group-item-success': true};
       } else {
-        return { 'list-group-item': true};
+        return 'Not Attempted';// { 'list-group-item': true};
       }
     };
 
-    $scope.getClassReview = function getClass(id) {
+    //$scope.getClassReview = function getClass(id) {
+    $scope.getQuestionReviewStatus = function getClass(id) {
       if (InterviewFactory.contextObject.responsesReviewed[id]) {
-        return {'list-group-item-success': true};
+        return 'Peer Reviewed';// {'list-group-item-success': true};
       } else {
-        return { 'list-group-item': true};
+        return 'No Peer Reviews';// { 'list-group-item': true};
       }
     };
+
+
 
     $scope.questionSelected = function (question) {
       console.log('question selected', question);
@@ -53,6 +59,10 @@ angular.module('pitchPerfectApp')
       },1000,0);
 
     };
+
+
+
+
 
     $scope.changePromptStatus = function () {
       $scope.startPrompt = !$scope.startPrompt;
@@ -83,13 +93,20 @@ angular.module('pitchPerfectApp')
       $scope[item] = !$scope[item];
     };
 
+
+
+
+
     $scope.getPreviousResponse = function () {
       var response = InterviewFactory.retrieveResponse();
       console.log(response);
     };
 
+
+
     $scope.getQuestion = function (questionId, i) {
       console.log('getThisQuestion:', questionId);
+
       var getQuestions = $resource('/api/questions/:id/', {
         id: '@_id'
       },
@@ -103,15 +120,20 @@ angular.module('pitchPerfectApp')
       });
 
       getQuestions.get({}, function(question) {
-        console.log('question received @home', question);
-        InterviewFactory.questionObj[i] = question;
-        console.log('questions collection', InterviewFactory.questionObj[i]);
+        var temporyQuestionObj = {};
+        temporyQuestionObj.fullQuestionObject = question;
+        temporyQuestionObj.responseStatus = $scope.getQuestionResponseStatus(questionId);
+        temporyQuestionObj.peerReviewStatus = $scope.getQuestionReviewStatus(questionId);
+
+        InterviewFactory.questionObj[i] = temporyQuestionObj;
       }, function(err) {
         console.log('question err:', err);
       }); //.$promise; ???
     };
 
-    // the question object should have been transfered from home to interview
+
+    // 1) get questions.
+    // the collection of question.id's should have been transfered from home to interview
     $scope.getAllDeckQuestions = function () {    // Actually want all questions from deck id.
 
       for (var i = 0; i < InterviewFactory.contextObject.questions.length; i++) {
@@ -158,6 +180,7 @@ angular.module('pitchPerfectApp')
     //     var video = $window.document.getElementById('video-record');
     //   }
     // };
+
 
     $scope.startPreviewVideo = function() {
       var navigator = $window.navigator;
