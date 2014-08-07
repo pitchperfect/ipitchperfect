@@ -9,8 +9,7 @@ angular.module('pitchPerfectApp')
   $scope.audioRecorder = null;
 
   $scope.captureUserMedia = function(successCallback) {
-    var navigator = $window.navigator;
-    navigator.getUserMedia(
+    $window.navigator.getUserMedia(
       // Configuration
       {
         audio: true,
