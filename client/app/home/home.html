@@ -140,8 +140,8 @@
             <div class="list-group">
               <div ng-repeat="singleUserDeck in allUserDecks | filter: {deckTitle:deckUserSearch}">
                 <div class="list-group-item" ng-click="sendToInterview(singleUserDeck)">
-                  <h5>{{ singleUserDeck.deckTitle }}</h5>
-                  <span class="small">{{singleUserDeck.deckDescription}}</span>
+                  <h5>{{ singleUserDeck.title }}</h5>
+                  <span class="small">{{singleUserDeck.description}}</span>
                   <small class="small faint">Last Updated: {{singleUserDeck.updated_at | date : 'mediumDate'}}</small>
                 </div>
               </div>

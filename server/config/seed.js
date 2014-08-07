@@ -103,7 +103,7 @@ User.find({}).remove(function() {
     Deck.create({
       userId: userId,
       title: 'Google - Tech#1',
-      description: 'Test your CS fundamental',
+      description: 'Test your CS fundamentals',
       questions: [],
       active: true
     }, function(err, newDeck) {
@@ -111,7 +111,8 @@ User.find({}).remove(function() {
       var deckId = newDeck._id;
       var deckTitle = newDeck.title;
       var deckDescription = newDeck.description;
-
+      var deckQuestions = newDeck.questions;
+      var secondQuestionId = ''; // reference later;
 
       /** This User creates a NEW QUESTION within the newly created Deck **/
       Question.create({
@@ -122,13 +123,13 @@ User.find({}).remove(function() {
         active: true,
       }, function (err, newQuestion1) {
 
-        var question1Id = newQuestion1._id;
+        secondQuestionId = newQuestion1._id;
         var question1Title = newQuestion1.title;
 
 
         /** UPDATE DECK ASSOCIATED to this question by inserting a reference to itself **/
         Deck.findById(deckId, function (err, deck) {
-          deck.questions.push(question1Id);
+          deck.questions.push(secondQuestionId);
           deck.save();
         });
 
@@ -158,8 +159,9 @@ User.find({}).remove(function() {
         Userdeck.create({
           userId: userId,
           deckId: deckId,
-          deckTitle: deckTitle,
-          deckDescription: deckDescription,
+          title: deckTitle,
+          description: deckDescription,
+          questions : [questionId, secondQuestionId],
           questionsResponded: {},
           responsesReviewed: {},
           active: true,
