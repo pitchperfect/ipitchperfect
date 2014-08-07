@@ -26,11 +26,29 @@ exports.index = function(req, res) {
 
 // Get a single video
 exports.show = function(req, res) {
-  Video.findById(req.params.id, function (err, video) {
-    if(err) { return handleError(res, err); }
-    if(!video) { return res.send(404); }
-    return res.json(video);
-  });
+
+  // Expects video _id passed in URI
+  // Example:  ipitchperfect/videos/url/53e40bd2f32ff0ea28a
+
+  var videoName = req.params.id + '.webm';
+
+  var blobService = azure.createBlobService(AZ_ACCT, AZ_KEY, AZ_HOST);
+
+  //create a SAS that expires in 45 mins
+  var sharedAccessPolicy = {
+      AccessPolicy: {
+              Start: azure.date.minutesFromNow(-5),
+              Expiry: azure.date.minutesFromNow(45),
+              Permissions: azure.Constants.BlobConstants.SharedAccessPermissions.READ
+          }
+  };
+
+  // Generate signed URL, temporary access to the video
+  var sasUrl = blobService.getBlobUrl('vds1', videoName, sharedAccessPolicy);
+
+  // Return VideoURL to client
+  res.json(200, {url: sasUrl});
+
 };
 
 // Creates a new video in the DB.
