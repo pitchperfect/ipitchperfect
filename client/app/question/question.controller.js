@@ -1,7 +1,8 @@
 'use strict';
 
 angular.module('pitchPerfectApp')
-  .controller('QuestionCtrl', function ($scope, $window) {
+  .controller('QuestionCtrl', ['$scope', '$window',
+    function ($scope, $window) {
 
   $scope.mediaStream = null;
   $scope.videoRecorder = null;
@@ -237,4 +238,4 @@ angular.module('pitchPerfectApp')
       }
     });
   };
-});
+}]);

@@ -10,7 +10,7 @@
 */
 
 // issues?
-// - chrome started supporting Blob-in-IndexedDB. Update DiskStorage.js 
+// - chrome started supporting Blob-in-IndexedDB. Update DiskStorage.js
 // - ref: http://updates.html5rocks.com/2014/07/Blob-support-for-IndexedDB-landed-on-Chrome-Dev
 
 // -. audio self-playback (ehco/noise/etc.)
@@ -120,9 +120,9 @@ function RecordRTC(mediaStream, config) {
 
     function getDataURL(callback, _mediaRecorder) {
         if (!callback) throw 'Pass a callback function over getDataURL.';
-        
+
         var recordedBlob = _mediaRecorder ? _mediaRecorder.recordedBlob : mediaRecorder.recordedBlob;
-        
+
         if(!recordedBlob) {
             console.warn('Blob encoder did not yet finished its job.');
             setTimeout(function() {
@@ -615,7 +615,7 @@ function StereoRecorder(mediaStream) {
 // ______________________
 // StereoAudioRecorder.js
 
-// In Chrome, when the javascript node is out of scope, the onaudioprocess callback stops firing. 
+// In Chrome, when the javascript node is out of scope, the onaudioprocess callback stops firing.
 // This leads to audio being significantly shorter than the generated video.
 var __stereoAudioRecorderJavacriptNode;
 
@@ -754,17 +754,17 @@ function StereoAudioRecorder(mediaStream, root) {
     // connect the stream to the gain node
     audioInput.connect(volume);
 
-    // From the spec: This value controls how frequently the audioprocess event is 
-    // dispatched and how many sample-frames need to be processed each call. 
-    // Lower values for buffer size will result in a lower (better) latency. 
+    // From the spec: This value controls how frequently the audioprocess event is
+    // dispatched and how many sample-frames need to be processed each call.
+    // Lower values for buffer size will result in a lower (better) latency.
     // Higher values will be necessary to avoid audio breakup and glitches
 
     // bug: how to minimize wav size?
     // workaround? obviously ffmpeg!
 
-    // The size of the buffer (in sample-frames) which needs to 
-    // be processed each time onprocessaudio is called. 
-    // Legal values are (256, 512, 1024, 2048, 4096, 8192, 16384). 
+    // The size of the buffer (in sample-frames) which needs to
+    // be processed each time onprocessaudio is called.
+    // Legal values are (256, 512, 1024, 2048, 4096, 8192, 16384).
     var legalBufferValues = [256, 512, 1024, 2048, 4096, 8192, 16384];
     var bufferSize = root.bufferSize || 4096;
 
@@ -772,15 +772,15 @@ function StereoAudioRecorder(mediaStream, root) {
         throw 'Legal values for buffer-size are ' + JSON.stringify(legalBufferValues, null, '\t');
     }
 
-    // The sample rate (in sample-frames per second) at which the 
-    // AudioContext handles audio. It is assumed that all AudioNodes 
-    // in the context run at this rate. In making this assumption, 
-    // sample-rate converters or "varispeed" processors are not supported 
+    // The sample rate (in sample-frames per second) at which the
+    // AudioContext handles audio. It is assumed that all AudioNodes
+    // in the context run at this rate. In making this assumption,
+    // sample-rate converters or "varispeed" processors are not supported
     // in real-time processing.
 
-    // The sampleRate parameter describes the sample-rate of the 
-    // linear PCM audio data in the buffer in sample-frames per second. 
-    // An implementation must support sample-rates in at least 
+    // The sampleRate parameter describes the sample-rate of the
+    // linear PCM audio data in the buffer in sample-frames per second.
+    // An implementation must support sample-rates in at least
     // the range 22050 to 96000.
     var sampleRate = root.sampleRate || context.sampleRate || 44100;
 
@@ -1434,27 +1434,27 @@ function GifRecorder(mediaStream) {
         // external library to record as GIF images
         gifEncoder = new GIFEncoder();
 
-        // void setRepeat(int iter) 
-        // Sets the number of times the set of GIF frames should be played. 
+        // void setRepeat(int iter)
+        // Sets the number of times the set of GIF frames should be played.
         // Default is 1; 0 means play indefinitely.
         gifEncoder.setRepeat(0);
 
-        // void setFrameRate(Number fps) 
-        // Sets frame rate in frames per second. 
+        // void setFrameRate(Number fps)
+        // Sets frame rate in frames per second.
         // Equivalent to setDelay(1000/fps).
         // Using "setDelay" instead of "setFrameRate"
         gifEncoder.setDelay(this.frameRate || 200);
 
-        // void setQuality(int quality) 
-        // Sets quality of color quantization (conversion of images to the 
-        // maximum 256 colors allowed by the GIF specification). 
-        // Lower values (minimum = 1) produce better colors, 
-        // but slow processing significantly. 10 is the default, 
-        // and produces good color mapping at reasonable speeds. 
+        // void setQuality(int quality)
+        // Sets quality of color quantization (conversion of images to the
+        // maximum 256 colors allowed by the GIF specification).
+        // Lower values (minimum = 1) produce better colors,
+        // but slow processing significantly. 10 is the default,
+        // and produces good color mapping at reasonable speeds.
         // Values greater than 20 do not yield significant improvements in speed.
         gifEncoder.setQuality(this.quality || 10);
 
-        // Boolean start() 
+        // Boolean start()
         // This writes the GIF Header and returns false if it fails.
         gifEncoder.start();
 
@@ -1507,7 +1507,7 @@ function GifRecorder(mediaStream) {
 }
 
 // This method is taken from a modified version of MediaStreamRecorder.js!
-// To solve first frame that is always blank. 
+// To solve first frame that is always blank.
 // See: https://github.com/muaz-khan/WebRTC-Experiment/issues/94
 
 function dropFirstFrame(arr) {
