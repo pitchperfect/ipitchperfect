@@ -6,10 +6,11 @@ angular.module('pitchPerfectApp')
     function ($scope, $window, $timeout, $interval, QuestionFactory) {
 
   $scope.mediaStream = null;
-  $scope.videoRecorder = null;
-  $scope.audioRecorder = null;
+  // $scope.videoRecorder = null;
+  // $scope.audioRecorder = null;
+  $scope.audioVideoRecorder = null;
 
-  
+
   // *********** Celine's start ************  //
   $scope.question = QuestionFactory.contextObject.fullQuestionObject.title;
   $scope.alertUser = '';
@@ -27,6 +28,7 @@ angular.module('pitchPerfectApp')
 
       var btnStopRecording  = $window.document.getElementById('btn-stop-recording');
       btnStopRecording.disabled = false;
+      $scope.startRecording();
     }
   };
 
@@ -62,6 +64,13 @@ angular.module('pitchPerfectApp')
 
 
   $scope.captureUserMedia = function(successCallback) {
+    console.log('captureUserMedia called.');
+
+    $window.navigator.getUserMedia = navigator.getUserMedia ||
+                                     navigator.mozGetUserMedia ||
+                                     navigator.webkitGetUserMedia;
+
+
     $window.navigator.getUserMedia(
       // Configuration
       {
@@ -78,50 +87,74 @@ angular.module('pitchPerfectApp')
     );
   };
 
-  // On-click for start recording
   $scope.startRecording = function() {
-    //var navigator = $window.navigator;
     var btnStartRecording = $window.document.getElementById('btn-start-recording');
     var btnStopRecording  = $window.document.getElementById('btn-stop-recording');
-    var videoElement      = $window.document.getElementById('video-record');
 
-    // Firefox can record both audio/video in single webm container
-    // Don't need to create multiple instances of the RecordRTC for Firefox
-    // You can even use below property to force recording only audio blob on chrome
-    //var isRecordOnlyAudio = !!navigator.mozGetUserMedia;
-    var isRecordOnlyAudio = false;
+    var btnReplayRecording = $window.document.getElementById('btn-replay-recording');
+    var btnExitRecording = $window.document.getElementById('btn-exit-recording');
+    var btnSaveRecording = $window.document.getElementById('btn-save-recording');
 
+    var videoElement = $window.document.getElementById('video-record');
+    var downloadURL = $window.document.getElementById('download-url');
 
     btnStartRecording.disabled = true;
+    btnStopRecording.disabled = false;
+    btnExitRecording.disabled = true;
+    btnSaveRecording.disabled = true;
+    btnReplayRecording.disabled = true;
+    videoElement.style.visibility = 'visible';
+    downloadURL.innerHTML = 'Smile, you are being recorded';
 
-    $scope.captureUserMedia( function(stream) {
-      $scope.mediaStream = stream;
+    $scope.captureUserMedia(
+      function(stream) {
+        $scope.mediaStream = stream;
 
-      // need videoElement variable decl
-      videoElement.src = $window.URL.createObjectURL(stream);
-      videoElement.play();
-      videoElement.muted = true;
-      videoElement.controls = false;
+        // need videoElement variable decl
+        videoElement.src = $window.URL.createObjectURL(stream);
+        videoElement.muted = true;
+        videoElement.controls = false;
+        videoElement.play();
 
-      var audioConfig = {};
-      if (!isRecordOnlyAudio) {
-        audioConfig.onAudioProcessStarted = function() {
-          // invoke video recorder in this callback to get maximum sync
-          $scope.videoRecorder.startRecording();
-        };
+        $scope.audioVideoRecorder = $window.RecordRTC(stream, {type: 'video'});
+        $scope.audioVideoRecorder.startRecording();
+        //
+        //
+        // var audioConfig = {};
+        // if (!isRecordOnlyAudio) {
+        //   audioConfig.onAudioProcessStarted = function() {
+        //     // invoke video recorder in this callback to get maximum sync
+        //     $scope.videoRecorder.startRecording();
+        //   };
+        // }
+        // $scope.audioRecorder = $window.RecordRTC(stream, audioConfig);
+        //
+        //
+        // if (!isRecordOnlyAudio) {
+        //   var videoConfig = { type: 'video' };
+        //   $scope.videoRecorder = $window.RecordRTC(stream, videoConfig);
+        // }
+        // $scope.audioRecorder.startRecording();
+        //
+        // // enable stop-recording button
+        // btnStopRecording.disabled = false;
       }
-      $scope.audioRecorder = $window.RecordRTC(stream, audioConfig);
+    );
+  };
 
+  $scope.replayRecording = function() {
+    // var btnStartRecording = $window.document.getElementById('btn-start-recording');
+    // var btnStopRecording  = $window.document.getElementById('btn-stop-recording');
+    var videoElement = $window.document.getElementById('video-record');
+    videoElement.play();
+  };
 
-      if (!isRecordOnlyAudio) {
-        var videoConfig = { type: 'video' };
-        $scope.videoRecorder = $window.RecordRTC(stream, videoConfig);
-      }
-      $scope.audioRecorder.startRecording();
+  $scope.exitRecording = function() {
+    $window.alert('redirect to UserDeck');
+  };
 
-      // enable stop-recording button
-      btnStopRecording.disabled = false;
-    });
+  $scope.saveRecording = function() {
+    $window.alert('hit /videos/url/:id endpoint');
   };
 
   $scope.initRecording = function() {
@@ -239,23 +272,49 @@ angular.module('pitchPerfectApp')
     var btnStartRecording = $window.document.getElementById('btn-start-recording');
     var btnStopRecording  = $window.document.getElementById('btn-stop-recording');
 
-    //var isRecordOnlyAudio = !!navigator.mozGetUserMedia;
-    var isRecordOnlyAudio = false;
+    var btnReplayRecording = $window.document.getElementById('btn-replay-recording');
+    var btnExitRecording = $window.document.getElementById('btn-exit-recording');
+    var btnSaveRecording = $window.document.getElementById('btn-save-recording');
+
+    var videoElement = $window.document.getElementById('video-record');
+    var downloadURL = $window.document.getElementById('download-url');
 
     btnStartRecording.disabled = false;
     btnStopRecording.disabled = true;
+    btnExitRecording.disabled = false;
+    btnSaveRecording.disabled = false;
+    btnReplayRecording.disabled = false;
+    btnReplayRecording.style.visibility = 'visible';
+    videoElement.style.visibility = 'visible';
+    downloadURL.innerHTML = '';
 
-    if (isRecordOnlyAudio) {
-      $scope.audioRecorder.stopRecording($scope.onStopRecording);
-    }
+    btnStartRecording.innerHTML = 'Try Again';
 
-    if(!isRecordOnlyAudio) {
-      $scope.audioRecorder.stopRecording( function() {
-        $scope.videoRecorder.stopRecording( function() {
+    $scope.audioVideoRecorder.stopRecording(
+      function(url) {
+        videoElement.src = url;
+        videoElement.muted = false;
+        videoElement.onended = function() {
+          videoElement.pause();
+
+          videoElement.src = $window.URL.createObjectURL($scope.audioVideoRecorder.getBlob());
+
           $scope.onStopRecording();
-        });
-      });
-    }
+        };
+      }
+    );
+
+    // if (isRecordOnlyAudio) {
+    //   $scope.audioRecorder.stopRecording($scope.onStopRecording);
+    // }
+    //
+    // if(!isRecordOnlyAudio) {
+    //   $scope.audioRecorder.stopRecording( function() {
+    //     $scope.videoRecorder.stopRecording( function() {
+    //       $scope.onStopRecording();
+    //     });
+    //   });
+    // }
   };
 
   // when btnStopRecording is clicked
@@ -264,31 +323,40 @@ angular.module('pitchPerfectApp')
 
     //var navigator = $window.navigator;
     //var isRecordOnlyAudio = !!navigator.mozGetUserMedia;
-    var isRecordOnlyAudio = false;
+    //var isRecordOnlyAudio = false;
 
-    $scope.audioRecorder.getDataURL( function(audioDataURL) {
-      var audio = {
-        blob: $scope.audioRecorder.getBlob(),
-        dataURL: audioDataURL
+    $scope.audioVideoRecorder.getDataURL( function(audioVideoDataURL) {
+      var av = {
+        blob: $scope.audioVideoRecorder.getBlob(),
+        dataURL: audioVideoDataURL
       };
 
-      // if record both wav and webm
-      if(!isRecordOnlyAudio) {
-        $scope.videoRecorder.getDataURL( function(videoDataURL) {
-          var video = {
-            blob: $scope.videoRecorder.getBlob(),
-            dataURL: videoDataURL
-          };
-
-          $scope.postFiles(audio, video);
-        });
-      }
-
-      // if record only audio (either wav or ogg)
-      if (isRecordOnlyAudio) {
-        $scope.postFiles(audio);
-      }
+      $scope.postFiles(av);
     });
+
+    // $scope.audioRecorder.getDataURL( function(audioDataURL) {
+    //   var audio = {
+    //     blob: $scope.audioRecorder.getBlob(),
+    //     dataURL: audioDataURL
+    //   };
+    //
+    //   // if record both wav and webm
+    //   if(!isRecordOnlyAudio) {
+    //     $scope.videoRecorder.getDataURL( function(videoDataURL) {
+    //       var video = {
+    //         blob: $scope.videoRecorder.getBlob(),
+    //         dataURL: videoDataURL
+    //       };
+    //
+    //       $scope.postFiles(audio, video);
+    //     });
+    //   }
+    //
+    //   // if record only audio (either wav or ogg)
+    //   if (isRecordOnlyAudio) {
+    //     $scope.postFiles(audio);
+    //   }
+    // });
   };
 
 });
