@@ -25,7 +25,9 @@
     "recordrtc-nodejs": "^1.0.0",
     "socket.io": "~1.0.6",
     "socketio-jwt": "^2.0.2",
-    "static-favicon": "~1.0.1"
+    "static-favicon": "~1.0.1",
+    "busboy": "^0.2.8",
+    "azure": "^0.9.13"
   },
   "devDependencies": {
     "grunt": "~0.4.4",
