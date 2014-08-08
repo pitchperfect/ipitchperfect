@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('pitchPerfectApp')
-  .controller('InterviewCtrl', function ($scope, $window, $interval, InterviewFactory, $http) {
+  .controller('InterviewCtrl', function ($scope, $window, $interval, InterviewFactory, QuestionFactory, $http, $resource, $state) {
 
     $scope.message = 'Hello';
 
@@ -13,6 +13,39 @@ angular.module('pitchPerfectApp')
     $scope.scriptingInterview = '';
     $scope.instructions = false;
 
+    $scope.title = InterviewFactory.contextObject.title;
+    $scope.description = InterviewFactory.contextObject.description;
+    $scope.questions = InterviewFactory.questionObj;
+    $scope.questionsForView = [];
+
+
+    //$scope.getClassResponse = function getClass(id) {
+    $scope.getQuestionResponseStatus = function getClass(id) {
+      if (InterviewFactory.contextObject.questionsResponded[id]) {
+        return 'Attempted';// {'list-group-item-success': true};
+      } else {
+        return 'Not Attempted';// { 'list-group-item': true};
+      }
+    };
+
+    //$scope.getClassReview = function getClass(id) {
+    $scope.getQuestionReviewStatus = function getClass(id) {
+      if (InterviewFactory.contextObject.responsesReviewed[id]) {
+        return 'Peer Reviewed';// {'list-group-item-success': true};
+      } else {
+        return 'No Peer Reviews';// { 'list-group-item': true};
+      }
+    };
+
+
+
+    $scope.questionSelected = function (question) {
+      question = question || InterviewFactory.questionObj[0];
+
+      console.log('question selected', question);
+      QuestionFactory.contextObject = question;
+      $state.go('question');
+    };
 
     $scope.startStopWatch = function () {
       $scope.sec = 0;
@@ -30,6 +63,10 @@ angular.module('pitchPerfectApp')
       },1000,0);
 
     };
+
+
+
+
 
     $scope.changePromptStatus = function () {
       $scope.startPrompt = !$scope.startPrompt;
@@ -60,19 +97,62 @@ angular.module('pitchPerfectApp')
       $scope[item] = !$scope[item];
     };
 
+
+
+
+
     $scope.getPreviousResponse = function () {
       var response = InterviewFactory.retrieveResponse();
       console.log(response);
     };
 
 
-    // the question object should have been transfered from home to interview
-    // upload the video in the video id.
+
+    $scope.getQuestion = function (questionId, i) {
+      console.log('getThisQuestion:', questionId);
+
+      var getQuestions = $resource('/api/questions/:id/', {
+        id: '@_id'
+      },
+      {
+        get: {
+          method: 'GET',
+          params: {
+            id: questionId
+          }
+        }
+      });
+
+      getQuestions.get({}, function(question) {
+        var temporyQuestionObj = {};
+        temporyQuestionObj.fullQuestionObject = question;
+        temporyQuestionObj.responseStatus = $scope.getQuestionResponseStatus(questionId);
+        temporyQuestionObj.peerReviewStatus = $scope.getQuestionReviewStatus(questionId);
+
+        InterviewFactory.questionObj[i] = temporyQuestionObj;
+      }, function(err) {
+        console.log('question err:', err);
+      }); //.$promise; ???
+    };
+
+
+    // 1) get questions.
+    // the collection of question.id's should have been transfered from home to interview
+    $scope.getAllDeckQuestions = function () {    // Actually want all questions from deck id.
+
+      for (var i = 0; i < InterviewFactory.contextObject.questions.length; i++) {
+        $scope.getQuestion(InterviewFactory.contextObject.questions[i], i);
+      }
+    };
+
+
+
+
 
     // Submit video.
-    $scope.getAllDeckQuestions = function (videoId) {    // Actually want all questions from deck id.
-      console.log('InterviewFactory.questionObj', InterviewFactory.questionObj);
-      console.log('InterviewFactory.userDeck', InterviewFactory.userDeck);
+    $scope.submitVideo = function (videoId) {    // Actually want all questions from deck id.
+      // console.log('InterviewFactory.questionObj', InterviewFactory.questionObj);
+      // console.log('InterviewFactory.userDeck', InterviewFactory.userDeck);
 
       var postObject = {
         userId: InterviewFactory.questionObj.userId,
@@ -104,6 +184,7 @@ angular.module('pitchPerfectApp')
     //     var video = $window.document.getElementById('video-record');
     //   }
     // };
+
 
     $scope.startPreviewVideo = function() {
       var navigator = $window.navigator;
@@ -142,5 +223,5 @@ angular.module('pitchPerfectApp')
     };
     // Go ahead and start the preview video.
     $scope.startPreviewVideo();
-    $scope.getAllDeckQuestions('Awesome Video');
+    $scope.getAllDeckQuestions();
   });

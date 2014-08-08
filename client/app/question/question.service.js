@@ -3,13 +3,11 @@
 angular.module('pitchPerfectApp')
 
 
-.factory('InterviewFactory', function() {
+.factory('QuestionFactory', function() {
 
-  var questionObj = [];
   var contextObject = {};
 
   return {
-    questionObj: questionObj,
     contextObject: contextObject,
   };
 });

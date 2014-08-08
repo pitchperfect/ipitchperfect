@@ -1,12 +1,65 @@
 'use strict';
 
 angular.module('pitchPerfectApp')
-  .controller('QuestionCtrl', ['$scope', '$window',
-    function ($scope, $window) {
+  //.controller('QuestionCtrl', ['$scope', '$window', '$timeout',
+  .controller('QuestionCtrl',
+    function ($scope, $window, $timeout, $interval, QuestionFactory) {
 
   $scope.mediaStream = null;
   $scope.videoRecorder = null;
   $scope.audioRecorder = null;
+
+  
+  // *********** Celine's start ************  //
+  $scope.question = QuestionFactory.contextObject.fullQuestionObject.title;
+  $scope.alertUser = '';
+
+  $scope.startCountDown = function (time, message) {
+    if (time > 1) {
+      time--;
+      $scope.alertUser = time;
+      $timeout(function(){
+          $scope.startCountDown(time, message);
+      }, 1000);
+    } else {
+      $scope.alertUser = message;
+      $scope.startStopWatch();
+
+      var btnStopRecording  = $window.document.getElementById('btn-stop-recording');
+      btnStopRecording.disabled = false;
+    }
+  };
+
+
+  $scope.startStopWatch = function () {
+    $scope.sec = 0;
+    $scope.min = 0;
+    $interval(function(){
+      if ($scope.sec === 59) {
+        $scope.sec = 0;
+        $scope.min = $scope.min + 1;
+        $scope.alertUser = $scope.min + 'min, wrap up your answer!';
+        return;
+      }
+      $scope.sec++;
+      if ($scope.sec < 10) {
+        $scope.sec = '0'+ $scope.sec;
+      }
+    }, 1000, 0);
+
+  };
+
+  $scope.startCountDown(4, 'Camera Rolling!');
+  // ***** Celine's end ********//
+
+
+
+
+
+
+
+
+
 
   $scope.captureUserMedia = function(successCallback) {
     $window.navigator.getUserMedia(
@@ -237,4 +290,6 @@ angular.module('pitchPerfectApp')
       }
     });
   };
-}]);
+
+});
+//}]);

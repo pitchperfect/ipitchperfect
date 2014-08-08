@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('pitchPerfectApp')
-  .controller('HomeCtrl', function ($scope, $http, HomeFactory, $resource, InterviewFactory) {
+  .controller('HomeCtrl', function ($scope, $http, HomeFactory, $resource, InterviewFactory, $state) {
     $scope.message = 'Hello';
     $scope.name = 'Friends';
 
@@ -9,17 +9,35 @@ angular.module('pitchPerfectApp')
     $scope.questions = [];
     $scope.allUserDecks = [];
 
+    $scope.pruneDecks = function () {
+      var userDecks = $scope.allUserDecks;
+      var Decks = $scope.allDecks;
+      for (var i = 0; i < userDecks.length; i++) {
+        for (var j = 0; j < Decks.length; j++) {
+          if (userDecks[i].deckId === Decks[j]._id) {
+            Decks.splice(j, 1);
+          }
+        }
+      }
+    };
+
+    $scope.sendToInterview = function (model) {
+      console.log('model', model);
+      InterviewFactory.contextObject = model;
+      $state.go('interview');
+    };
 
 
     /* 1) On page load - get all decks */
     $scope.getAllDecks = function () {
       $http.get('/api/decks').success(function(allDecks) {
-        console.log('@home received decks', allDecks[0]);
+        console.log('@home received decks', allDecks);
 
         $scope.allDecks = allDecks;
+        $scope.getAllUserDecks();
 
         // [on deck click]   get the [single] question object associated
-        $scope.getAllDeckQuestions(allDecks[0].questions[0]);
+        // ******* $scope.getAllDeckQuestions(allDecks[0].questions[0]);
       });
     };
 
@@ -27,13 +45,15 @@ angular.module('pitchPerfectApp')
     /* 2) On page load -> get all UserDecks */
     $scope.getAllUserDecks = function () {
       $http.get('/api/userdecks').success(function(allUserDecks) {
-        console.log('@home received userdecks', allUserDecks[0]);
+        console.log('@home received userdecks', allUserDecks);
 
         $scope.allUserDecks = allUserDecks;
-        InterviewFactory.userDeck = allUserDecks[0];
-        for (var key in allUserDecks[0].questionsResponded) {
-          $scope.getAllResponses(allUserDecks[0].questionsResponded[key]);
-        }
+        $scope.pruneDecks();
+        //**********
+        // InterviewFactory.userDeck = allUserDecks[0];
+        // for (var key in allUserDecks[0].questionsResponded) {
+        //   $scope.getAllResponses(allUserDecks[0].questionsResponded[key]);
+        // }
 
       });
     };
@@ -55,7 +75,7 @@ angular.module('pitchPerfectApp')
 
       getQuestions.get({}, function(question) {
         console.log('question received @home', question);
-        InterviewFactory.questionObj = question;
+        //InterviewFactory.questionObj = question;
 
       }, function(err) {
         console.log('question err:', err);
@@ -97,7 +117,4 @@ angular.module('pitchPerfectApp')
 
 
     $scope.getAllDecks();
-
-    $scope.getAllUserDecks();
-
   });
