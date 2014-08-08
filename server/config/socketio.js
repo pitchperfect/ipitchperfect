@@ -18,6 +18,7 @@ function onConnect(socket) {
   });
 
   // Insert sockets below
+  require('../api/video/video.socket').register(socket);
   require('../api/userdeck/userdeck.socket').register(socket);
   require('../api/question/question.socket').register(socket);
   require('../api/response/response.socket').register(socket);
