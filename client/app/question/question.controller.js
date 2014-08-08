@@ -9,7 +9,7 @@ angular.module('pitchPerfectApp')
   $scope.videoRecorder = null;
   $scope.audioRecorder = null;
 
-  
+
   // *********** Celine's start ************  //
   $scope.question = QuestionFactory.contextObject.fullQuestionObject.title;
   $scope.alertUser = '';
@@ -48,8 +48,15 @@ angular.module('pitchPerfectApp')
     }, 1000, 0);
 
   };
-
   $scope.startCountDown(4, 'Camera Rolling!');
+
+  $scope.changeProcessInterviewStatus = function () {
+    $scope.processInterview = !$scope.processInterview;
+
+    if(!$scope.processInterview) {
+      $scope.startCountDown(4, 'Camera Rolling!');
+    }
+  };
   // ***** Celine's end ********//
 
 
@@ -235,6 +242,7 @@ angular.module('pitchPerfectApp')
 
   $scope.stopRecording = function() {
     console.log('stopRecording called.');
+    $scope.processInterview = !$scope.processInterview;
 
     var btnStartRecording = $window.document.getElementById('btn-start-recording');
     var btnStopRecording  = $window.document.getElementById('btn-stop-recording');
