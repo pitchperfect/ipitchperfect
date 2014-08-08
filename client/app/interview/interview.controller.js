@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('pitchPerfectApp')
-  .controller('InterviewCtrl', function ($scope, $window, $interval, InterviewFactory, $http, $resource) {
+  .controller('InterviewCtrl', function ($scope, $window, $interval, InterviewFactory, QuestionFactory, $http, $resource, $state) {
 
     $scope.message = 'Hello';
 
@@ -40,7 +40,11 @@ angular.module('pitchPerfectApp')
 
 
     $scope.questionSelected = function (question) {
+      question = question || InterviewFactory.questionObj[0];
+
       console.log('question selected', question);
+      QuestionFactory.contextObject = question;
+      $state.go('question');
     };
 
     $scope.startStopWatch = function () {

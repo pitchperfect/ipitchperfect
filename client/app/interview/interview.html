@@ -10,10 +10,6 @@
 	            <!-- <small>Question #1:<span>"Tell me why you wanted to be a software engineer?"</span></small> -->
 	            <small ng-hide="startInterview && !processInterview"><span>{{description}}</span></small>
 						</div>
-						<!-- %%%%%%%%%%%%%%%%%%%%%% -->
-						<div>
-							<small ng-show="startInterview && !processInterview"><span>"Tell me why you wanted to be a software engineer?"</span></small>
-						</div>
 
 					</h1>
 				</div>
@@ -35,16 +31,7 @@
 				-->
 
 
-				<!-- %%%%%%%%%%%%%%%%%%%%%% -->
-	      <!--  Press to Re-record -->
-	      <button class="btn btn-primary"
-	        ng-show="processInterview"
-	        ng-click="changeProcessInterviewStatus(); changeInterviewStatus()">Re-record</button>
-				<!-- %%%%%%%%%%%%%%%%%%%%%% -->
-	      <!--  Press to Share video -->
-	      <a href="/share" ng-show="processInterview">
-	        <button class="btn btn-primary">Save & Share</button>
-	      </a>
+
 
 	    </div>
 
@@ -87,7 +74,8 @@
 						<strong>2)</strong> During recording, hover your mouse over the red camera to view timing.<br />
 						<strong>3)</strong> Once finished, 'click' the red camera to end your recording.<br /><br />
 						<div class="text-center">
-							<button type="button" class="btn btn-success" ng-click="changeInterviewStatus()">Begin Interview!</button>
+							<!-- <button type="button" class="btn btn-success" ng-click="changeInterviewStatus()">Begin Interview!</button> -->
+							<button type="button" class="btn btn-success" ng-click="questionSelected()">Begin Interview!</button>
 						</div>
 					</div>
 				</div>
