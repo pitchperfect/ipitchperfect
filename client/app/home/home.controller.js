@@ -30,7 +30,6 @@ angular.module('pitchPerfectApp')
     };
 
 
-
     $scope.sendToInterview = function (model, boolean) {
       console.log('model', model);
       InterviewFactory.contextObject = model;
@@ -39,46 +38,22 @@ angular.module('pitchPerfectApp')
       $state.go('interview');
     };
 
-
-    /* 1) On page load - get all decks */
-    $scope.getAllDecks = function () {
-      $http.get('/api/decks').success(function(allDecks) {
-        console.log('@home received decks', allDecks);
-
-        $scope.allDecks = allDecks;
-        $scope.getAllUserDecks();
-      });
+    $scope.getDecksCb = function (allDecks) {
+      console.log('$scope decks:', allDecks);
+      $scope.allDecks = allDecks;
     };
 
-
-    /* 2) On page load -> get all UserDecks */
-    $scope.getAllUserDecks = function () {
-      $http.get('/api/userdecks').success(function(allUserDecks) {
-        console.log('@home received userdecks', allUserDecks);
-
-        $scope.allUserDecks = allUserDecks;
-        $scope.pruneDecks();
-      });
+    $scope.getUserDecksCb = function (allUserDecks) {
+      console.log('$scope userdecks:', allUserDecks);
+      $scope.allUserDecks = allUserDecks;
+      $scope.pruneDecks();
     };
-
 
     $scope.toggleSubmitBoxAppear = function () {
       $scope.submitBox = !$scope.submitBox;
     };
 
-
-    // NEED TO ADD CREATOR ID !!!
-    $scope.submitNewDeck = function (newDeckTitle, newDeckDescription, Q1, Q2) {
-
-      var postDeckObject = {
-        title: newDeckTitle,
-        description: newDeckDescription,
-        questionsCollection: [Q1, Q2],
-        active: true,
-      };
-
-      HomeFactory.createDeck(postDeckObject, $scope.getAllDecks);
-
+    $scope.createDeckCb = function () {
       $scope.newDeckDescription = '';
       $scope.newDeckTitle = '';
       $scope.qTitle1 = '';
@@ -86,7 +61,18 @@ angular.module('pitchPerfectApp')
       $scope.toggleSubmitBoxAppear();
     };
 
+    // NEED TO ADD CREATOR ID !!!
+    $scope.submitNewDeck = function (newDeckTitle, newDeckDescription, Q1, Q2) {
+      var postDeckObject = {
+        title: newDeckTitle,
+        description: newDeckDescription,
+        questionsCollection: [Q1, Q2],
+        active: true,
+      };
+
+      HomeFactory.createDeck(postDeckObject, $scope.createDeckCb, $scope.getDecksCb, $scope.getUserDecksCb);
+    };
 
 
-    $scope.getAllDecks();
+    InterviewFactory.getAllDecks($scope.getDecksCb, $scope.getUserDecksCb);
   });
