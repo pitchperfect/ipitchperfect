@@ -73,7 +73,7 @@ angular.module('pitchPerfectApp')
       var postDeckObject = {
         title: newDeckTitle,
         description: newDeckDescription,
-        questionCollection: [Q1, Q2],
+        questionsCollection: [Q1, Q2],
         active: true,
       };
 

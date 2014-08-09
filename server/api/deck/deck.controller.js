@@ -29,13 +29,14 @@ exports.show = function(req, res) {
 exports.create = function(req, res) {
   console.log('^^^^ req.body input in desk create:', req.body);
 
+  /* CREATE DECK */
   Deck.create(req.body, function(err, deck) {
     if(err) { return handleError(res, err); }
     console.log('was deck created?', deck);
 
 
     var deckId = deck._id;
-    var questionsCollection = req.body.questionCollection;
+    var questionsCollection = req.body.questionsCollection;
 
     if (questionsCollection.length) {
       var postQuestionObject = {
@@ -48,10 +49,11 @@ exports.create = function(req, res) {
         postQuestionObject.title = questionsCollection[i];
 
         Question.create(postQuestionObject, function (err, newQuestion) {
+          console.log('Q.' + i +' created:', newQuestion);
           var newQuestionId = newQuestion._id;
-
+          var newdeckId = newQuestion.deck;
           /** UPDATE DECK ASSOCIATED to this question by inserting a reference to itself **/
-          Deck.findById(deckId, function (err, deckToUpdate) {
+          Deck.findById(newdeckId, function (err, deckToUpdate) {
             console.log('was deck to udate found?', deckToUpdate);
             deckToUpdate.questions.push(newQuestionId);
             deckToUpdate.save();
