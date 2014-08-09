@@ -49,8 +49,8 @@ angular.module('pitchPerfectApp')
         $scope.sec = '0'+ $scope.sec;
       }
     }, 1000, 0);
-
   };
+
   $scope.startCountDown(4, 'Camera Rolling!');
 
   $scope.changeProcessInterviewStatus = function () {
@@ -61,8 +61,6 @@ angular.module('pitchPerfectApp')
     }
   };
   // ***** Celine's end ********//
-
-
 
   $scope.captureUserMedia = function(successCallback) {
     console.log('captureUserMedia called.');

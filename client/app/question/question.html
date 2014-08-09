@@ -19,23 +19,43 @@
 
   <div class="container">
     <div class="col-md-12 column text-center">
+      <div class="row clearfix">
+        <!-- <button id="btn-start-recording" class="btn btn-success"
+          ng-click="startRecording();">Begin Interview</button> -->
+        <button id="btn-stop-recording" class="btn btn-danger" disabled
+          ng-click="stopRecording();"
+          ng-hide="processInterview">Stop Recording</button>
+        <button id="btn-start-recording" class="btn btn-info"
+          ng-show="processInterview"
+          ng-click="startRecording(); changeProcessInterviewStatus(); changeInterviewStatus();">Record</button>
+        <button id="btn-replay-recording" class="btn btn-info" disabled
+          ng-show="processInterview"
+          ng-click="replayRecording();">Replay</button>
+        <button id="btn-exit-recording" class="btn btn-info" disabled
+          ng-show="processInterview"
+          ng-click="exitRecording();">Cancel</button> <!-- route to /interview -->
+        <button id="btn-save-recording" class="btn btn-info" disabled
+          ng-show="processInterview"
+          ng-click="saveRecording();">Save</button> <!-- route to /share -->
+        <h2 id="download-url"></h2><br />
+      </div>
 
       <!--  Press to Re-record -->
       <!-- <a href="/question" ng-show="processInterview"> -->
-        <button class="btn btn-info"
+        <!-- <button class="btn btn-info"
           ng-show="processInterview"
-          ng-click="changeProcessInterviewStatus(); changeInterviewStatus()">Re-record</button>
+          ng-click="changeProcessInterviewStatus(); changeInterviewStatus();">Re-record</button> -->
       <!-- </a> -->
 
       <!--  Press to Return to Deck video -->
-      <a href="/interview" ng-show="processInterview">
+      <!-- <a href="/interview" ng-show="processInterview">
         <button class="btn btn-info">Disregard Video</button>
-      </a>
+      </a> -->
 
       <!--  Press to Share video -->
-      <a href="/share" ng-show="processInterview">
+      <!-- <a href="/share" ng-show="processInterview">
         <button class="btn btn-info">Save & Share</button>
-      </a>
+      </a> -->
 
 
       <div class="row clearfix" ng-show="processInterview">
@@ -55,7 +75,6 @@
         <span>&nbsp;</span>
       </div>
 
-
     </div>
   </div>
 
@@ -67,30 +86,6 @@
         <video class="video-panel" id="video-record"></video>
       </div>
 
-    </div>
-  </div>
-
-  <div class="row clearfix">
-    <span>&nbsp;</span>
-  </div>
-
-  <div class="container">
-    <div class="col-md-12 column text-center">
-      <div class="row clearfix">
-        <!-- <button id="btn-start-recording" class="btn btn-success"
-          ng-click="startRecording();">Begin Interview</button> -->
-        <button id="btn-stop-recording" class="btn btn-danger" disabled
-          ng-click="stopRecording()" ng-hide="processInterview">Stop Recording</button>
-        <button id="btn-start-recording"
-          ng-click="startRecording();">Record</button>
-        <button id="btn-replay-recording" disabled
-          ng-click="replayRecording();">Replay</button>
-        <button id="btn-exit-recording" disabled
-          ng-click="exitRecording();">Cancel</button>
-        <button id="btn-save-recording" disabled
-          ng-click="saveRecording();">Save</button>
-        <h2 id="download-url"></h2><br />
-      </div>
     </div>
   </div>
 
