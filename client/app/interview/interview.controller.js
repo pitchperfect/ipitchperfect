@@ -221,7 +221,7 @@ angular.module('pitchPerfectApp')
             function(stream) {
               video.src = URL.createObjectURL(stream);
               video.muted = true;
-              video.controls = true;
+              video.controls = false;
               video.play();
               //callback(stream);
             },
