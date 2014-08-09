@@ -9,9 +9,10 @@ angular.module('pitchPerfectApp')
 
 
   // *********** Celine's start ************  //
-  $scope.getQuestion = function () {
-    if ('fullQuestionObject' in QuestionFactory.contextObject) {
-      $scope.question = QuestionFactory.contextObject.fullQuestionObject.title;
+  $scope.getQuestion = function () { debugger;
+    console.log('testing contextQuestion Obj:', QuestionFactory.contextObject);
+    if ('fullQuestionObject' in QuestionFactory.contextQuestion) {
+      $scope.question = QuestionFactory.contextQuestion.fullQuestionObject.title;
     }
   };
 
