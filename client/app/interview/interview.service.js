@@ -22,6 +22,7 @@ angular.module('pitchPerfectApp')
     .success(function(newUserDeck) {
       console.log('userDeck created:', newUserDeck);
       console.log('userDeck created from:', contextObject);
+      this.workingFromUserDeck = true;
     });
   };
 
