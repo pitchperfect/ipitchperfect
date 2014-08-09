@@ -6,15 +6,22 @@ var Video = require('./video.model');
 var Busboy = require('busboy');
 var azure = require('azure');
 
-if(config.env === 'development') { 
-  var AZ_CREDS = require('../../config/local.env.js');
- };
-
+//this way for grunt
 //azure blob service for storing video
-var AZ_ACCT = process.env.AZ_ACCT || AZ_CREDS.AZ_ACCT;
-var AZ_KEY = process.env.AZ_KEY || AZ_CREDS.AZ_KEY;
-var AZ_HOST = process.env.AZ_HOST || AZ_CREDS.AZ_HOST;
+if (config.env === 'development') {
+  var AZ_CREDS = require('../../config/local.env.js');
 
+  var AZ_ACCT = AZ_CREDS.AZ_ACCT;
+  var AZ_KEY = AZ_CREDS.AZ_KEY;
+  var AZ_HOST = AZ_CREDS.AZ_HOST;
+
+} else {
+
+  var AZ_ACCT = process.env.AZ_ACCT;
+  var AZ_KEY = process.env.AZ_KEY;
+  var AZ_HOST = process.env.AZ_HOST;
+
+}
 
 // Get list of videos
 exports.index = function(req, res) {
