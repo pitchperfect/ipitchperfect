@@ -8,6 +8,7 @@
         <h1>Question:
           <div class="text-center">
             <small><span>{{question}}</span></small>
+
           </div>
         </h1>
       </div>
@@ -80,6 +81,15 @@
           ng-click="startRecording();">Begin Interview</button> -->
         <button id="btn-stop-recording" class="btn btn-danger" disabled
           ng-click="stopRecording()" ng-hide="processInterview">Stop Recording</button>
+        <button id="btn-start-recording"
+          ng-click="startRecording();">Record</button>
+        <button id="btn-replay-recording" disabled
+          ng-click="replayRecording();">Replay</button>
+        <button id="btn-exit-recording" disabled
+          ng-click="exitRecording();">Cancel</button>
+        <button id="btn-save-recording" disabled
+          ng-click="saveRecording();">Save</button>
+        <h2 id="download-url"></h2><br />
       </div>
     </div>
   </div>
