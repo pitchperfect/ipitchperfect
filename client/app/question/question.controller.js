@@ -92,7 +92,7 @@ angular.module('pitchPerfectApp')
     var btnStartRecording = $window.document.getElementById('btn-start-recording');
     var btnStopRecording  = $window.document.getElementById('btn-stop-recording');
 
-    var btnReplayRecording = $window.document.getElementById('btn-replay-recording');
+    //var btnReplayRecording = $window.document.getElementById('btn-replay-recording');
     var btnExitRecording = $window.document.getElementById('btn-exit-recording');
     var btnSaveRecording = $window.document.getElementById('btn-save-recording');
 
@@ -103,7 +103,7 @@ angular.module('pitchPerfectApp')
     btnStopRecording.disabled = false;
     btnExitRecording.disabled = true;
     btnSaveRecording.disabled = true;
-    btnReplayRecording.disabled = true;
+    //btnReplayRecording.disabled = true;
     videoElement.style.visibility = 'visible';
     downloadURL.innerHTML = 'Smile, you are being recorded';
 
@@ -190,7 +190,7 @@ angular.module('pitchPerfectApp')
     var btnStartRecording = $window.document.getElementById('btn-start-recording');
     var btnStopRecording  = $window.document.getElementById('btn-stop-recording');
 
-    var btnReplayRecording = $window.document.getElementById('btn-replay-recording');
+    //var btnReplayRecording = $window.document.getElementById('btn-replay-recording');
     var btnExitRecording = $window.document.getElementById('btn-exit-recording');
     var btnSaveRecording = $window.document.getElementById('btn-save-recording');
 
@@ -201,8 +201,8 @@ angular.module('pitchPerfectApp')
     btnStopRecording.disabled = true;
     btnExitRecording.disabled = false;
     btnSaveRecording.disabled = false;
-    btnReplayRecording.disabled = false;
-    btnReplayRecording.style.visibility = 'visible';
+    // btnReplayRecording.disabled = false;
+    // btnReplayRecording.style.visibility = 'visible';
     videoElement.style.visibility = 'visible';
     downloadURL.innerHTML = '';
 
