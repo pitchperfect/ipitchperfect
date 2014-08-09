@@ -1,45 +1,33 @@
+<!-- <button type="button" class="close" data-dismiss="alert" aria-hidden="true">+</button> -->
 <div id="home">
 <!--
   - Add 'Start' button to interview decks in 1st section
   - Add completion metric to 'My Interviews'
-  -
 -->
   <div class="container">
-
-    <div class="row clearfix">
-      <!-- <div class="col-md-8 column"></div> -->
-
-      <!-- <div class="col-md-1 column"></div> -->
-
-    </div>
 
     <div class="row clearfix">
       <span>&nbsp;</span>
     </div>
 
-    <div class="row clearfix">
+    <div id="bg" class="row clearfix">
 
       <div class="col-md-3 column"></div>
+      <div id="title-top-spacing" class="col-md-6 column">
 
-      <div class="col-md-6 column">
-        <div class="row clearfix">
-          <span>&nbsp;</span>
-        </div>
-        <div class="row clearfix">
-          <span>&nbsp;</span>
-        </div>
 
         <div class="page-header text-center">
-          <h1>pitchPerfect
+          <h1>ipitchPerfect
             <div>
-              <small><span>The Tech Coaching Platform!</span></small>
+              <small><span>The Tech Coaching Platform</span></small>
             </div>
           </h1>
         </div>
       </div>
 
+
       <div class="col-md-3 column">
-        <div id= "request-panel" class="panel panel-primary">
+        <div id="request-panel" class="panel panel-primary">
 
           <div class="panel-body">
             <div class="list-group">
@@ -60,15 +48,62 @@
     <div class="row clearfix">
       <div id="title-shadow"></div>
     </div>
-
-
-
   	<div class="row clearfix">
+
 
   		<div class="col-md-6 column">
 
+        <!-- SUBMIT DECK -->
+        <div class="panel panel-info" ng-show="submitBox">
+          <div class="panel-heading text-center">
+            <button type="button" class="close" ng-click="toggleSubmitBoxAppear()">x</button>
+            <h3 class="panel-title">Submit a New Interview Deck</h3>
+          </div>
+
+          <div class="panel-body">
+            <div class="row clearfix">
+              <span>&nbsp;</span>
+            </div>
+
+            <!--  DECKS FORM -->
+            <div class="list-group">
+
+              <form role="form" ng-submit='submitNewDeck(newDeckTitle, newDeckDescription, qTitle1, qTitle2)'>
+
+                <div class="form-group">
+                  <label for="deck-title">Title</label>
+                  <input id="deck-title" type="value" class="form-control" ng-model="newDeckTitle">
+                </div>
+
+                <div class="form-group">
+                  <label for="deck-description">Description</label>
+                  <input type="value" class="form-control" id="deck-description" ng-model="newDeckDescription"/>
+                </div>
+
+                <div class="form-group">
+                  <label for="q-title1">Question 1</label>
+                  <input id="q-title1" type="value" class="form-control" ng-model="qTitle1">
+                </div>
+
+                <div class="form-group">
+                  <label for="q-title2">Question 2</label>
+                  <input id="q-title2" type="value" class="form-control" ng-model="qTitle2">
+                </div>
+
+                <button class="btn btn-default" type="submit">Submit</button>
+
+              </form>
+            </div>
+
+          </div>
+
+        </div>
+
+
+        <!-- SELECT INTERVIEW DECK PANEL -->
         <div class="panel panel-info">
           <div class="panel-heading text-center">
+            <button type="button" class="close" ng-click="toggleSubmitBoxAppear()">+</button>
             <h3 class="panel-title">Select an Interview Deck</h3>
           </div>
 
@@ -88,27 +123,15 @@
             <!--  DECKS LIST -->
             <div class="list-group">
               <div ng-repeat="singleDeck in allDecks | filter: {title:deckSearch}">
-                <div class="list-group-item" ng-click="sendToInterview(singleDeck)">
+                <div class="list-group-item" ng-click="sendToInterview(singleDeck, false)">
                   <h5>{{ singleDeck.title }}</h5>
                   <span class="small">{{singleDeck.description}}</span>
                   <small class="small faint">Last Updated: {{singleDeck.updated_at | date : 'mediumDate'}}</small>
                 </div>
               </div>
-
-              <!-- <a href="/interview" class="list-group-item">
-                <h5>So, Tell Me About Yourself. </h5>
-                <span class="small">This deck features a set of 4 random verbal questions - 2 behavioral and 2 narrative - From the <i>Hack Reactor Mock Interview Library</i>. </span>
-              </a>
-              <a href="/interview" class="list-group-item">
-                <h5>Hack Reactor 4 - Angular</h5>
-                <span class="small">See how well you do with these general Angular questions.</span>
-              </a>
-              <a href="/interview" class="list-group-item">
-                <h5>Subway Sandwich Artist</h5>
-                <span class="small">If all else fails, there are many Subway restaurants in the Bay Area and at least one of them is looking for a new team member.</span>
-              </a> -->
-
         		</div>
+
+
           </div>
         </div>
 
@@ -116,9 +139,11 @@
 
 
 
+
   		<div class="col-md-6 column">
 
         <div class="panel panel-success">
+
           <div class="panel-heading text-center">
             <h3 class="panel-title">My Interviews</h3>
           </div>
@@ -138,30 +163,13 @@
 
             <!--  USERDECKS LIST -->
             <div class="list-group">
-              <div ng-repeat="singleUserDeck in allUserDecks | filter: {deckTitle:deckUserSearch}">
-                <div class="list-group-item" ng-click="sendToInterview(singleUserDeck)">
+              <div ng-repeat="singleUserDeck in allUserDecks | filter: {title: deckUserSearch}">
+                <div class="list-group-item" ng-click="sendToInterview(singleUserDeck, true)">
                   <h5>{{ singleUserDeck.title }}</h5>
                   <span class="small">{{singleUserDeck.description}}</span>
                   <small class="small faint">Last Updated: {{singleUserDeck.updated_at | date : 'mediumDate'}}</small>
                 </div>
               </div>
-
-              <!-- <a href="/interview" class="list-group-item">
-                <h5>Hack Reactor 1 - Softball questions</h5>
-                <span class="small">Completed: August 2, 1 day ago.</span>
-                <br/>
-                <span class="small">New: Feedback from Christopher Gray.</span>
-                <br/>
-                <span class="small">Good start for those new to technical interviews. This deck features 4 simple technical questions that are meant to give you a chance to become comfortable with the interview experience.</span>
-              </a>
-              <a href="/interview" class="list-group-item">
-                <h5>Hack Reactor 3 - JavaScript (Core)</h5>
-                <span class="small">3 out of 4 questions answered, 1 left.</span>
-                <br/>
-                <span class="small">Last visit: July 31, 4 days ago.</span>
-                <br/>
-                <span class="small">This interview deck provides you with an opportunity to shine as you amaze and astound potential employers with your awe-inspiring JavaScript skills. Features 4 questions.</span>
-              </a> -->
 
             </div>
           </div>

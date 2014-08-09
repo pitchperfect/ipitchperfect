@@ -112,13 +112,13 @@ User.find({}).remove(function() {
       var deckTitle = newDeck.title;
       var deckDescription = newDeck.description;
       var deckQuestions = newDeck.questions;
-      var secondQuestionId = ''; // reference later;
+      var secondQuestionId = ''; // updated later, needed upstream reference;
 
       /** This User creates a NEW QUESTION within the newly created Deck **/
       Question.create({
         userId: userId,
         deck: deckId,
-        title: "Explain what happens when you type www.google.com",
+        title: "Explain what happens when you type www.google.com?",
         promptVideo: "video prompt",
         active: true,
       }, function (err, newQuestion1) {
@@ -138,7 +138,7 @@ User.find({}).remove(function() {
       Question.create({
         userId: userId,
         deck: deckId,
-        title: "Why do you want to be a software engineer",
+        title: "Why do you want to be a software engineer?",
         promptVideo: "video prompt",
         active: true,
       }, function (err, newQuestion) {

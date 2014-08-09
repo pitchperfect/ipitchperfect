@@ -3,8 +3,19 @@
 angular.module('pitchPerfectApp')
 
 
-.factory('HomeFactory', function() {
+.factory('HomeFactory', function($http) {
 
-  return {};
+
+  var createDeck = function (postDeckObject, callback) {
+    $http.post('/api/decks', postDeckObject)
+    .success(function() {
+      callback();
+    });
+  };
+
+
+  return {
+    createDeck: createDeck,
+  };
 
 });
