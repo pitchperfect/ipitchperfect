@@ -123,7 +123,7 @@ angular.module('pitchPerfectApp')
     );
   };
 
-  $scope.replayRecording = function() {debugger;
+  $scope.replayRecording = function() {
     var videoElement = $window.document.getElementById('video-record');
     videoElement.play();
   };
