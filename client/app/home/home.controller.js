@@ -2,28 +2,40 @@
 
 angular.module('pitchPerfectApp')
   .controller('HomeCtrl', function ($scope, $http, HomeFactory, $resource, InterviewFactory, $state) {
-    $scope.message = 'Hello';
-    $scope.name = 'Friends';
-
+    $scope.submitBox = false;
     $scope.allDecks = [];
-    $scope.questions = [];
     $scope.allUserDecks = [];
 
     $scope.pruneDecks = function () {
       var userDecks = $scope.allUserDecks;
-      var Decks = $scope.allDecks;
-      for (var i = 0; i < userDecks.length; i++) {
-        for (var j = 0; j < Decks.length; j++) {
-          if (userDecks[i].deckId === Decks[j]._id) {
-            Decks.splice(j, 1);
-          }
+      var decks = $scope.allDecks;
+      var matchCheckObj = {};
+
+      for (var i = 0; i < decks.length; i++) {
+        matchCheckObj[decks[i]._id] = decks[i];
+      }
+
+      for (var j = 0; j < userDecks.length; j++) {
+        if (matchCheckObj[userDecks[j].deckId]) {
+          matchCheckObj[userDecks[j].deckId] = null;
+        }
+      }
+      $scope.allDecks = [];
+
+      for (var k in matchCheckObj) {
+        if (matchCheckObj[k]) {
+          $scope.allDecks.push(matchCheckObj[k]);
         }
       }
     };
 
-    $scope.sendToInterview = function (model) {
+
+
+    $scope.sendToInterview = function (model, boolean) {
       console.log('model', model);
       InterviewFactory.contextObject = model;
+
+      InterviewFactory.workingFromUserDeck = boolean;
       $state.go('interview');
     };
 
@@ -35,9 +47,6 @@ angular.module('pitchPerfectApp')
 
         $scope.allDecks = allDecks;
         $scope.getAllUserDecks();
-
-        // [on deck click]   get the [single] question object associated
-        // ******* $scope.getAllDeckQuestions(allDecks[0].questions[0]);
       });
     };
 
@@ -49,70 +58,33 @@ angular.module('pitchPerfectApp')
 
         $scope.allUserDecks = allUserDecks;
         $scope.pruneDecks();
-        //**********
-        // InterviewFactory.userDeck = allUserDecks[0];
-        // for (var key in allUserDecks[0].questionsResponded) {
-        //   $scope.getAllResponses(allUserDecks[0].questionsResponded[key]);
-        // }
-
       });
     };
 
 
-    /* 3) [On deck click] get all [single here] Questions for that deck */
-    $scope.getAllDeckQuestions = function (questionId) {
-      var getQuestions = $resource('/api/questions/:id/', {
-        id: '@_id'
-      },
-      {
-        get: {
-          method: 'GET',
-          params: {
-            id: questionId
-          }
-        }
-      });
-
-      getQuestions.get({}, function(question) {
-        console.log('question received @home', question);
-        //InterviewFactory.questionObj = question;
-
-      }, function(err) {
-        console.log('question err:', err);
-      }); //.$promise; ???
+    $scope.toggleSubmitBoxAppear = function () {
+      $scope.submitBox = !$scope.submitBox;
     };
 
 
+    // NEED TO ADD CREATOR ID !!!
+    $scope.submitNewDeck = function (newDeckTitle, newDeckDescription, Q1, Q2) {
 
+      var postDeckObject = {
+        title: newDeckTitle,
+        description: newDeckDescription,
+        questionsCollection: [Q1, Q2],
+        active: true,
+      };
 
+      HomeFactory.createDeck(postDeckObject, $scope.getAllDecks);
 
-    /* 4) Per UserDeck, get all Responses for that deck, if no response get question obj*/
-    $scope.getAllResponses = function (responseId) {
-      var getResponses = $resource('/api/responses/:id/', {
-        id: '@_id'
-      },
-      {
-        get: {
-          method: 'GET',
-          params: {
-            id: responseId
-          }
-        }
-      });
-
-      getResponses.get({}, function(response) {
-        console.log('response received @home', response);
-      }, function(err) {
-        console.log('question err:', err);
-      });
+      $scope.newDeckDescription = '';
+      $scope.newDeckTitle = '';
+      $scope.qTitle1 = '';
+      $scope.qTitle2 = '';
+      $scope.toggleSubmitBoxAppear();
     };
-
-
-
-
-
-
-
 
 
 

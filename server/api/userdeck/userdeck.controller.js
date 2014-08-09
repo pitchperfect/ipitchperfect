@@ -27,16 +27,14 @@ exports.create = function(req, res) {
   Userdeck.create(req.body, function(err, userdeck) {
     if(err) { return handleError(res, err); }
 
-    var userdeckId = userdeck._id;
-
-      //var questionsResponded = 'questionsResponded.' + questionId;
-      // var responsesReviewed = 'responsesReviewed.' + responseId;
-
-      //var keysToUpdate = {};
-      //keysToUpdate[questionsResponded] = responseId;
-      //keysToUpdate[responsesReviewed] = [];
-
-      //userdeck.update( { $set: keysToUpdate }, function() { console.log('Update Succeeded');});
+    // if (!... ) {
+    //   userdeck.questionsResponded = {};
+    // }
+    // if (!userdeck.responsesReviewed) {
+    //   userdeck.responsesReviewed = {};
+    // }
+    //
+    // userdeck.save();
 
     return res.json(201, userdeck);
   });

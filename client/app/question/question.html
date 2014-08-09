@@ -5,9 +5,10 @@
     <div class="col-md-12 column">
 
       <div class="page-header">
-        <h1>
-          <div>Question:
-            <small><span>{{question}}?</span></small>
+        <h1>Question:
+          <div class="text-center">
+            <small><span>{{question}}</span></small>
+
           </div>
         </h1>
       </div>
@@ -20,26 +21,33 @@
     <div class="col-md-12 column text-center">
 
       <!--  Press to Re-record -->
-      <button class="btn btn-primary"
-        ng-show="processInterview"
-        ng-click="changeProcessInterviewStatus(); changeInterviewStatus()">Re-record</button>
+      <!-- <a href="/question" ng-show="processInterview"> -->
+        <button class="btn btn-info"
+          ng-show="processInterview"
+          ng-click="changeProcessInterviewStatus(); changeInterviewStatus()">Re-record</button>
+      <!-- </a> -->
+
+      <!--  Press to Return to Deck video -->
+      <a href="/interview" ng-show="processInterview">
+        <button class="btn btn-info">Disregard Video</button>
+      </a>
 
       <!--  Press to Share video -->
       <a href="/share" ng-show="processInterview">
-        <button class="btn btn-primary">Save & Share</button>
+        <button class="btn btn-info">Save & Share</button>
       </a>
 
-      <!--  Press to Return to Deck video -->
-      <a href="/deck" ng-show="processInterview">
-        <button class="btn btn-primary">Disregard Video</button>
-      </a>
+
+      <div class="row clearfix" ng-show="processInterview">
+        <span>&nbsp;</span>
+      </div>
 
     </div>
   </div>
 
 
 
-  <div class="container">
+  <div class="container" ng-hide="processInterview">
     <div class="col-md-12 column text-center">
       <div><span id="userAlert">{{alertUser}}</span></div>
 
@@ -72,8 +80,7 @@
         <!-- <button id="btn-start-recording" class="btn btn-success"
           ng-click="startRecording();">Begin Interview</button> -->
         <button id="btn-stop-recording" class="btn btn-danger" disabled
-          ng-click="stopRecording();">Stop Recording</button>
-
+          ng-click="stopRecording()" ng-hide="processInterview">Stop Recording</button>
         <button id="btn-start-recording"
           ng-click="startRecording();">Record</button>
         <button id="btn-replay-recording" disabled
@@ -82,8 +89,7 @@
           ng-click="exitRecording();">Cancel</button>
         <button id="btn-save-recording" disabled
           ng-click="saveRecording();">Save</button>
-    <h2 id="download-url"></h2><br />
-
+        <h2 id="download-url"></h2><br />
       </div>
     </div>
   </div>

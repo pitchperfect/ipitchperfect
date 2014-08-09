@@ -11,6 +11,7 @@ angular.module('pitchPerfectApp', [
 ])
   .config(function ($stateProvider, $urlRouterProvider, $locationProvider, $httpProvider) {
     $urlRouterProvider
+      //.when('/', '/home')
       .otherwise('/');
 
     $locationProvider.html5Mode(true);
