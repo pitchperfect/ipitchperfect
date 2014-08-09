@@ -3,8 +3,6 @@
 angular.module('pitchPerfectApp')
   .controller('InterviewCtrl', function ($scope, $window, $interval, InterviewFactory, QuestionFactory, $http, $resource, $state) {
 
-    $scope.message = 'Hello';
-
     $scope.startPrompt = false;
     $scope.startInterview = false;
     $scope.finishVideo = false;
@@ -20,22 +18,26 @@ angular.module('pitchPerfectApp')
     $scope.questionSelectedIndex = '';
 
 
+
     //$scope.getClassResponse = function getClass(id) {
     $scope.getQuestionResponseStatus = function getClass(id) {
-      if (InterviewFactory.contextObject.questionsResponded[id]) {
-        return 'Attempted';// {'list-group-item-success': true};
-      } else {
-        return 'Not Attempted';// { 'list-group-item': true};
+
+      if ('questionsResponded' in InterviewFactory.contextObject) {
+        if (InterviewFactory.contextObject.questionsResponded[id]) {
+          return 'Attempted';
+        }
       }
+      return 'Not Attempted';
     };
 
-    //$scope.getClassReview = function getClass(id) {
     $scope.getQuestionReviewStatus = function getClass(id) {
-      if (InterviewFactory.contextObject.responsesReviewed[id]) {
-        return 'Peer Reviewed';// {'list-group-item-success': true};
-      } else {
-        return 'No Peer Reviews';// { 'list-group-item': true};
+      if ('responsesReviewed' in InterviewFactory.contextObject) {
+        if (InterviewFactory.contextObject.responsesReviewed[id]) {
+          return 'Peer Reviewed';
+        }
       }
+      return 'No Peer Reviews';
+
     };
 
 
@@ -64,13 +66,19 @@ angular.module('pitchPerfectApp')
 
 
     $scope.showInstructions = function (question, index) {
-      console.log('question selected', question);
       question = question || InterviewFactory.questionObj[0];
+      console.log('question selected', question);
       index = index || 0;
 
       QuestionFactory.contextObject = question;
       $scope.questionSelectedIndex = index +1;
       $scope.instructions = !$scope.instructions;
+
+      if (!InterviewFactory.workingFromUserDeck) {
+        // create a userDeck;
+        InterviewFactory.createAUserDeck();
+      }
+
     };
 
     $scope.changePromptStatus = function () {
@@ -142,9 +150,7 @@ angular.module('pitchPerfectApp')
 
 
     // 1) get questions.
-    // the collection of question.id's should have been transfered from home to interview
-    $scope.getAllDeckQuestions = function () {    // Actually want all questions from deck id.
-
+    $scope.getAllDeckQuestions = function () {
       for (var i = 0; i < InterviewFactory.contextObject.questions.length; i++) {
         $scope.getQuestion(InterviewFactory.contextObject.questions[i], i);
       }

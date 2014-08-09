@@ -6,9 +6,9 @@ var Video = require('./video.model');
 var Busboy = require('busboy');
 var azure = require('azure');
 
-if(config.env === 'development') { 
+if(config.env === 'development') {
   var AZ_CREDS = require('../../config/local.env.js');
- };
+}
 
 //azure blob service for storing video
 var AZ_ACCT = process.env.AZ_ACCT || AZ_CREDS.AZ_ACCT;
@@ -54,7 +54,7 @@ exports.show = function(req, res) {
 // Creates a new video in the DB.
 exports.create = function(req, res) {
 
-//This all happens after we get a video _id from mongo  
+//This all happens after we get a video _id from mongo
   Video.create(req.body, function(err, video) {
 
     if(err) { return handleError(res, err); }

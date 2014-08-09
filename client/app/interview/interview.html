@@ -7,7 +7,6 @@
 				<div class="page-header">
 					<h1>{{title}}
 						<div>
-	            <!-- <small>Question #1:<span>"Tell me why you wanted to be a software engineer?"</span></small> -->
 	            <small ng-hide="startInterview && !processInterview"><span>{{description}}</span></small>
 						</div>
 
@@ -16,27 +15,6 @@
 
 			</div>
 		</div>
-	</div>
-
-
-	<div class="container" >
-	  <div class="row clearfix">
-
-	    <div class="col-md-12 column text-center">
-	      <!--  Press to start Prompt-->
-	      <!-- Commented out until we are ready for this functionality
-				<button class="btn btn-primary"
-	        ng-show="!startPrompt && !startInterview && !processInterview"
-	        ng-click="changePromptStatus()">Start Prompt</button>
-				-->
-
-
-
-
-	    </div>
-
-
-	  </div>
 	</div>
 
 
@@ -49,7 +27,7 @@
 
 			<div class="col-md-2 column">
 
-				<ul class="list-group question-blocks" ng-repeat="question in questions">
+				<ul class="list-group question-blocks" ng-repeat="question in questions" ng-hide="instructions">
 					<li class="list-group-item list-group-item-info" ng-click="showInstructions(question, $index)">Q.{{$index +1}} Status</li>
 					<li class="list-group-item"
 					ng-class="{'list-group-item-success': question.responseStatus === 'Attempted'}"
@@ -71,14 +49,16 @@
 							ng-click="changeProcessInterviewStatus()"></span>
 						</div>
 						<div class="text-center">
-							<strong>Q.{{questionSelectedIndex}}</strong> about to begin.<br />
-							<strong></strong> Try to keep your answers to under 1 minute long.<br />
+							<strong>Q.{{questionSelectedIndex}}</strong> is about to begin.<br />
+							<strong></strong> Try to keep your answers to less than 1 minute.<br />
 							<strong></strong> Notifications will be given every 30 seconds.<br /><br />
 							<strong></strong> Good Luck !<br /><br />
 						</div>
 						<div class="text-center">
 							<!-- <button type="button" class="btn btn-success" ng-click="changeInterviewStatus()">Begin Interview!</button> -->
-							<button type="button" class="btn btn-success" ng-click="questionSelected()">Begin Interview!</button>
+
+							<button type="button" class="btn btn-success" ng-click="questionSelected()">Start</button>
+							<a href="/home"><button class="btn btn-info">Return Home</button></a>
 						</div>
 					</div>
 				</div>
@@ -92,89 +72,22 @@
 					<p><span>&nbsp;</span></p>
 					<p><span id="userAlert">Camera and mic check. We're not recording yet.</span></p>
 					<p><span id="userAlert">You will see yourself once connected.</span></p>
+
 					<!-- Press to start recording yourself -->
 					<button class="btn btn-success"
 						ng-show="!startInterview && !startPrompt && !processInterview && !instructions"
 						ng-click="showInstructions()">Begin Interview</button>
+					<a href="/home">
+						<button class="btn btn-info"
+						ng-show="!startInterview && !startPrompt && !processInterview && !instructions">Return Home</button>
+					</a>
+
 				</div>
 
-				<!-- ????????????????? -->
-				<div class="row clearfix col-md-2 col-md-offset-4"></div>
-
-	      <!--  Play Prompt -->
-	      <!-- <div id="box1" ng-hide="!startPrompt">Prompt
-	        <div class="col-md-12 center-block">
-	          <span class="glyphicon glyphicon-play-circle"
-	          ng-show="startPrompt && !finishVideo" ng-click="changeFinishVideoStatus()"></span>
-	          <span class="glyphicon glyphicon-pause"
-	          ng-show="finishVideo" ng-click="changePromptStatus(); changeFinishVideoStatus()"></span>
-	        </div>
-	      </div> -->
-
 	    </div>
-			<!-- ?????????????????? -->
 			<div class="col-md-2 column"></div>
 
 	  </div>
 
 
-		<!-- %%%%%%%%%%%%%%%%%%%%%% -->
-	  <!-- Record yourself -->
-	  <div class="row clearfix add-margin-bottom text-center"
-	  ng-show="startInterview && !processInterview">
-	    <!-- <div class="col-md-12 column text-center"> -->
-
-	    <span class="glyphicon glyphicon-facetime-video"
-	    ng-click="changeProcessInterviewStatus()"></span>
-	    <div id="box3" ng-click="changeProcessInterviewStatus()">{{min}} : {{sec}}</div>
-	    <!-- </div> -->
-	  </div>
-
-		<!-- toy problem script -->
-	  <!-- <div class="row clearfix">
-	    <div class="col-md-12 center-block">
-	      <textarea id="script" placeholder="Complete toy problem here!"
-	      ng-show="startInterview && !processInterview"></textarea>
-	    </div>
-	  </div> -->
-
-	  <!-- Review Your Video -->
-	  <div class="row clearfix">
-
-	    <div class="col-md-5 column text-center">
-	      <div id="box1-review" ng-show="processInterview">
-	        Reviewing Video
-	      </div>
-	    </div>
-
-	    <div class="col-md-2 center-block">
-	      <span class="glyphicon glyphicon-play-circle"
-	      ng-show="!reviewInterview && processInterview" ng-click="synchReviewInterview()"></span>
-	    </div>
-	    <!-- Review Your ToyProblem -->
-	    <div class="col-md-5 column text-center">
-	      <textarea id="script-review" placeholder="Reviewing toy problem here!" ng-model="scriptingInterview"
-	      ng-show="processInterview"></textarea>
-	    </div>
-
-	  </div>
-
-
-	</div>
-
 </div>
-
-
-<!-- <div class="col-md-12 center-block">
-  <div id="box1">
-    <div id="box2">
-    </div>
-  </div>
-</div> -->
-
-
-  <!-- <div class="interviewUI-container col-md-12 "> -->
-    <!-- <div id="video-container">
-      <div id="video"></div>
-    </div> -->
-  <!-- </div> -->
