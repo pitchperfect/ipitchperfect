@@ -11,7 +11,12 @@ angular.module('pitchPerfectApp')
 
 
   // *********** Celine's start ************  //
-  $scope.question = QuestionFactory.contextObject.fullQuestionObject.title;
+  $scope.getQuestion = function () {
+    if ('fullQuestionObject' in QuestionFactory.contextObject) {
+      $scope.question = QuestionFactory.contextObject.fullQuestionObject.title;
+    }
+  };
+
   $scope.alertUser = '';
 
   $scope.startCountDown = function (time, message) {
@@ -299,5 +304,8 @@ angular.module('pitchPerfectApp')
     });
   };
 
+
+
+  $scope.getQuestion();
 });
 //}]);

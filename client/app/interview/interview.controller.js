@@ -151,8 +151,10 @@ angular.module('pitchPerfectApp')
 
     // 1) get questions.
     $scope.getAllDeckQuestions = function () {
-      for (var i = 0; i < InterviewFactory.contextObject.questions.length; i++) {
-        $scope.getQuestion(InterviewFactory.contextObject.questions[i], i);
+      if ('questions' in InterviewFactory.contextObject) {
+        for (var i = 0; i < InterviewFactory.contextObject.questions.length; i++) {
+          $scope.getQuestion(InterviewFactory.contextObject.questions[i], i);
+        }
       }
     };
 
