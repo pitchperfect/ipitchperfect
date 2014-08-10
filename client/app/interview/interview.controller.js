@@ -70,10 +70,9 @@ angular.module('pitchPerfectApp')
       console.log('question selected', question);
       index = index || 0;
 
-      QuestionFactory.contextObject = question;
+      QuestionFactory.contextQuestion = question;
       $scope.questionSelectedIndex = index +1;
       $scope.instructions = !$scope.instructions;
-
       if (!InterviewFactory.workingFromUserDeck) {
         // create a userDeck;
         InterviewFactory.createAUserDeck();

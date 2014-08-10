@@ -2,7 +2,7 @@
 
 angular.module('pitchPerfectApp')
   .controller('QuestionCtrl',
-    function ($scope, $window, $timeout, $interval, $upload, QuestionFactory) {
+    function ($scope, $window, $timeout, $interval, $upload, QuestionFactory, $state) {
 
   $scope.mediaStream = null;
   $scope.audioVideoRecorder = null;
@@ -10,8 +10,10 @@ angular.module('pitchPerfectApp')
 
   // *********** Celine's start ************  //
   $scope.getQuestion = function () {
-    if ('fullQuestionObject' in QuestionFactory.contextObject) {
-      $scope.question = QuestionFactory.contextObject.fullQuestionObject.title;
+    console.log('testing contextQuestion Obj:', QuestionFactory.contextQuestion);
+    var contextQuestion = QuestionFactory.contextQuestion;
+    if ('fullQuestionObject' in contextQuestion) {
+      $scope.question = QuestionFactory.contextQuestion.fullQuestionObject.title;
     }
   };
 
@@ -127,11 +129,13 @@ angular.module('pitchPerfectApp')
   };
 
   $scope.exitRecording = function() {
-    $window.alert('redirect to UserDeck');
+    // $window.alert('redirect to UserDeck');
+    $state.go('interview');
   };
 
   $scope.saveRecording = function() {
-    $window.alert('hit /videos/url/:id endpoint');
+    // $window.alert('hit /videos/url/:id endpoint');
+    $state.go('share');
   };
 
   $scope.postFile = function(video) {
