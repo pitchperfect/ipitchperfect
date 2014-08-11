@@ -22,9 +22,11 @@ exports.show = function(req, res) {
 
 // Creates a new userdeck in the DB.
 exports.create = function(req, res) {
+  console.log('^^^^^^^^^ userdeck create req.body', req.body);
   // requires: {userId: userId, deck: deckId, questionsResponded: {}, responsesReviewed: {}, active: true};
   // after object is created, requires: questionId, responseId
   Userdeck.create(req.body, function(err, userdeck) {
+    console.log('^^^^^^^^ userdeck created: ', userdeck);
     if(err) { return handleError(res, err); }
 
     // if (!... ) {

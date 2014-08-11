@@ -5,9 +5,9 @@ angular.module('pitchPerfectApp')
 
 .factory('QuestionFactory', function() {
 
-  var contextObject = {};
+  var contextQuestion = {};
 
   return {
-    contextObject: contextObject,
+    contextQuestion: contextQuestion,
   };
 });
