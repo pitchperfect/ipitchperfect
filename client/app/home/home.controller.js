@@ -38,12 +38,12 @@ angular.module('pitchPerfectApp')
     };
 
 
-    $scope.getDecksCb = function (allDecks) {debugger;
+    $scope.getDecksCb = function (allDecks) {
       console.log('$scope decks:', allDecks);
       $scope.allDecks = allDecks;
     };
 
-    $scope.getUserDecksCb = function (allUserDecks) {debugger;
+    $scope.getUserDecksCb = function (allUserDecks) {
       console.log('$scope userdecks:', allUserDecks);
       $scope.allUserDecks = allUserDecks;
       $scope.pruneDecks();
@@ -54,14 +54,21 @@ angular.module('pitchPerfectApp')
     };
 
     // NEED TO ADD CREATOR ID !!!
-    $scope.submitNewDeck = function (newDeckTitle, newDeckDescription, Q1, Q2) {
+    $scope.submitNewDeck = function (newDeckTitle, newDeckDescription) {
 
       var postDeckObject = {
         title: newDeckTitle,
         description: newDeckDescription,
-        questionsCollection: [Q1, Q2],
+        questionsCollection: [],
         active: true,
       };
+
+      for (var i = 2; i < arguments.length -1; i++) {
+        if (arguments[i]) {
+          postDeckObject.questionsCollection.push(arguments[i]);
+        }
+      }
+
       var createnewDeck = HomeFactory.createDeck(postDeckObject);
       createnewDeck.success(function() {
         $scope.reloadPageContent();
@@ -74,7 +81,7 @@ angular.module('pitchPerfectApp')
       $scope.toggleSubmitBoxAppear();
     };
 
-    $scope.reloadPageContent = function () {debugger;
+    $scope.reloadPageContent = function () {
       HomeFactory.getAllDecks($scope.getDecksCb, $scope.getUserDecksCb);
     };
 

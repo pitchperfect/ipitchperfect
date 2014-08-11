@@ -6,8 +6,7 @@ angular.module('pitchPerfectApp')
 .factory('HomeFactory', function($http) {
 
   var getAllUserDecks = function (getUserDecksCb) {
-    debugger;
-    $http.get('/api/userdecks').success(function(allUserDecks) {debugger;
+    $http.get('/api/userdecks').success(function(allUserDecks) {
       console.log('@home received userdecks', allUserDecks);
       getUserDecksCb(allUserDecks);
     })
@@ -19,9 +18,8 @@ angular.module('pitchPerfectApp')
 
   var getAllDecks = function (getDecksCb, getUserDecksCb) {
     var getAllUserDecksReference = this.getAllUserDecks;
-    debugger;
     $http.get('/api/decks')
-    .success(function(allDecks) {debugger;
+    .success(function(allDecks) {
       console.log('@home received decks', allDecks);
       getDecksCb(allDecks);
       getAllUserDecksReference(getUserDecksCb);

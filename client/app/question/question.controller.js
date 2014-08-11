@@ -125,7 +125,6 @@ angular.module('pitchPerfectApp')
 
   $scope.replayRecording = function() {
     var videoElement = $window.document.getElementById('video-record');
-    debugger;
     videoElement.play();
   };
 
@@ -241,8 +240,6 @@ angular.module('pitchPerfectApp')
       }
     );
   };
-
-
 
   $scope.getQuestion();
 });

@@ -70,9 +70,7 @@ angular.module('pitchPerfectApp')
       $scope.questionSelectedIndex = index +1;
       $scope.instructions = !$scope.instructions;
       if (!InterviewFactory.workingFromUserDeck) {
-        debugger;
         InterviewFactory.createAUserDeck();
-        debugger;
       }
 
     };

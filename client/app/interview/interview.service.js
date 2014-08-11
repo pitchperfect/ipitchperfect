@@ -10,7 +10,7 @@ angular.module('pitchPerfectApp')
   var workingFromUserDeck = false;
 
 
-  var createAUserDeck = function () {debugger;
+  var createAUserDeck = function () {
     var workingFromUserDeckRef = this.workingFromUserDeck;
     var objToPost = {};
     objToPost.deckId = this.contextObject._id;
@@ -20,7 +20,7 @@ angular.module('pitchPerfectApp')
     objToPost.active =  true;
 
     $http.post('/api/userdecks', objToPost)
-    .success(function(newUserDeck) {debugger;
+    .success(function(newUserDeck) {
       console.log('userDeck created:', newUserDeck);
       console.log('userDeck created from:', contextObject);
       workingFromUserDeckRef = true;
