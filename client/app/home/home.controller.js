@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('pitchPerfectApp')
-  .controller('HomeCtrl', function ($scope, $http, HomeFactory, $resource, InterviewFactory, $state) {
+  .controller('HomeCtrl', function ($scope, HomeFactory, InterviewFactory, $state) {
     $scope.submitBox = false;
     $scope.allDecks = [];
     $scope.allUserDecks = [];
@@ -38,32 +38,20 @@ angular.module('pitchPerfectApp')
     };
 
 
-    /* 1) On page load - get all decks */
-    $scope.getAllDecks = function () {
-      $http.get('/api/decks').success(function(allDecks) {
-        console.log('@home received decks', allDecks);
-
-        $scope.allDecks = allDecks;
-        $scope.getAllUserDecks();
-      });
+    $scope.getDecksCb = function (allDecks) {debugger;
+      console.log('$scope decks:', allDecks);
+      $scope.allDecks = allDecks;
     };
 
-
-    /* 2) On page load -> get all UserDecks */
-    $scope.getAllUserDecks = function () {
-      $http.get('/api/userdecks').success(function(allUserDecks) {
-        console.log('@home received userdecks', allUserDecks);
-
-        $scope.allUserDecks = allUserDecks;
-        $scope.pruneDecks();
-      });
+    $scope.getUserDecksCb = function (allUserDecks) {debugger;
+      console.log('$scope userdecks:', allUserDecks);
+      $scope.allUserDecks = allUserDecks;
+      $scope.pruneDecks();
     };
-
 
     $scope.toggleSubmitBoxAppear = function () {
       $scope.submitBox = !$scope.submitBox;
     };
-
 
     // NEED TO ADD CREATOR ID !!!
     $scope.submitNewDeck = function (newDeckTitle, newDeckDescription, Q1, Q2) {
@@ -74,8 +62,10 @@ angular.module('pitchPerfectApp')
         questionsCollection: [Q1, Q2],
         active: true,
       };
-
-      HomeFactory.createDeck(postDeckObject, $scope.getAllDecks);
+      var createnewDeck = HomeFactory.createDeck(postDeckObject);
+      createnewDeck.success(function() {
+        $scope.reloadPageContent();
+      });
 
       $scope.newDeckDescription = '';
       $scope.newDeckTitle = '';
@@ -84,7 +74,10 @@ angular.module('pitchPerfectApp')
       $scope.toggleSubmitBoxAppear();
     };
 
+    $scope.reloadPageContent = function () {debugger;
+      HomeFactory.getAllDecks($scope.getDecksCb, $scope.getUserDecksCb);
+    };
 
+    $scope.reloadPageContent();
 
-    $scope.getAllDecks();
   });
