@@ -35,21 +35,13 @@ angular.module('pitchPerfectApp')
       }
     };
 
-    $scope.sendToInterview = function (model, boolean) {
+    $scope.sendToInterview = function (model, isUserdeck) {
       console.log('model', model);
       InterviewFactory.contextObject = model;
 
-      InterviewFactory.workingFromUserDeck = boolean;
+      InterviewFactory.workingFromUserDeck = isUserdeck;
       $state.go('interview');
     };
-
-
-    // $scope.getDecksCb = function (allDecks) {
-    //   console.log('$scope decks:', allDecks);
-    //   //$scope.allDecks = allDecks;
-    //   $scope.pruneDecks(allDecks);
-    // };
-
 
     $scope.toggleSubmitBoxAppear = function () {
       $scope.submitBox = !$scope.submitBox;
@@ -63,7 +55,7 @@ angular.module('pitchPerfectApp')
       $scope.toggleSubmitBoxAppear();
 
       $scope.reloadPageContent();
-    }
+    };
 
 
     // NEED TO ADD CREATOR ID !!!
