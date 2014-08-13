@@ -29,41 +29,41 @@ exports.show = function(req, res) {
 exports.create = function(req, res) {
   console.log('^^^^ req.body input in desk create:', req.body);
 
-  /* CREATE DECK */
-  Deck.create(req.body, function(err, deck) {
-    if(err) { return handleError(res, err); }
-    console.log('was deck created?', deck);
+  /* CREATE Questions */
+  req.body.questions = [];
+  var qCollection = req.body.questionsCollection;
 
+  if (qCollection.length) {
 
-    var deckId = deck._id;
-    var questionsCollection = req.body.questionsCollection;
+    var postQuestionObject = {
+      title: '',
+      active: true,
+    };
 
-    if (questionsCollection.length) {
-      var postQuestionObject = {
-        deck: deckId,
-        title: '',
-        active: true,
-      };
+    for (var i=0; i < qCollection.length; i++) {
+      postQuestionObject.title = qCollection[i];
 
-      for (var i=0; i < questionsCollection.length; i++) {
-        postQuestionObject.title = questionsCollection[i];
+      Question.create(postQuestionObject, function (err, newQuestion) {
+        req.body.questions.push(newQuestion._id);
 
-        Question.create(postQuestionObject, function (err, newQuestion) {
-          console.log('Q.' + i +' created:', newQuestion);
-          var newQuestionId = newQuestion._id;
-          var newdeckId = newQuestion.deck;
-          /** UPDATE DECK ASSOCIATED to this question by inserting a reference to itself **/
-          Deck.findById(newdeckId, function (err, deckToUpdate) {
-            console.log('was deck to udate found?', deckToUpdate);
-            deckToUpdate.questions.push(newQuestionId);
-            deckToUpdate.save();
+        // console.log('i === qCollection.length', i);
+        if (req.body.questions.length === qCollection.length) {
+          /* CREATE DECK */
+          Deck.create(req.body, function(err, deck) {
+            console.log('deck created:', deck);
+            if(err) { return handleError(res, err); }
+
+            return res.json(201, deck);
           });
 
-        });
-      }
+        }
+
+      });
     }
-    return res.json(201, deck);
-  });
+  }
+
+
+
 };
 
 // Updates an existing deck in the DB.
