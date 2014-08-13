@@ -5,9 +5,12 @@ angular.module('pitchPerfectApp')
 
 .factory('HomeFactory', function($http) {
 
-  var getAllUserDecks = function (getUserDecksCb) {
+  var getAllUserDecks = function (getDecksCb, getUserDecksCb) {
+
     $http.get('/api/userdecks').success(function(allUserDecks) {
       console.log('@home received userdecks', allUserDecks);
+
+      getAllDecks(getDecksCb);
       getUserDecksCb(allUserDecks);
     })
     .error(function(data, status, headers, config) {
@@ -16,20 +19,22 @@ angular.module('pitchPerfectApp')
   };
 
 
-  var getAllDecks = function (getDecksCb, getUserDecksCb) {
-    var getAllUserDecksReference = this.getAllUserDecks;
+  var getAllDecks = function (getDecksCb) {
+
     $http.get('/api/decks')
     .success(function(allDecks) {
       console.log('@home received decks', allDecks);
+
       getDecksCb(allDecks);
-      getAllUserDecksReference(getUserDecksCb);
+
     }).error(function(data, status, headers, config) {
       console.log('getAllDecks error:', data, status, headers, config);
     });
   };
 
-  var createDeck = function (postDeckObject) {
-    return $http.post('/api/decks', postDeckObject);
+  var createDeck = function (postDeckObject, submitDeckCb) {
+    $http.post('/api/decks', postDeckObject)
+    .success(submitDeckCb);
   };
 
 

@@ -6,9 +6,15 @@ angular.module('pitchPerfectApp')
     $scope.allDecks = [];
     $scope.allUserDecks = [];
 
-    $scope.pruneDecks = function () {
+    $scope.getUserDecksCb = function (allUserDecks) {
+      console.log('$scope userdecks:', allUserDecks);
+
+      $scope.allUserDecks = allUserDecks;
+    };
+
+    $scope.getDecksCb = function (decks) {
       var userDecks = $scope.allUserDecks;
-      var decks = $scope.allDecks;
+      // var decks = allDecks;
       var matchCheckObj = {};
 
       for (var i = 0; i < decks.length; i++) {
@@ -29,29 +35,28 @@ angular.module('pitchPerfectApp')
       }
     };
 
-    $scope.sendToInterview = function (model, boolean) {
+    $scope.sendToInterview = function (model, isUserdeck) {
       console.log('model', model);
       InterviewFactory.contextObject = model;
 
-      InterviewFactory.workingFromUserDeck = boolean;
+      InterviewFactory.workingFromUserDeck = isUserdeck;
       $state.go('interview');
-    };
-
-
-    $scope.getDecksCb = function (allDecks) {
-      console.log('$scope decks:', allDecks);
-      $scope.allDecks = allDecks;
-    };
-
-    $scope.getUserDecksCb = function (allUserDecks) {
-      console.log('$scope userdecks:', allUserDecks);
-      $scope.allUserDecks = allUserDecks;
-      $scope.pruneDecks();
     };
 
     $scope.toggleSubmitBoxAppear = function () {
       $scope.submitBox = !$scope.submitBox;
     };
+
+    $scope.submitDeckCb = function () {
+      $scope.newDeckDescription = '';
+      $scope.newDeckTitle = '';
+      $scope.qTitle1 = '';
+      $scope.qTitle2 = '';
+      $scope.toggleSubmitBoxAppear();
+
+      $scope.reloadPageContent();
+    };
+
 
     // NEED TO ADD CREATOR ID !!!
     $scope.submitNewDeck = function (newDeckTitle, newDeckDescription) {
@@ -63,26 +68,18 @@ angular.module('pitchPerfectApp')
         active: true,
       };
 
-      for (var i = 2; i < arguments.length -1; i++) {
-        if (arguments[i]) {
-          postDeckObject.questionsCollection.push(arguments[i]);
+      var questions = Array.prototype.slice.call(arguments, 2);
+      questions.forEach(function(q) {
+        if (q) {
+          postDeckObject.questionsCollection.push(q);
         }
-      }
-
-      var createnewDeck = HomeFactory.createDeck(postDeckObject);
-      createnewDeck.success(function() {
-        $scope.reloadPageContent();
       });
 
-      $scope.newDeckDescription = '';
-      $scope.newDeckTitle = '';
-      $scope.qTitle1 = '';
-      $scope.qTitle2 = '';
-      $scope.toggleSubmitBoxAppear();
+      HomeFactory.createDeck(postDeckObject, $scope.submitDeckCb);
     };
 
     $scope.reloadPageContent = function () {
-      HomeFactory.getAllDecks($scope.getDecksCb, $scope.getUserDecksCb);
+      HomeFactory.getAllUserDecks($scope.getDecksCb, $scope.getUserDecksCb);
     };
 
     $scope.reloadPageContent();
