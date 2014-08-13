@@ -11,6 +11,7 @@ angular.module('pitchPerfectApp')
     $scope.questions = InterviewFactory.contextObject.questionsStore;
     $scope.questionSelectedIndex = '';
 
+
     $scope.changeProcessInterviewStatus = function () {
       $scope.processInterview = !$scope.processInterview;
     };
@@ -23,7 +24,6 @@ angular.module('pitchPerfectApp')
         }
       }
     };
-
 
     $scope.getQuestionResponseStatus = function (id) {
       if ('questionsResponded' in InterviewFactory.contextObject) {
@@ -57,14 +57,6 @@ angular.module('pitchPerfectApp')
         InterviewFactory.createAUserDeck();
       }
     };
-
-
-
-    $scope.questionSelected = function () {
-      $state.go('question');
-    };
-
-
 
     $scope.startPreviewVideo = function() {
       var navigator = $window.navigator;
@@ -102,6 +94,9 @@ angular.module('pitchPerfectApp')
       }
     };
 
+    $scope.questionSelected = function () {
+      $state.go('question');
+    };
 
     $scope.startPreviewVideo();
     $scope.getAllQuestions();

@@ -14,7 +14,6 @@ angular.module('pitchPerfectApp')
 
     $scope.getDecksCb = function (decks) {
       var userDecks = $scope.allUserDecks;
-      // var decks = allDecks;
       var matchCheckObj = {};
 
       for (var i = 0; i < decks.length; i++) {
@@ -40,7 +39,6 @@ angular.module('pitchPerfectApp')
       model.questionsStore = [];
       InterviewFactory.contextObject = model;
 
-      // InterviewFactory.questionObj = [];
       InterviewFactory.workingFromUserDeck = isUserdeck;
 
       $state.go('interview');

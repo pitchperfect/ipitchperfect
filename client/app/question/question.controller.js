@@ -10,8 +10,6 @@ angular.module('pitchPerfectApp')
   $scope.alertUser = '';
 
 
-
-  // *********** Celine's start ************  //
   $scope.getQuestion = function () {
     console.log('testing contextQuestion Obj:', QuestionFactory.contextQuestion);
     var contextQuestion = QuestionFactory.contextQuestion;
@@ -55,16 +53,15 @@ angular.module('pitchPerfectApp')
     }, 1000, 0);
   };
 
-  $scope.startCountDown(4, 'Camera Rolling!');
+  $scope.startCountDown(4, 'Smile, you are being recorded');
 
   $scope.changeProcessInterviewStatus = function () {
     $scope.processInterview = !$scope.processInterview;
 
     if(!$scope.processInterview) {
-      $scope.startCountDown(4, 'Camera Rolling!');
+      $scope.startCountDown(4, 'Smile, you are being recorded');
     }
   };
-  // ***** Celine's end ********//
 
   $scope.captureUserMedia = function(successCallback) {
     console.log('captureUserMedia called.');
@@ -98,7 +95,7 @@ angular.module('pitchPerfectApp')
     var btnExitRecording = $window.document.getElementById('btn-exit-recording');
     var btnSaveRecording = $window.document.getElementById('btn-save-recording');
 
-    var downloadURL = $window.document.getElementById('download-url');
+    // var downloadURL = $window.document.getElementById('download-url');
 
     btnStartRecording.disabled = true;
     btnStopRecording.disabled = false;
@@ -106,7 +103,7 @@ angular.module('pitchPerfectApp')
     btnSaveRecording.disabled = true;
     btnReplayRecording.disabled = true;
     videoElement.style.visibility = 'visible';
-    downloadURL.innerHTML = 'Smile, you are being recorded';
+    // downloadURL.innerHTML = 'Smile, you are being recorded';
 
     $scope.captureUserMedia(
       function(stream) {
