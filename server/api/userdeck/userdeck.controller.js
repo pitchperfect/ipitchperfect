@@ -22,21 +22,21 @@ exports.show = function(req, res) {
 
 // Creates a new userdeck in the DB.
 exports.create = function(req, res) {
+  console.log('^^^^^^^^^ userdeck create req.body', req.body);
   // requires: {userId: userId, deck: deckId, questionsResponded: {}, responsesReviewed: {}, active: true};
   // after object is created, requires: questionId, responseId
   Userdeck.create(req.body, function(err, userdeck) {
+    console.log('^^^^^^^^ userdeck created: ', userdeck);
     if(err) { return handleError(res, err); }
 
-    var userdeckId = userdeck._id;
-
-      //var questionsResponded = 'questionsResponded.' + questionId;
-      // var responsesReviewed = 'responsesReviewed.' + responseId;
-
-      //var keysToUpdate = {};
-      //keysToUpdate[questionsResponded] = responseId;
-      //keysToUpdate[responsesReviewed] = [];
-
-      //userdeck.update( { $set: keysToUpdate }, function() { console.log('Update Succeeded');});
+    // if (!... ) {
+    //   userdeck.questionsResponded = {};
+    // }
+    // if (!userdeck.responsesReviewed) {
+    //   userdeck.responsesReviewed = {};
+    // }
+    //
+    // userdeck.save();
 
     return res.json(201, userdeck);
   });

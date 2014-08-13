@@ -6,15 +6,22 @@ var Video = require('./video.model');
 var Busboy = require('busboy');
 var azure = require('azure');
 
-if(config.env === 'development') {
-  var AZ_CREDS = require('../../config/local.env.js');
- };
-
+//this way for grunt
 //azure blob service for storing video
-var AZ_ACCT = process.env.AZ_ACCT || AZ_CREDS.AZ_ACCT;
-var AZ_KEY = process.env.AZ_KEY || AZ_CREDS.AZ_KEY;
-var AZ_HOST = process.env.AZ_HOST || AZ_CREDS.AZ_HOST;
+if (config.env === 'development') {
+  var AZ_CREDS = require('../../config/local.env.js');
 
+  var AZ_ACCT = AZ_CREDS.AZ_ACCT;
+  var AZ_KEY = AZ_CREDS.AZ_KEY;
+  var AZ_HOST = AZ_CREDS.AZ_HOST;
+
+} else {
+
+  var AZ_ACCT = process.env.AZ_ACCT;
+  var AZ_KEY = process.env.AZ_KEY;
+  var AZ_HOST = process.env.AZ_HOST;
+
+}
 
 // Get list of videos
 exports.index = function(req, res) {
@@ -54,7 +61,7 @@ exports.show = function(req, res) {
 // Creates a new video in the DB.
 exports.create = function(req, res) {
 
-//This all happens after we get a video _id from mongo
+//This all happens after we get a video _id from mongo  
   Video.create(req.body, function(err, video) {
 
     if(err) { return handleError(res, err); }
@@ -63,31 +70,15 @@ exports.create = function(req, res) {
 
     var blobService = azure.createBlobService(AZ_ACCT, AZ_KEY, AZ_HOST);
     // Use busboy to parse multi-part form request
-
-
-    console.log('req.headers=' + req.headers);
-    for (var key in req.headers) {
-      console.log('header ' + key + ': '+ req.headers[key]);
-    }
-
-
     var busboy = new Busboy({headers: req.headers});
-
-    console.log('busboy created.')
 
     // Initiate form processing
     req.pipe(busboy);
-
-    console.log('req.pipe(busboy) called');
-
     // When file is found, start working with it
     busboy.on('file', function(fieldname, file, filename, encoding, mimetype) {
       // Pipe the file stream right into an Azure blob
       // This allows us to avoid storing the file temporarily on the server
-      console.log('busboy on file...');
-
-      file.pipe(blobService.createBlob('vds1', videoId + '.webm',
-        azure.Constants.BlobConstants.BlobTypes.BLOCK));
+      file.pipe(blobService.createBlob('vds1', videoId + '.webm', azure.Constants.BlobConstants.BlobTypes.BLOCK));
 
       file.on('end', function(data) {
         //add data to the storage object above
