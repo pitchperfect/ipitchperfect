@@ -3,11 +3,11 @@
 var _ = require('lodash');
 var Deck = require('./deck.model');
 var Question = require('../question/question.model');
-// var User = require('../user/user.model');
-// var Response = require('../response/response.model');
+
 
 // Get list of decks
 exports.index = function(req, res) {
+
   var decks = [];
   Deck.find(function (err, decks) {
     if(err) { return handleError(res, err); }
@@ -28,7 +28,7 @@ exports.show = function(req, res) {
 
 // Creates a new deck in the DB.
 exports.create = function(req, res) {
-  console.log('^^^^ req.body input in desk create:', req.body);
+  req.body.userId = req.user._id;
 
   /* CREATE Questions */
   req.body.questions = [];
@@ -38,6 +38,7 @@ exports.create = function(req, res) {
 
     var postQuestionObject = {
       title: '',
+      userId: req.user._id,
       active: true,
     };
 
@@ -47,16 +48,14 @@ exports.create = function(req, res) {
       Question.create(postQuestionObject, function (err, newQuestion) {
         req.body.questions.push(newQuestion._id);
 
-        // console.log('i === qCollection.length', i);
+        /* CREATE DECK */
         if (req.body.questions.length === qCollection.length) {
-          /* CREATE DECK */
           Deck.create(req.body, function(err, deck) {
             console.log('deck created:', deck);
             if(err) { return handleError(res, err); }
 
             return res.json(201, deck);
           });
-
         }
 
       });
