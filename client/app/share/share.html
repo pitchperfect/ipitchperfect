@@ -16,19 +16,31 @@
 			<form role="form">
 				<div class="form-group">
 					 <label for="exampleInputEmail1">Email address</label>
-					 <textarea style="width:100%" placeholder="alan.turing@enigma.com,"></textarea>
+					 <textarea style="width:100%" id="invitees" ng-model="invitees" placeholder="alan.turing@enigma.com,"></textarea>
 				</div>
-				<p>
-					<a class="btn" ng-click="toggleNote()">Add Personal Note »</a>
-				</p>
-				<div ng-show="showNote" class="form-group">
-					 <textarea rows="5" style="width:100%" placeholder="Hey, would you have a minute to review my interview video? Thanks!"></textarea>
-				</div>
-				 <button data-toggle="modal" data-target="#myModal" class="btn btn-primary btn-default">Share</button>
-			</form>
-		</div>
-		<div class="col-md-3 column">
-		</div>
+
+
+    <!-- Single button drop down list -->
+    <div class="btn-group" dropdown is-open="status.isopen">
+      <button type="button" class="btn btn-primary dropdown-toggle" ng-disabled="disabled">
+        Button dropdown <span class="caret"></span>
+      </button>
+      <ul class="dropdown-menu" role="menu" >
+        <li ng-repeat="user in allUsers" ng-click="addToInvites(user.name)">{{user.name}}</li>
+      </ul>
+    </div>
+
+	<p>
+		<a class="btn" ng-click="toggleNote()">Add Personal Note »</a>
+	</p>
+	<div ng-show="showNote" class="form-group">
+		 <textarea rows="5" style="width:100%" placeholder="Hey, would you have a minute to review my interview video? Thanks!" ng-model="specialNote"></textarea>
+	</div>
+	<button ng-click="processInvites()"  class="btn btn-primary btn-default">Share</button>
+	</form>
+	</div>
+	<div class="col-md-3 column">
+	</div>
 	</div>
 
 <!-- confirmation modal -->
@@ -42,13 +54,13 @@
       </div>
 
       <div class="modal-body">
-			Congratulations - you shared your review with someone smart.
+			Congratulations - you shared your review with: {{invitees}}
+			<div> <em>{{specialNote}}</em></div>
       </div>
 
 
       <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Save changes</button>
+        <button type="button" class="btn btn-default" ng-click="gotoHome()">Close</button>
       </div>
 
     </div>
