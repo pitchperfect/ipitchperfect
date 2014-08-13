@@ -2,11 +2,13 @@
 
 angular.module('pitchPerfectApp')
   .controller('QuestionCtrl',
-    function ($scope, $window, $timeout, $interval, $upload, QuestionFactory, $state) {
+    function ($scope, $window, $timeout, $interval, $upload, QuestionFactory, $state, InterviewFactory) {
 
   $scope.mediaStream = null;
   $scope.audioVideoRecorder = null;
   var videoElement = $window.document.getElementById('video-record');
+  $scope.alertUser = '';
+
 
 
   // *********** Celine's start ************  //
@@ -18,7 +20,6 @@ angular.module('pitchPerfectApp')
     }
   };
 
-  $scope.alertUser = '';
 
   $scope.startCountDown = function (time, message) {
     if (time > 1) {
@@ -130,6 +131,7 @@ angular.module('pitchPerfectApp')
 
   $scope.exitRecording = function() {
     // $window.alert('redirect to UserDeck');
+    InterviewFactory.workingFromUserDeck = true;
     $state.go('interview');
   };
 
@@ -180,7 +182,6 @@ angular.module('pitchPerfectApp')
       }
     );
   };
-
 
   $scope.getQuestion();
 });

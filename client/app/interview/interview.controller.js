@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('pitchPerfectApp')
-  .controller('InterviewCtrl', function ($scope, $window, $interval, InterviewFactory, QuestionFactory, $http, $resource, $state) {
+  .controller('InterviewCtrl', function ($scope, $window, $interval, InterviewFactory, QuestionFactory, $state) {
 
     $scope.startPrompt = false;
     $scope.startInterview = false;
@@ -19,7 +19,6 @@ angular.module('pitchPerfectApp')
 
 
 
-    //$scope.getClassResponse = function getClass(id) {
     $scope.getQuestionResponseStatus = function getClass(id) {
 
       if ('questionsResponded' in InterviewFactory.contextObject) {
@@ -41,7 +40,6 @@ angular.module('pitchPerfectApp')
     };
 
 
-
     $scope.questionSelected = function () {
       $state.go('question');
     };
@@ -59,10 +57,8 @@ angular.module('pitchPerfectApp')
         if ($scope.sec < 10) {
           $scope.sec = '0'+ $scope.sec;
         }
-      },1000,0);
-
+      }, 1000, 0);
     };
-
 
 
     $scope.showInstructions = function (question, index) {
@@ -74,7 +70,6 @@ angular.module('pitchPerfectApp')
       $scope.questionSelectedIndex = index +1;
       $scope.instructions = !$scope.instructions;
       if (!InterviewFactory.workingFromUserDeck) {
-        // create a userDeck;
         InterviewFactory.createAUserDeck();
       }
 
@@ -110,41 +105,9 @@ angular.module('pitchPerfectApp')
     };
 
 
-
-
-
     $scope.getPreviousResponse = function () {
       var response = InterviewFactory.retrieveResponse();
       console.log(response);
-    };
-
-
-
-    $scope.getQuestion = function (questionId, i) {
-      console.log('getThisQuestion:', questionId);
-
-      var getQuestions = $resource('/api/questions/:id/', {
-        id: '@_id'
-      },
-      {
-        get: {
-          method: 'GET',
-          params: {
-            id: questionId
-          }
-        }
-      });
-
-      getQuestions.get({}, function(question) {
-        var temporyQuestionObj = {};
-        temporyQuestionObj.fullQuestionObject = question;
-        temporyQuestionObj.responseStatus = $scope.getQuestionResponseStatus(questionId);
-        temporyQuestionObj.peerReviewStatus = $scope.getQuestionReviewStatus(questionId);
-
-        InterviewFactory.questionObj[i] = temporyQuestionObj;
-      }, function(err) {
-        console.log('question err:', err);
-      }); //.$promise; ???
     };
 
 
@@ -152,50 +115,10 @@ angular.module('pitchPerfectApp')
     $scope.getAllDeckQuestions = function () {
       if ('questions' in InterviewFactory.contextObject) {
         for (var i = 0; i < InterviewFactory.contextObject.questions.length; i++) {
-          $scope.getQuestion(InterviewFactory.contextObject.questions[i], i);
+          InterviewFactory.getQuestion(InterviewFactory.contextObject.questions[i], i, $scope.getQuestionResponseStatus, $scope.getQuestionReviewStatus);
         }
       }
     };
-
-
-
-
-
-    // Submit video.
-    $scope.submitVideo = function (videoId) {    // Actually want all questions from deck id.
-      // console.log('InterviewFactory.questionObj', InterviewFactory.questionObj);
-      // console.log('InterviewFactory.userDeck', InterviewFactory.userDeck);
-
-      var postObject = {
-        userId: InterviewFactory.questionObj.userId,
-        video: videoId,
-        deck: InterviewFactory.questionObj.deck,
-        userDeck: InterviewFactory.userDeck._id,
-        question: InterviewFactory.questionObj._id,
-        questionTitle: InterviewFactory.questionObj.title,
-        description: '1min 30sec long',
-        textVideo: 'new text video',
-        active: true,
-      };
-      console.log('postObject', postObject);
-
-      $http.post('/api/responses', postObject).success(function(createdResponse) {
-          console.log('@interview, response created', createdResponse);
-
-      }).error(function(err) {
-        console.log('error creating response', err);
-      }); //.bind(this));
-    };
-
-
-
-    /*  DAVID'S VIDEO INTEGRATIONS */
-    // $scope.startRecordingVideo = function() {
-    //   var navigator = $window.navigator;
-    //   if (navigator !== undefined) {
-    //     var video = $window.document.getElementById('video-record');
-    //   }
-    // };
 
 
     $scope.startPreviewVideo = function() {
@@ -237,3 +160,33 @@ angular.module('pitchPerfectApp')
     $scope.startPreviewVideo();
     $scope.getAllDeckQuestions();
   });
+
+
+
+
+
+
+    // Submit video.
+    // $scope.submitVideo = function (videoId) {
+    //   // Actually want all questions from deck id.
+    //
+    //   var postObject = {
+    //     userId: InterviewFactory.questionObj.userId,
+    //     video: videoId,
+    //     deck: InterviewFactory.questionObj.deck,
+    //     userDeck: InterviewFactory.userDeck._id,
+    //     question: InterviewFactory.questionObj._id,
+    //     questionTitle: InterviewFactory.questionObj.title,
+    //     description: '1min 30sec long',
+    //     textVideo: 'new text video',
+    //     active: true,
+    //   };
+    //   console.log('postObject', postObject);
+    //
+    //   $http.post('/api/responses', postObject).success(function(createdResponse) {
+    //       console.log('@interview, response created', createdResponse);
+    //
+    //   }).error(function(err) {
+    //     console.log('error creating response', err);
+    //   }); //.bind(this));
+    // };
