@@ -1,6 +1,4 @@
-<div class="col-md-12">
-Great! <a href="/home">Go back home</a>
-</div>
+
 <div class="container">
 	<div class="row clearfix">
 			<div class="col-md-3 column">
@@ -26,10 +24,36 @@ Great! <a href="/home">Go back home</a>
 				<div ng-show="showNote" class="form-group">
 					 <textarea rows="5" style="width:100%" placeholder="Hey, would you have a minute to review my interview video? Thanks!"></textarea>
 				</div>
-				 <button ng-click="showModal()" class="btn btn-default">Share</button>
+				 <button data-toggle="modal" data-target="#myModal" class="btn btn-primary btn-default">Share</button>
 			</form>
 		</div>
 		<div class="col-md-3 column">
 		</div>
 	</div>
+
+<!-- confirmation modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+        <h4 class="modal-title" id="myModalLabel">Modal title</h4>
+      </div>
+
+      <div class="modal-body">
+			Congratulations - you shared your review with someone smart.
+      </div>
+
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Save changes</button>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- end modal -->
 </div>
