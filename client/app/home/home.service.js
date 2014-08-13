@@ -4,7 +4,7 @@ angular.module('pitchPerfectApp')
 
 
 .factory('HomeFactory', function($http) {
-
+  
   var getAllUserDecks = function (getDecksCb, getUserDecksCb) {
 
     $http.get('/api/userdecks').success(function(allUserDecks) {
@@ -19,6 +19,7 @@ angular.module('pitchPerfectApp')
   };
 
 
+    //var getAllUserDecksReference = this.getAllUserDecks;
   var getAllDecks = function (getDecksCb) {
 
     $http.get('/api/decks')

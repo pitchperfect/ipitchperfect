@@ -8,6 +8,7 @@ var Question = require('../question/question.model');
 
 // Get list of decks
 exports.index = function(req, res) {
+  var decks = [];
   Deck.find(function (err, decks) {
     if(err) { return handleError(res, err); }
     return res.json(200, decks);
