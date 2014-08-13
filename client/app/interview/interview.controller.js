@@ -2,13 +2,13 @@
 
 angular.module('pitchPerfectApp')
   .controller('InterviewCtrl', function ($scope, $window, $interval, InterviewFactory, QuestionFactory, $state) {
-    //InterviewFactory.questionObj = [];
+
     $scope.processInterview = false;
     $scope.instructions = false;
 
     $scope.title = InterviewFactory.contextObject.title;
     $scope.description = InterviewFactory.contextObject.description;
-    $scope.questions = InterviewFactory.questionObj;
+    $scope.questions = InterviewFactory.contextObject.questionsStore;
     $scope.questionSelectedIndex = '';
 
     $scope.changeProcessInterviewStatus = function () {
@@ -16,11 +16,10 @@ angular.module('pitchPerfectApp')
     };
 
 
-    // 1) get questions.
     $scope.getAllQuestions = function () {
       if ('questions' in InterviewFactory.contextObject) {
         for (var i = 0; i < InterviewFactory.contextObject.questions.length; i++) {
-          InterviewFactory.getQuestion(i, $scope.getQuestionResponseStatus, $scope.getQuestionReviewStatus); // InterviewFactory.contextObject.questions[i],
+          InterviewFactory.getQuestion(i, $scope.getQuestionResponseStatus, $scope.getQuestionReviewStatus);
         }
       }
     };
@@ -46,7 +45,7 @@ angular.module('pitchPerfectApp')
 
 
     $scope.showInstructions = function (question, index) {
-      question = question || InterviewFactory.questionObj[0];
+      question = question || InterviewFactory.contextObject.questionsStore[0];
       console.log('question selected', question);
       index = index || 0;
 
@@ -107,33 +106,3 @@ angular.module('pitchPerfectApp')
     $scope.startPreviewVideo();
     $scope.getAllQuestions();
   });
-
-
-
-
-
-
-    // Submit video.
-    // $scope.submitVideo = function (videoId) {
-    //   // Actually want all questions from deck id.
-    //
-    //   var postObject = {
-    //     userId: InterviewFactory.questionObj.userId,
-    //     video: videoId,
-    //     deck: InterviewFactory.questionObj.deck,
-    //     userDeck: InterviewFactory.userDeck._id,
-    //     question: InterviewFactory.questionObj._id,
-    //     questionTitle: InterviewFactory.questionObj.title,
-    //     description: '1min 30sec long',
-    //     textVideo: 'new text video',
-    //     active: true,
-    //   };
-    //   console.log('postObject', postObject);
-    //
-    //   $http.post('/api/responses', postObject).success(function(createdResponse) {
-    //       console.log('@interview, response created', createdResponse);
-    //
-    //   }).error(function(err) {
-    //     console.log('error creating response', err);
-    //   }); //.bind(this));
-    // };
