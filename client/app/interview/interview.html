@@ -55,7 +55,6 @@
 							<strong></strong> Good Luck !<br /><br />
 						</div>
 						<div class="text-center">
-							<!-- <button type="button" class="btn btn-success" ng-click="changeInterviewStatus()">Begin Interview!</button> -->
 
 							<button type="button" class="btn btn-success" ng-click="questionSelected()">Start</button>
 							<a href="/home"><button class="btn btn-info">Cancel</button></a>
@@ -65,7 +64,7 @@
 
 	      <!--  View yourself -->
 	      <div id="box1"
-					ng-show="!startPrompt && !startInterview && !instructions">
+					ng-show="!startInterview && !instructions">
 					<!-- Intended to show a preview of yourself so that you can see
 					     what you look like before the interview. -->
 					<video id="video-preview"></video>
@@ -75,11 +74,11 @@
 
 					<!-- Press to start recording yourself -->
 					<button class="btn btn-success"
-						ng-show="!startInterview && !startPrompt && !processInterview && !instructions"
+						ng-show="!startInterview && !processInterview && !instructions"
 						ng-click="showInstructions()">Begin Interview</button>
 					<a href="/home">
 						<button class="btn btn-info"
-						ng-show="!startInterview && !startPrompt && !processInterview && !instructions">Return Home</button>
+						ng-show="!startInterview && !processInterview && !instructions">Return Home</button>
 					</a>
 
 				</div>

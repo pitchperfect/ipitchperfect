@@ -18,9 +18,11 @@ angular.module('pitchPerfectApp')
 
   var getAllDecks = function (getDecksCb, getUserDecksCb) {
     var getAllUserDecksReference = this.getAllUserDecks;
+
     $http.get('/api/decks')
     .success(function(allDecks) {
       console.log('@home received decks', allDecks);
+
       getDecksCb(allDecks);
       getAllUserDecksReference(getUserDecksCb);
     }).error(function(data, status, headers, config) {

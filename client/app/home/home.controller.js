@@ -32,8 +32,9 @@ angular.module('pitchPerfectApp')
     $scope.sendToInterview = function (model, boolean) {
       console.log('model', model);
       InterviewFactory.contextObject = model;
-
+      InterviewFactory.questionObj = [];
       InterviewFactory.workingFromUserDeck = boolean;
+
       $state.go('interview');
     };
 

@@ -2,25 +2,31 @@
 
 angular.module('pitchPerfectApp')
   .controller('InterviewCtrl', function ($scope, $window, $interval, InterviewFactory, QuestionFactory, $state) {
-
-    $scope.startPrompt = false;
-    $scope.startInterview = false;
-    $scope.finishVideo = false;
+    //InterviewFactory.questionObj = [];
     $scope.processInterview = false;
-    $scope.reviewInterview = false;
-    $scope.scriptingInterview = '';
     $scope.instructions = false;
 
     $scope.title = InterviewFactory.contextObject.title;
     $scope.description = InterviewFactory.contextObject.description;
     $scope.questions = InterviewFactory.questionObj;
-    $scope.questionsForView = [];
     $scope.questionSelectedIndex = '';
 
+    $scope.changeProcessInterviewStatus = function () {
+      $scope.processInterview = !$scope.processInterview;
+    };
 
 
-    $scope.getQuestionResponseStatus = function getClass(id) {
+    // 1) get questions.
+    $scope.getAllQuestions = function () {
+      if ('questions' in InterviewFactory.contextObject) {
+        for (var i = 0; i < InterviewFactory.contextObject.questions.length; i++) {
+          InterviewFactory.getQuestion(i, $scope.getQuestionResponseStatus, $scope.getQuestionReviewStatus); // InterviewFactory.contextObject.questions[i],
+        }
+      }
+    };
 
+
+    $scope.getQuestionResponseStatus = function (id) {
       if ('questionsResponded' in InterviewFactory.contextObject) {
         if (InterviewFactory.contextObject.questionsResponded[id]) {
           return 'Attempted';
@@ -29,35 +35,13 @@ angular.module('pitchPerfectApp')
       return 'Not Attempted';
     };
 
-    $scope.getQuestionReviewStatus = function getClass(id) {
+    $scope.getQuestionReviewStatus = function (id) {
       if ('responsesReviewed' in InterviewFactory.contextObject) {
         if (InterviewFactory.contextObject.responsesReviewed[id]) {
           return 'Peer Reviewed';
         }
       }
       return 'No Peer Reviews';
-
-    };
-
-
-    $scope.questionSelected = function () {
-      $state.go('question');
-    };
-
-    $scope.startStopWatch = function () {
-      $scope.sec = 0;
-      $scope.min = 0;
-      $interval(function(){
-        if ($scope.sec === 59) {
-          $scope.sec = 0;
-          $scope.min = $scope.min + 1;
-          return;
-        }
-        $scope.sec++;
-        if ($scope.sec < 10) {
-          $scope.sec = '0'+ $scope.sec;
-        }
-      }, 1000, 0);
     };
 
 
@@ -69,56 +53,18 @@ angular.module('pitchPerfectApp')
       QuestionFactory.contextQuestion = question;
       $scope.questionSelectedIndex = index +1;
       $scope.instructions = !$scope.instructions;
+
       if (!InterviewFactory.workingFromUserDeck) {
         InterviewFactory.createAUserDeck();
       }
-
-    };
-
-    $scope.changePromptStatus = function () {
-      $scope.startPrompt = !$scope.startPrompt;
-    };
-
-    $scope.changeFinishVideoStatus = function () {
-      $scope.finishVideo = !$scope.finishVideo;
-    };
-
-    $scope.changeInterviewStatus = function () {
-      // $scope.scriptingInterview = '';
-      $scope.instructions = false;
-      $scope.startInterview = !$scope.startInterview;
-      if ($scope.startInterview) {
-        $scope.startStopWatch();
-      }
-    };
-
-    $scope.changeProcessInterviewStatus = function () {
-      $scope.processInterview = !$scope.processInterview;
-    };
-
-    $scope.synchReviewInterview = function () {
-      $scope.reviewInterview = !$scope.reviewInterview;
-    };
-
-    $scope.changeItemStatus = function (item) {
-      $scope[item] = !$scope[item];
     };
 
 
-    $scope.getPreviousResponse = function () {
-      var response = InterviewFactory.retrieveResponse();
-      console.log(response);
+
+    $scope.questionSelected = function () {
+      $state.go('question');
     };
 
-
-    // 1) get questions.
-    $scope.getAllDeckQuestions = function () {
-      if ('questions' in InterviewFactory.contextObject) {
-        for (var i = 0; i < InterviewFactory.contextObject.questions.length; i++) {
-          InterviewFactory.getQuestion(InterviewFactory.contextObject.questions[i], i, $scope.getQuestionResponseStatus, $scope.getQuestionReviewStatus);
-        }
-      }
-    };
 
 
     $scope.startPreviewVideo = function() {
@@ -156,9 +102,10 @@ angular.module('pitchPerfectApp')
         }
       }
     };
-    // Go ahead and start the preview video.
+
+
     $scope.startPreviewVideo();
-    $scope.getAllDeckQuestions();
+    $scope.getAllQuestions();
   });
 
 
