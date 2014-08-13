@@ -6,7 +6,9 @@ angular.module('pitchPerfectApp')
 
   $scope.mediaStream = null;
   $scope.audioVideoRecorder = null;
+  var videoElement = $window.document.getElementById('video-record');
   $scope.alertUser = '';
+
 
 
   // *********** Celine's start ************  //
@@ -96,7 +98,6 @@ angular.module('pitchPerfectApp')
     var btnExitRecording = $window.document.getElementById('btn-exit-recording');
     var btnSaveRecording = $window.document.getElementById('btn-save-recording');
 
-    var videoElement = $window.document.getElementById('video-record');
     var downloadURL = $window.document.getElementById('download-url');
 
     btnStartRecording.disabled = true;
@@ -124,7 +125,7 @@ angular.module('pitchPerfectApp')
   };
 
   $scope.replayRecording = function() {
-    var videoElement = $window.document.getElementById('video-record');
+
     videoElement.play();
   };
 
@@ -135,56 +136,13 @@ angular.module('pitchPerfectApp')
   };
 
   $scope.saveRecording = function() {
-    // $window.alert('hit /videos/url/:id endpoint');
-    $state.go('share');
+
+    // Grab blob craeted by recording
+    var videoBlob = $scope.audioVideoRecorder.getBlob();
+    // Create response based on this blob
+    QuestionFactory.createVideo(videoBlob);
+
   };
-
-  $scope.postFile = function(video) {
-    var videoElement = $window.document.getElementById('video-record');
-    videoElement.src = '';
-
-    $scope.xhr('/api/videos', video,
-
-      // success
-      function(fileName) {
-        console.log('xhr anon function called for ' + fileName);
-
-        // var href = location.href.substr(0, location.href.lastIndexOf('/') + 1);
-        // videoElement.src = href + 'api/videos/' + _fileName;
-        // videoElement.play();
-        // videoElement.muted = false;
-        // videoElement.controls = true;
-        //
-        // var h2 = document.createElement('h2');
-        // h2.innerHTML = '<a href="' + videoElement.src + '">' + videoElement.src + '</a>';
-        // document.body.appendChild(h2);
-      }
-    );
-
-    if ($scope.mediaStream) {
-      $scope.mediaStream.stop();
-    }
-  };
-
-  $scope.xhr = function(url, data) {
-    $upload.upload({
-      url: url,
-      //method: 'POST' or 'PUT',
-      //headers: {'header-key': 'header-value'},
-      //withCredentials: true,
-      data: {key: 'value'},
-      file: data.blob,
-    }).progress(
-      function(evt) {
-        console.log('percent: ' + parseInt(100.0 * evt.loaded / evt.total));
-      }
-    ).success(
-      function(data) {
-        console.log(data);
-      }
-    );
-  };
-
 
   $scope.stopRecording = function() {
     console.log('stopRecording called.');
@@ -197,7 +155,6 @@ angular.module('pitchPerfectApp')
     var btnExitRecording = $window.document.getElementById('btn-exit-recording');
     var btnSaveRecording = $window.document.getElementById('btn-save-recording');
 
-    var videoElement = $window.document.getElementById('video-record');
     var downloadURL = $window.document.getElementById('download-url');
 
     btnStartRecording.disabled = false;
@@ -213,30 +170,15 @@ angular.module('pitchPerfectApp')
 
     $scope.audioVideoRecorder.stopRecording(
       function(url) {
+        console.log('stop recording fired with ', url);
         videoElement.src = url;
         videoElement.muted = false;
         videoElement.onended = function() {
+          console.log('video element on');
           videoElement.pause();
 
           videoElement.src = $window.URL.createObjectURL($scope.audioVideoRecorder.getBlob());
-
-          $scope.onStopRecording();
         };
-      }
-    );
-  };
-
-  $scope.onStopRecording = function() {
-    console.log('onStopRecording called.');
-
-    $scope.audioVideoRecorder.getDataURL(
-      function(audioVideoDataURL) {
-        var av = {
-          blob: $scope.audioVideoRecorder.getBlob(),
-          dataURL: audioVideoDataURL
-        };
-
-        $scope.postFile(av);
       }
     );
   };
