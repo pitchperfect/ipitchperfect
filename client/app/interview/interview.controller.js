@@ -3,6 +3,8 @@
 angular.module('pitchPerfectApp')
   .controller('InterviewCtrl', function ($scope, $window, $interval, InterviewFactory, QuestionFactory, $state) {
 
+    InterviewFactory.questionObj = [];
+
     $scope.startPrompt = false;
     $scope.startInterview = false;
     $scope.finishVideo = false;
@@ -16,7 +18,6 @@ angular.module('pitchPerfectApp')
     $scope.questions = InterviewFactory.questionObj;
     $scope.questionsForView = [];
     $scope.questionSelectedIndex = '';
-
 
 
     $scope.getQuestionResponseStatus = function getClass(id) {
