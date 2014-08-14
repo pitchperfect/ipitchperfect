@@ -7,31 +7,11 @@ angular.module('pitchPerfectApp')
     $scope.allUserDecks = [];
 
     $scope.getUserDecksCb = function (allUserDecks) {
-      console.log('$scope userdecks:', allUserDecks);
-
       $scope.allUserDecks = allUserDecks;
     };
 
     $scope.getDecksCb = function (decks) {
-      var userDecks = $scope.allUserDecks;
-      var matchCheckObj = {};
-
-      for (var i = 0; i < decks.length; i++) {
-        matchCheckObj[decks[i]._id] = decks[i];
-      }
-
-      for (var j = 0; j < userDecks.length; j++) {
-        if (matchCheckObj[userDecks[j].deckId]) {
-          matchCheckObj[userDecks[j].deckId] = null;
-        }
-      }
-      $scope.allDecks = [];
-
-      for (var k in matchCheckObj) {
-        if (matchCheckObj[k]) {
-          $scope.allDecks.push(matchCheckObj[k]);
-        }
-      }
+      $scope.allDecks = decks;
     };
 
     $scope.sendToInterview = function (model, isUserdeck) {
@@ -81,6 +61,9 @@ angular.module('pitchPerfectApp')
 
     $scope.reloadPageContent = function () {
       HomeFactory.getAllUserDecks($scope.getDecksCb, $scope.getUserDecksCb);
+      debugger;
+      //Auth.getCurrentUser;
+
     };
 
     $scope.reloadPageContent();

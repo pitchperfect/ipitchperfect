@@ -2,14 +2,24 @@
 
 var _ = require('lodash');
 var Userdeck = require('./userdeck.model');
+var Deck = require('../deck/deck.model');
 
 // Get list of userdecks
 exports.index = function(req, res) {
-  Userdeck.find(function(err, userdecks) {
-    if (err) {
-      return handleError(res, err);
-    }
-    return res.json(200, userdecks);
+  Userdeck.find({userId: req.user._id}, function (err, userdecks) {
+    if(err) { return handleError(res, err); }
+
+    var idsToExclude = userdecks.map(function (userDeck) {
+      return userDeck.deckId;
+    });
+
+    Deck.find({ _id: { $nin: idsToExclude } }, function (err, decks) {
+      if(err) { return handleError(res, err); }
+
+      var returnObj = [userdecks, decks];
+      return res.json(200, returnObj);
+    });
+
   });
 };
 
@@ -28,23 +38,17 @@ exports.show = function(req, res) {
 
 // Creates a new userdeck in the DB.
 exports.create = function(req, res) {
-  console.log('^^^^^^^^^ userdeck create req.body', req.body);
-  // requires: {userId: userId, deck: deckId, questionsResponded: {}, responsesReviewed: {}, active: true};
-  // after object is created, requires: questionId, responseId
+  req.body.userId = req.user._id;
+
   Userdeck.create(req.body, function(err, userdeck) {
+<<<<<<< HEAD
     console.log('^^^^^^^^ userdeck created: ', userdeck);
     if (err) {
       return handleError(res, err);
     }
-
-    // if (!... ) {
-    //   userdeck.questionsResponded = {};
-    // }
-    // if (!userdeck.responsesReviewed) {
-    //   userdeck.responsesReviewed = {};
-    // }
-    //
-    // userdeck.save();
+=======
+    if(err) { return handleError(res, err); }
+>>>>>>> 8cdf09f7db0bbe9006b43c0ae94659abd33565f1
 
     return res.json(201, userdeck);
   });
