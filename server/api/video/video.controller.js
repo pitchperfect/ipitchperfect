@@ -61,7 +61,9 @@ exports.show = function(req, res) {
 // Creates a new video in the DB.
 exports.create = function(req, res) {
 
-//This all happens after we get a video _id from mongo  
+  req.body.userId = req.user._id;
+
+//This all happens after we get a video _id from mongo
   Video.create(req.body, function(err, video) {
 
     if(err) { return handleError(res, err); }
