@@ -5,8 +5,6 @@ angular.module('pitchPerfectApp')
 
 .factory('QuestionFactory', function($upload, $http) {
 
-  var testUserId = '53ebaffbaadbfc981701ed66';
-
   var contextQuestion = {};
 
   var createVideo = function(blob, questionObj){
@@ -29,7 +27,6 @@ angular.module('pitchPerfectApp')
   var createResponse = function(videoId, questionObj){
 
     var tempObj ={};
-    tempObj.userId = testUserId;
     tempObj.questionId = questionObj.fullQuestionObject._id;
     tempObj.title = questionObj.fullQuestionObject.title;
     tempObj.videoId = videoId;
@@ -41,7 +38,7 @@ angular.module('pitchPerfectApp')
       updateUserDeckWithResponse(tempObj.deckId, tempObj.questionId, newResponse._id );
 
     });
-  
+
   };
 
   var updateUserDeckWithResponse = function(deckId, questionId, responseId) {

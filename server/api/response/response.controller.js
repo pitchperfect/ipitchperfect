@@ -37,16 +37,14 @@ exports.show = function(req, res) {
 
 // Creates a new response in the DB.
 exports.create = function(req, res) {
-    // { userId: userId, deck: deckId, question: questionId, questionTitle: questionTitle, description: "... length", video: "videoId", textVideo: "Text video id", active: true}
 
-console.log('REQ BODY is ', req.body);
+  req.body.userId = req.user._id;
 
   Response.create(req.body, function(err, response) {
     if(err) { return handleError(res, err); }
     console.log('from Response post ', response);
 
     return res.json(201, response);
-    //return response;
 
   });
 };
