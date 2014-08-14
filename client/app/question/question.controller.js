@@ -11,7 +11,7 @@ angular.module('pitchPerfectApp')
 
 
   $scope.getQuestion = function () {
-    console.log('testing contextQuestion Obj:', QuestionFactory.contextQuestion);
+    //console.log('testing contextQuestion Obj:', QuestionFactory.contextQuestion);
     var contextQuestion = QuestionFactory.contextQuestion;
     if ('fullQuestionObject' in contextQuestion) {
       $scope.question = QuestionFactory.contextQuestion.fullQuestionObject.title;
