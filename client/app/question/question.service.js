@@ -3,11 +3,13 @@
 angular.module('pitchPerfectApp')
 
 
-.factory('QuestionFactory', function($upload) {
+.factory('QuestionFactory', function($upload, $http) {
+
+  var testUserId = '53ebaffbaadbfc981701ed66';
 
   var contextQuestion = {};
 
-  var createVideo = function(blob){
+  var createVideo = function(blob, questionObj){
 
   	$upload.upload({
       url: '/api/videos',
@@ -19,17 +21,41 @@ angular.module('pitchPerfectApp')
       }
     ).success(
       function(data) {
-        createResponse(data._id);
+        createResponse(data._id, questionObj);
       }
     );
   };
 
-  var createResponse = function(videoId){
-  	console.log('Will use this id to create Response ', videoId);
+  var createResponse = function(videoId, questionObj){
 
-    
+    var tempObj ={};
+    tempObj.userId = testUserId;
+    tempObj.questionId = questionObj.fullQuestionObject._id;
+    tempObj.title = questionObj.fullQuestionObject.title;
+    tempObj.videoId = videoId;
+    tempObj.deckId = questionObj.currentUserDeckId;
+
+    $http.post('/api/responses', tempObj)
+    .success(function(newResponse) {
+
+      updateUserDeckWithResponse(tempObj.deckId, tempObj.questionId, newResponse._id );
+
+    });
+  
+  };
+
+  var updateUserDeckWithResponse = function(deckId, questionId, responseId) {
+
+      var tempObj = {};
+      tempObj.questionId = questionId;
+      tempObj.responseId = responseId;
 
 
+      $http.put('/api/userdecks/' + deckId, tempObj)
+        .success(function(updatedQuestion) {
+          console.log('Question Updated!', updatedQuestion);
+
+        });
   };
 
   return {

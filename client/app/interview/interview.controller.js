@@ -11,7 +11,6 @@ angular.module('pitchPerfectApp')
     $scope.questions = InterviewFactory.contextObject.questionsStore;
     $scope.questionSelectedIndex = '';
 
-
     $scope.changeProcessInterviewStatus = function () {
       $scope.processInterview = !$scope.processInterview;
     };
@@ -46,15 +45,27 @@ angular.module('pitchPerfectApp')
 
     $scope.showInstructions = function (question, index) {
       question = question || InterviewFactory.contextObject.questionsStore[0];
-      console.log('question selected', question);
       index = index || 0;
 
       QuestionFactory.contextQuestion = question;
+
+
+      // Add the userDeckId to the question object for existing user decks
+      if (InterviewFactory.workingFromUserDeck){
+        QuestionFactory.contextQuestion.currentUserDeckId = InterviewFactory.contextObject._id;
+      }
+
+
+
+
       $scope.questionSelectedIndex = index +1;
       $scope.instructions = !$scope.instructions;
 
       if (!InterviewFactory.workingFromUserDeck) {
-        InterviewFactory.createAUserDeck();
+        InterviewFactory.createAUserDeck(function(id){
+          // Add the userDeckId to the question object when new deck is created
+          QuestionFactory.contextQuestion.currentUserDeckId = id;
+        });
       }
     };
 
