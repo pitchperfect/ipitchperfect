@@ -1,7 +1,10 @@
 'use strict';
 
 angular.module('pitchPerfectApp')
-  .controller('InterviewCtrl', function ($scope, $window, $interval, InterviewFactory, QuestionFactory, $state) {
+  .controller('InterviewCtrl',
+    function ($scope, $window, $interval, InterviewFactory, QuestionFactory, $state) {
+
+    $scope.mediaStream = null;
 
     $scope.processInterview = false;
     $scope.instructions = false;
@@ -19,7 +22,9 @@ angular.module('pitchPerfectApp')
     $scope.getAllQuestions = function () {
       if ('questions' in InterviewFactory.contextObject) {
         for (var i = 0; i < InterviewFactory.contextObject.questions.length; i++) {
-          InterviewFactory.getQuestion(i, $scope.getQuestionResponseStatus, $scope.getQuestionReviewStatus);
+          InterviewFactory.getQuestion(i,
+                                       $scope.getQuestionResponseStatus,
+                                       $scope.getQuestionReviewStatus);
         }
       }
     };
@@ -89,6 +94,7 @@ angular.module('pitchPerfectApp')
 
             // Success callback
             function(stream) {
+              $scope.mediaStream = stream;
               video.src = URL.createObjectURL(stream);
               video.muted = true;
               video.controls = false;
@@ -103,6 +109,16 @@ angular.module('pitchPerfectApp')
           );
         }
       }
+    };
+
+    $scope.returnHome = function() {
+      // Stop the video streaming if it's running.
+      if ($scope.mediaStream !== null) {
+        var video = $window.document.getElementById('video-preview');
+        video.pause();
+        $scope.mediaStream.stop();
+      }
+      $state.go('home');
     };
 
     $scope.questionSelected = function () {

@@ -68,18 +68,19 @@
 					<!-- Intended to show a preview of yourself so that you can see
 					     what you look like before the interview. -->
 					<video id="video-preview"></video>
-					<p><span>&nbsp;</span></p>
-					<p><span id="userAlert">Camera and mic check. We're not recording yet.</span></p>
-					<p><span id="userAlert">You will see yourself once connected.</span></p>
-
+					<p>&nbsp;</p>
+					<span id="userAlert">
+						<p>Camera and mic check. We're not recording yet.</p>
+						<p>You will see yourself once connected.</p>
+					</span>
 					<!-- Press to start recording yourself -->
-					<button class="btn btn-success"
+					<button id="btnBeginInterview" class="btn btn-success"
 						ng-show="!startInterview && !processInterview && !instructions"
-						ng-click="showInstructions()">Begin Interview</button>
-					<a href="/home">
-						<button class="btn btn-info"
-						ng-show="!startInterview && !processInterview && !instructions">Return Home</button>
-					</a>
+						ng-click="showInstructions();">Begin Interview</button>
+
+					<button id="btnReturnHome" class="btn btn-info"
+						ng-show="!startInterview && !processInterview && !instructions"
+						ng-click="returnHome();">Return Home</button>
 
 				</div>
 
