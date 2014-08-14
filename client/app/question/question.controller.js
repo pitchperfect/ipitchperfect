@@ -7,7 +7,9 @@ angular.module('pitchPerfectApp')
   $scope.mediaStream = null;
   $scope.audioVideoRecorder = null;
   var videoElement = $window.document.getElementById('video-record');
+  var questionObj = QuestionFactory.contextQuestion;
   $scope.alertUser = '';
+
 
 
   $scope.getQuestion = function () {
@@ -137,7 +139,7 @@ angular.module('pitchPerfectApp')
     // Grab blob craeted by recording
     var videoBlob = $scope.audioVideoRecorder.getBlob();
     // Create response based on this blob
-    QuestionFactory.createVideo(videoBlob);
+    QuestionFactory.createVideo(videoBlob, questionObj);
 
   };
 

@@ -61,9 +61,6 @@ exports.create = function(req, res) {
       });
     }
   }
-
-
-
 };
 
 // Updates an existing deck in the DB.

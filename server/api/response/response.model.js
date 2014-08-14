@@ -5,12 +5,10 @@ var mongoose = require('mongoose'),
 
 var ResponseSchema = new Schema({
   userId: {type: Schema.Types.ObjectId, ref: 'User'},
-  deckId: {type: Schema.Types.ObjectId, ref: 'Deck'},
   questionId: {type: Schema.Types.ObjectId, ref: 'Question'},
+  videoId: {type: Schema.Types.ObjectId, ref: 'textVideo'},
   questionTitle: String,
   description: String,
-  video: String,
-  textVideo: String,
   created_at: { type: Date, default: Date.now },
   updated_at: { type: Date},
   active: Boolean
