@@ -41,14 +41,7 @@ exports.create = function(req, res) {
   req.body.userId = req.user._id;
 
   Userdeck.create(req.body, function(err, userdeck) {
-<<<<<<< HEAD
-    console.log('^^^^^^^^ userdeck created: ', userdeck);
-    if (err) {
-      return handleError(res, err);
-    }
-=======
     if(err) { return handleError(res, err); }
->>>>>>> 8cdf09f7db0bbe9006b43c0ae94659abd33565f1
 
     return res.json(201, userdeck);
   });

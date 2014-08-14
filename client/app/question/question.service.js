@@ -5,7 +5,7 @@ angular.module('pitchPerfectApp')
 
 .factory('QuestionFactory', function($upload, $http) {
 
-  var testUserId = '53ebaffbaadbfc981701ed66'
+  var testUserId = '53ebaffbaadbfc981701ed66';
 
   var contextQuestion = {};
 
@@ -28,7 +28,7 @@ angular.module('pitchPerfectApp')
 
   var createResponse = function(videoId, questionObj){
 
-    var tempObj ={}
+    var tempObj ={};
     tempObj.userId = testUserId;
     tempObj.questionId = questionObj.fullQuestionObject._id;
     tempObj.title = questionObj.fullQuestionObject.title;
@@ -56,7 +56,7 @@ angular.module('pitchPerfectApp')
           console.log('Question Updated!', updatedQuestion);
 
         });
-  }
+  };
 
   return {
     contextQuestion: contextQuestion,
