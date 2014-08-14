@@ -62,7 +62,6 @@ angular.module('pitchPerfectApp')
     $scope.reloadPageContent = function () {
       HomeFactory.getAllUserDecks($scope.getDecksCb, $scope.getUserDecksCb);
       //Auth.getCurrentUser;
-
     };
 
     $scope.reloadPageContent();
