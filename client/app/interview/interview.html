@@ -76,6 +76,7 @@
 					<!-- Press to start recording yourself -->
 					<button id="btnBeginInterview" class="btn btn-success"
 						ng-show="!startInterview && !processInterview && !instructions"
+						ng-disabled="!enableBeginInterview();" 
 						ng-click="showInstructions();">Begin Interview</button>
 
 					<button id="btnReturnHome" class="btn btn-info"

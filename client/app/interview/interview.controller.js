@@ -47,6 +47,11 @@ angular.module('pitchPerfectApp')
       return 'No Peer Reviews';
     };
 
+    $scope.enableBeginInterview = function() {
+      return ((InterviewFactory.contextObject !== undefined) &&
+              (InterviewFactory.contextObject.questionsStore !== undefined) &&
+              (InterviewFactory.contextObject.questionsStore.length > 0));
+    }
 
     $scope.showInstructions = function (question, index) {
       question = question || InterviewFactory.contextObject.questionsStore[0];
@@ -54,14 +59,10 @@ angular.module('pitchPerfectApp')
 
       QuestionFactory.contextQuestion = question;
 
-
       // Add the userDeckId to the question object for existing user decks
       if (InterviewFactory.workingFromUserDeck){
         QuestionFactory.contextQuestion.currentUserDeckId = InterviewFactory.contextObject._id;
       }
-
-
-
 
       $scope.questionSelectedIndex = index +1;
       $scope.instructions = !$scope.instructions;
