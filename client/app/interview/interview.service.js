@@ -9,7 +9,7 @@ angular.module('pitchPerfectApp')
   var workingFromUserDeck = false;
 
 
-  var createAUserDeck = function () {
+  var createAUserDeck = function (addUserDeckIdToQuestion) {
     var workingFromUserDeckRef = this.workingFromUserDeck;
 
     var tempObj = {};
@@ -21,8 +21,8 @@ angular.module('pitchPerfectApp')
 
     $http.post('/api/userdecks', tempObj)
     .success(function(newUserDeck) {
-      console.log('userDeck created:', newUserDeck);
-      console.log('userDeck created from:', contextObject);
+      // Use the callback to tie this new deck id to the question object
+      addUserDeckIdToQuestion(newUserDeck._id);
       workingFromUserDeckRef = true;
     });
   };

@@ -22,6 +22,7 @@ angular.module('pitchPerfectApp')
     // For Celine
     // invites contains the user names and emails for the invites
     // must be validated
+    // Nedd to add user message to this object
 
     console.log('invites to be handled and validated on server', invites);
   };
