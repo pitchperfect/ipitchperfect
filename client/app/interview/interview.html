@@ -63,25 +63,31 @@
 				</div>
 
 	      <!--  View yourself -->
-	      <div id="box1"
-					ng-show="!startInterview && !instructions">
-					<!-- Intended to show a preview of yourself so that you can see
-					     what you look like before the interview. -->
-					<video id="video-preview"></video>
-					<p>&nbsp;</p>
-					<span id="userAlert">
-						<p>Camera and mic check. We're not recording yet.</p>
-						<p>You will see yourself once connected.</p>
-					</span>
-					<!-- Press to start recording yourself -->
-					<button id="btnBeginInterview" class="btn btn-success"
-						ng-show="!startInterview && !processInterview && !instructions"
-						ng-disabled="!enableBeginInterview();" 
-						ng-click="showInstructions();">Begin Interview</button>
+	      <div id="box1" ng-show="!startInterview && !instructions">
+
+					<button id="btnShowPreview" class="btn btn-primary"
+						ng-show="!startInterview && !instructions"
+						ng-click="togglePreview();">Show Prevew</button>
 
 					<button id="btnReturnHome" class="btn btn-info"
 						ng-show="!startInterview && !processInterview && !instructions"
 						ng-click="returnHome();">Return Home</button>
+
+					<button id="btnBeginInterview" class="btn btn-success"
+						ng-show="!startInterview && !processInterview && !instructions"
+						ng-disabled="!enableBeginInterview();"
+						ng-click="showInstructions();">Begin Interview</button>
+
+					<div id="previewBox" ng-show="displayPreview">
+						<p>&nbsp;</p>
+						<!-- Intended to show a preview of yourself so that you can see
+						     what you look like before the interview. -->
+						<video id="video-preview"></video>
+						<span id="userAlert">
+							<p>Camera and mic check. We're not recording yet.
+							<br/>You will see yourself once connected.</p>
+						</span>
+					</div>
 
 				</div>
 

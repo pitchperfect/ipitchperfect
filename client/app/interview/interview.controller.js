@@ -8,6 +8,7 @@ angular.module('pitchPerfectApp')
 
     $scope.processInterview = false;
     $scope.instructions = false;
+    $scope.displayPreview = false;
 
     $scope.title = InterviewFactory.contextObject.title;
     $scope.description = InterviewFactory.contextObject.description;
@@ -18,6 +19,19 @@ angular.module('pitchPerfectApp')
       $scope.processInterview = !$scope.processInterview;
     };
 
+    $scope.togglePreview = function() {
+      $scope.displayPreview = !$scope.displayPreview;
+
+      var btnPreview = $window.document.getElementById('btnShowPreview');
+
+      if ($scope.displayPreview) {
+        $scope.startPreviewVideo();
+        btnPreview.innerHTML = 'Stop Preview';
+      } else {
+        $scope.stopCamera();
+        btnPreview.innerHTML = 'Show Preview';
+      }
+    };
 
     $scope.getAllQuestions = function () {
       if ('questions' in InterviewFactory.contextObject) {
@@ -51,7 +65,7 @@ angular.module('pitchPerfectApp')
       return ((InterviewFactory.contextObject !== undefined) &&
               (InterviewFactory.contextObject.questionsStore !== undefined) &&
               (InterviewFactory.contextObject.questionsStore.length > 0));
-    }
+    };
 
     $scope.showInstructions = function (question, index) {
       question = question || InterviewFactory.contextObject.questionsStore[0];
@@ -112,20 +126,24 @@ angular.module('pitchPerfectApp')
       }
     };
 
-    $scope.returnHome = function() {
+    $scope.stopCamera = function() {
       // Stop the video streaming if it's running.
       if ($scope.mediaStream !== null) {
         var video = $window.document.getElementById('video-preview');
         video.pause();
         $scope.mediaStream.stop();
       }
+    };
+
+    $scope.returnHome = function() {
+      $scope.stopCamera();
       $state.go('home');
     };
 
     $scope.questionSelected = function () {
+      $scope.stopCamera();
       $state.go('question');
     };
 
-    $scope.startPreviewVideo();
     $scope.getAllQuestions();
   });
