@@ -3,6 +3,8 @@
 
 angular.module('pitchPerfectApp')
   .controller('ReviewCtrl', function($scope, $sce, ReviewFactory) {
+
+
     $scope.message = 'Hello';
 
     $scope.url;
@@ -24,7 +26,7 @@ angular.module('pitchPerfectApp')
 
     };
     // response id 53ed37212970f95b1d3b1484
-    ReviewFactory.getResponseVideoUrl('53ed4c988fa3693424381f62', setDataCallback);
+    ReviewFactory.getResponseData('53ed74ade912f6c92bea9174', setDataCallback);
 
     var popcorn = new Popcorn('#video-response');
     popcorn.play();
@@ -42,10 +44,13 @@ angular.module('pitchPerfectApp')
       createReviewData.annotations = $scope.allAnnotations;
       createReviewData.responseId = ReviewFactory.responseContextData.responseObj._id;
       createReviewData.questionId = ReviewFactory.responseContextData.questionObj._id;
+      createReviewData.responseCreatorId = ReviewFactory.responseContextData.responseObj.userId;
+      createReviewData.videoId = ReviewFactory.responseContextData.responseObj.videoId;
+      createReviewData.userDeckId = ReviewFactory.responseContextData.responseObj.userDeckId;
 
       ReviewFactory.saveReview(createReviewData);
 
-    }
+    };
 
     $scope.addAnnotation = function() {
       popcorn.pause();

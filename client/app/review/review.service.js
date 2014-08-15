@@ -7,9 +7,7 @@ angular.module('pitchPerfectApp')
 
   var responseContextData = {};
 
-
-
-    var getResponseVideoUrl = function(responseId, callback) {
+    var getResponseData = function(responseId, callback) {
 
       var promises = [];
 
@@ -69,19 +67,30 @@ angular.module('pitchPerfectApp')
       };
 
 
+        var saveReview = function(createReviewData) {
 
-        var createReview = function(createReviewData) {
+          $http.post('/api/reviews', createReviewData)
+            .success(function(newReview) {
+              console.log('New Review Created', newReview);
+              //update user deck with this review
+              //push to it?
 
-
-          $http.put('/api/userdecks/' + deckId, tempObj)
-            .success(function(updatedQuestion) {
-              console.log('Question Updated!', updatedQuestion);
+              // Userdeck.findById(newReview.userDeckId, function(err, userDeck) {
+              //   if (err) return validationError(res, err);
+              //   userDeck.reviews.push(newReview);
+              //   userDeck.save(function(err, updatedUserDeck) {
+              //     if (err) return validationError(res, err);
+              //     // res.json({
+              //     //   data: photo
+              //     // });
+              //   });
+              // });
 
             });
         };
-
         return {
-          getResponseVideoUrl: getResponseVideoUrl,
-          responseContextData: responseContextData
+          getResponseData: getResponseData,
+          responseContextData: responseContextData,
+          saveReview:saveReview
         };
       });

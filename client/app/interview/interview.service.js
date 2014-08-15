@@ -11,6 +11,7 @@ angular.module('pitchPerfectApp')
 
   var createAUserDeck = function (addUserDeckIdToQuestion) {
     var workingFromUserDeckRef = this.workingFromUserDeck;
+    var contextObjectRef = this.contextObject;
 
     var tempObj = {};
     tempObj.deckId = this.contextObject._id;
@@ -24,6 +25,7 @@ angular.module('pitchPerfectApp')
       // Use the callback to tie this new deck id to the question object
       addUserDeckIdToQuestion(newUserDeck._id);
       workingFromUserDeckRef = true;
+      contextObjectRef._id = newUserDeck._id;
     });
   };
 

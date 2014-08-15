@@ -30,12 +30,12 @@ angular.module('pitchPerfectApp')
     tempObj.questionId = questionObj.fullQuestionObject._id;
     tempObj.title = questionObj.fullQuestionObject.title;
     tempObj.videoId = videoId;
-    tempObj.deckId = questionObj.currentUserDeckId;
+    tempObj.userDeckId = questionObj.currentUserDeckId;
 
     $http.post('/api/responses', tempObj)
     .success(function(newResponse) {
 
-      updateUserDeckWithResponse(tempObj.deckId, tempObj.questionId, newResponse._id );
+      updateUserDeckWithResponse(tempObj.userDeckId, tempObj.questionId, newResponse._id );
 
     });
 
