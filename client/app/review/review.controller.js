@@ -28,8 +28,8 @@ angular.module('pitchPerfectApp')
     };
     // Hard code response_id for testing.  TBD.
     alert('hard code the response id in the review controller for this to work');
-    break;
-    ReviewFactory.getResponseData('53efaf74a70f994d2a6d7c25', setDataCallback);
+    //break;
+    ReviewFactory.getResponseData('53efc88aec24afc92b95cc0f', setDataCallback);
 
     // Popcorn is lib for video features
     var popcorn = new Popcorn('#video-response');
@@ -65,7 +65,6 @@ angular.module('pitchPerfectApp')
     $scope.saveAnnotation = function(annotationText) {
       $scope.stagedAnnotation.description = annotationText;
 
-      console.log('about tp push ', $scope.stagedAnnotation);
       $scope.allAnnotations.push($scope.stagedAnnotation);
       $scope.stagedAnnotation = {};
       $scope.annotationText = '';
