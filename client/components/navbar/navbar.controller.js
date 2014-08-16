@@ -11,8 +11,8 @@ angular.module('pitchPerfectApp')
     },{'title': 'Interview',
       'link': '/interview'
     },{
-      'title': 'Review',
-      'link': '/review'
+      'title': 'Review Create',
+      'link': '/reviewcreate'
     },{
       'title': 'Share',
       'link': '/share'
