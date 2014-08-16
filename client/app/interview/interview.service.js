@@ -65,6 +65,6 @@ angular.module('pitchPerfectApp')
     contextObject: contextObject,
     workingFromUserDeck: workingFromUserDeck,
     createAUserDeck: createAUserDeck,
-    getQuestion: getQuestion,
+    getQuestion: getQuestion
   };
 });

@@ -10,8 +10,6 @@ angular.module('pitchPerfectApp')
     // if reviewMode = View then
       //
 
-
-
     $scope.url;
 
     var responseData = {};
