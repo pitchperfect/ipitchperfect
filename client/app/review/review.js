@@ -5,7 +5,7 @@ angular.module('pitchPerfectApp')
     $stateProvider
       .state('reviewCreate', {
         url: '/reviewcreate',
-        templateUrl: 'app/review/reviewCreate.html',
+        templateUrl: 'app/review/reviewcreate.html',
         controller: 'ReviewCtrlCreate'
       });
   });

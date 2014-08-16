@@ -4,7 +4,7 @@ angular.module('pitchPerfectApp')
 
 .factory('ReviewFactory', function($http, $q) {
   // Stores data returned from APIs
-  debugger;
+
   var responseContext = {};
 
   var getResponseData = function(responseId, callback) {

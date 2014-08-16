@@ -4,15 +4,13 @@
 angular.module('pitchPerfectApp')
   .controller('ReviewCtrlCreate', function($scope, $sce, ReviewFactory) {
 
-    debugger;
     //if reviewMode = Create then
         //  targetResponse = responseId to use
     // if reviewMode = View then
       //
 
-    $scope.url;
+    $scope.url = '';
 
-    var responseData = {};
 
     // When the response is retrieved form the service, it will
     // use this function to update $scope elements
@@ -22,19 +20,17 @@ angular.module('pitchPerfectApp')
       // This is required by Angular to allow resources from other domains
       //  In our case, the video hosted on Azure
       var trustSrc = function(src) {
-        return $sce.trustAsResourceUrl(src)
+        return $sce.trustAsResourceUrl(src);
       };
 
       $scope.url = trustSrc(url);
 
       // Attempt to auto play video after load.  Not working.
-      var myVideo = document.getElementById("video-response");
+      var myVideo = document.getElementById('video-response');
       myVideo.play();
 
     };
-    // Hard code response_id for testing.  TBD.
-    alert('hard code the response id in the review controller for this to work');
-    //break;
+
     ReviewFactory.getResponseData('53efc88aec24afc92b95cc0f', setDataCallback);
 
     // Popcorn is lib for video features

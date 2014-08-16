@@ -1,6 +1,6 @@
 'use strict';
 
-describe('Controller: ReviewCtrl', function () {
+describe('Controller: ReviewCtrlCreate', function () {
 
   // load the controller's module
 
@@ -15,7 +15,7 @@ describe('Controller: ReviewCtrl', function () {
       $scope: scope
     });
   }));
-  
+
   // *TODO: Failing phantom.js test, as it cannot find where Popcorn is defined.
   // it('should ...', function () {
   //   expect(1).toEqual(1);
