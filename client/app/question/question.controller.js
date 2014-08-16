@@ -148,7 +148,7 @@ angular.module('pitchPerfectApp')
   };
 
   $scope.saveRecording = function() {
-    // Grab blob craeted by recording
+    // Grab blob created by recording
     var videoBlob = $scope.audioVideoRecorder.getBlob();
     // Create response based on this blob
     QuestionFactory.createVideo(videoBlob, questionObj, $scope.stopCamera);
