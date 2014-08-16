@@ -10,8 +10,6 @@ angular.module('pitchPerfectApp')
   var questionObj = QuestionFactory.contextQuestion;
   $scope.alertUser = '';
 
-
-
   $scope.getQuestion = function () {
     //console.log('testing contextQuestion Obj:', QuestionFactory.contextQuestion);
     var contextQuestion = QuestionFactory.contextQuestion;
@@ -20,14 +18,13 @@ angular.module('pitchPerfectApp')
     }
   };
 
-
   $scope.startCountDown = function (time, message) {
     if (time > 1) {
       time--;
       $scope.alertUser = time;
       $timeout(function(){
           $scope.startCountDown(time, message);
-      }, 1000);
+      }, 750);
     } else {
       $scope.alertUser = message;
       $scope.startStopWatch();
@@ -71,7 +68,6 @@ angular.module('pitchPerfectApp')
     $window.navigator.getUserMedia = navigator.getUserMedia ||
                                      navigator.mozGetUserMedia ||
                                      navigator.webkitGetUserMedia;
-
 
     $window.navigator.getUserMedia(
       // Configuration
@@ -133,25 +129,29 @@ angular.module('pitchPerfectApp')
     $state.go('interview');
   };
 
-  $scope.stopCamera = function() {
+  $scope.stopCamera = function(forceStopRtc) {
+    forceStopRtc = forceStopRtc || false;
+
     if ($scope.mediaStream !== null) {
       var video = $window.document.getElementById('video-record');
-      video.pause();
+      if (video !== null) {
+        video.pause();
+      }
       $scope.mediaStream.stop();
     }
 
-    $scope.audioVideoRecorder.stopRecording(function() {
-      console.log('stopping audioVideoRecorder');
-    });
+    if ((forceStopRtc) && ($scope.audioVideoRecorder !== null)) {
+      $scope.audioVideoRecorder.stopRecording(function() {
+        console.log('stopping audioVideoRecorder');
+      });
+    }
   };
 
   $scope.saveRecording = function() {
     // Grab blob craeted by recording
     var videoBlob = $scope.audioVideoRecorder.getBlob();
     // Create response based on this blob
-    QuestionFactory.createVideo(videoBlob, questionObj);
-
-    $scope.stopCamera();
+    QuestionFactory.createVideo(videoBlob, questionObj, $scope.stopCamera);
 
     $state.go('interview');
   };
