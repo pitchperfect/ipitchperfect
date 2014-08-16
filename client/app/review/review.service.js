@@ -5,7 +5,10 @@ angular.module('pitchPerfectApp')
 .factory('ReviewFactory', function($http, $q) {
   // Stores data returned from APIs
 
-  var responseContext = {};
+  var reviewContext = {};
+
+  //testing
+  //reviewContext.targetResponseId = '53efc88aec24afc92b95cc0f';
 
   var getResponseData = function(responseId, callback) {
 
@@ -17,7 +20,7 @@ angular.module('pitchPerfectApp')
     var responseObj = $http.get('/api/responses/' + responseId)
       .success(function(resp) {
         // Add the response data to the Context Object
-        responseContext.responseObj = resp;
+        reviewContext.responseObj = resp;
         return resp;
       });
 
@@ -28,7 +31,7 @@ angular.module('pitchPerfectApp')
       var questionObj = $http.get('/api/questions/' + data.data.questionId)
         .success(function(resp) {
           // Add the question data to the Context Object
-          responseContext.questionObj = resp;
+          reviewContext.questionObj = resp;
           theData.questionTitle = resp.title;
         });
 
@@ -39,7 +42,7 @@ angular.module('pitchPerfectApp')
       var videoUrl = $http.get('/api/videos/url/' + data.data.videoId)
         .success(function(resp) {
           // Add the video data to the Context Object
-          responseContext.videoObj = resp;
+          reviewContext.videoObj = resp;
           theData.videoUrl = resp.url;
         });
 
@@ -50,6 +53,8 @@ angular.module('pitchPerfectApp')
       $q.all(promises).then(function() {
         //Update $scope via the passed in callback
         callback(theData.videoUrl, theData.questionTitle);
+
+        console.log('review context from the factory ', reviewContext);
       });
 
     });
@@ -77,7 +82,7 @@ angular.module('pitchPerfectApp')
   // Expose the action to the controller
   return {
     getResponseData: getResponseData,
-    responseContext: responseContext,
+    reviewContext: reviewContext,
     saveReview: saveReview
   };
 });

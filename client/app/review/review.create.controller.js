@@ -2,15 +2,19 @@
 /*globals Popcorn */
 
 angular.module('pitchPerfectApp')
-  .controller('ReviewCtrlCreate', function($scope, $sce, ReviewFactory) {
+  .controller('ReviewCtrlCreate', function($scope, $state, $sce, ReviewFactory) {
 
-    //if reviewMode = Create then
-        //  targetResponse = responseId to use
-    // if reviewMode = View then
-      //
+    var reviewContext = ReviewFactory.reviewContext;
+
+    if (!reviewContext.targetResponseId){
+      alert('no target response, going home');
+      $state.go('home');
+    } else {
+
+
+    }
 
     $scope.url = '';
-
 
     // When the response is retrieved form the service, it will
     // use this function to update $scope elements
@@ -31,7 +35,7 @@ angular.module('pitchPerfectApp')
 
     };
 
-    ReviewFactory.getResponseData('53efc88aec24afc92b95cc0f', setDataCallback);
+    ReviewFactory.getResponseData(reviewContext.targetResponseId, setDataCallback);
 
     // Popcorn is lib for video features
     var popcorn = new Popcorn('#video-response');
@@ -44,14 +48,14 @@ angular.module('pitchPerfectApp')
     $scope.saveReview = function() {
 
       // Assemble pertinent data for the new Review Object
-      var createReviewData = {};
-      createReviewData.annotations = $scope.allAnnotations;
-      createReviewData.responseId = ReviewFactory.responseContext.responseObj._id;
-      createReviewData.questionId = ReviewFactory.responseContext.questionObj._id;
-      createReviewData.responseCreatorId = ReviewFactory.responseContext.responseObj.userId;
-      createReviewData.videoId = ReviewFactory.responseContext.responseObj.videoId;
-      createReviewData.userDeckId = ReviewFactory.responseContext.responseObj.userDeckId;
-
+      var createReviewData = {
+        annotations: $scope.allAnnotations,
+        responseId: reviewContext.responseObj._id,
+        questionId: reviewContext.questionObj._id,
+        responseCreatorId: reviewContext.responseObj.userId,
+        videoId: reviewContext.responseObj.videoId,
+        userDeckId: reviewContext.responseObj.userDeckId
+      };
       // Create the Review
       ReviewFactory.saveReview(createReviewData);
 
