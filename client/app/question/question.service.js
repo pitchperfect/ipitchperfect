@@ -7,7 +7,7 @@ angular.module('pitchPerfectApp')
 
   var contextQuestion = {};
 
-  var createVideo = function(blob, questionObj){
+  var createVideo = function(blob, questionObj, successCallback){
 
   	$upload.upload({
       url: '/api/videos',
@@ -20,6 +20,7 @@ angular.module('pitchPerfectApp')
     ).success(
       function(data) {
         createResponse(data._id, questionObj);
+        successCallback();
       }
     );
   };
