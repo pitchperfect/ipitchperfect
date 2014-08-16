@@ -7,7 +7,7 @@ angular.module('pitchPerfectApp')
 
   var contextQuestion = {};
 
-  var createVideo = function(blob, questionObj) {
+  var createVideo = function(blob, questionObj, successCallback) {
     // Use $upload to handle multipart/form post processing with the video file
     $upload.upload({
       url: '/api/videos',
@@ -25,6 +25,7 @@ angular.module('pitchPerfectApp')
         // Video Obj successfully created in DB.
         // Now create Response Obj with above video
         createResponse(data._id, questionObj);
+        successCallback();
       }
     );
   };

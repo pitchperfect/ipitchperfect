@@ -10,8 +10,6 @@ angular.module('pitchPerfectApp')
   var questionObj = QuestionFactory.contextQuestion;
   $scope.alertUser = '';
 
-
-
   $scope.getQuestion = function () {
     //console.log('testing contextQuestion Obj:', QuestionFactory.contextQuestion);
     var contextQuestion = QuestionFactory.contextQuestion;
@@ -20,14 +18,13 @@ angular.module('pitchPerfectApp')
     }
   };
 
-
   $scope.startCountDown = function (time, message) {
     if (time > 1) {
       time--;
       $scope.alertUser = time;
       $timeout(function(){
           $scope.startCountDown(time, message);
-      }, 1000);
+      }, 750);
     } else {
       $scope.alertUser = message;
       $scope.startStopWatch();
@@ -71,7 +68,6 @@ angular.module('pitchPerfectApp')
     $window.navigator.getUserMedia = navigator.getUserMedia ||
                                      navigator.mozGetUserMedia ||
                                      navigator.webkitGetUserMedia;
-
 
     $window.navigator.getUserMedia(
       // Configuration
@@ -124,23 +120,40 @@ angular.module('pitchPerfectApp')
   };
 
   $scope.replayRecording = function() {
-
     videoElement.play();
   };
 
   $scope.exitRecording = function() {
-    // $window.alert('redirect to UserDeck');
     InterviewFactory.workingFromUserDeck = true;
+    $scope.stopCamera();
     $state.go('interview');
   };
 
-  $scope.saveRecording = function() {
+  $scope.stopCamera = function(forceStopRtc) {
+    forceStopRtc = forceStopRtc || false;
 
+    if ($scope.mediaStream !== null) {
+      var video = $window.document.getElementById('video-record');
+      if (video !== null) {
+        video.pause();
+      }
+      $scope.mediaStream.stop();
+    }
+
+    if ((forceStopRtc) && ($scope.audioVideoRecorder !== null)) {
+      $scope.audioVideoRecorder.stopRecording(function() {
+        console.log('stopping audioVideoRecorder');
+      });
+    }
+  };
+
+  $scope.saveRecording = function() {
     // Grab blob craeted by recording
     var videoBlob = $scope.audioVideoRecorder.getBlob();
     // Create response based on this blob
-    QuestionFactory.createVideo(videoBlob, questionObj);
+    QuestionFactory.createVideo(videoBlob, questionObj, $scope.stopCamera);
 
+    $state.go('interview');
   };
 
   $scope.stopRecording = function() {
@@ -154,7 +167,7 @@ angular.module('pitchPerfectApp')
     var btnExitRecording = $window.document.getElementById('btn-exit-recording');
     var btnSaveRecording = $window.document.getElementById('btn-save-recording');
 
-    var downloadURL = $window.document.getElementById('download-url');
+    //var downloadURL = $window.document.getElementById('download-url');
 
     btnStartRecording.disabled = false;
     btnStopRecording.disabled = true;
@@ -163,9 +176,6 @@ angular.module('pitchPerfectApp')
     btnReplayRecording.disabled = false;
     btnReplayRecording.style.visibility = 'visible';
     videoElement.style.visibility = 'visible';
-    downloadURL.innerHTML = '';
-
-    btnStartRecording.innerHTML = 'Try Again';
 
     $scope.audioVideoRecorder.stopRecording(
       function(url) {
@@ -174,7 +184,8 @@ angular.module('pitchPerfectApp')
         videoElement.muted = false;
         videoElement.onended = function() {
           console.log('video element on');
-          videoElement.pause();
+
+          $scope.stopCamera();
 
           videoElement.src = $window.URL.createObjectURL($scope.audioVideoRecorder.getBlob());
         };
