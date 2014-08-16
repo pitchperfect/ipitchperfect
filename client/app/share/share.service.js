@@ -5,6 +5,8 @@ angular.module('pitchPerfectApp')
 
 .factory('ShareFactory', function($http) {
 
+  var shareContext = {};
+
 
   var getAllUsers = function (callback) {
     $http.get('/api/users')
@@ -29,7 +31,8 @@ angular.module('pitchPerfectApp')
 
   return {
     getAllUsers: getAllUsers,
-    sendInvites: sendInvites
+    sendInvites: sendInvites,
+    shareContext: shareContext
   };
 
 });

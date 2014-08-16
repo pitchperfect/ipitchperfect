@@ -4,7 +4,8 @@ angular.module('pitchPerfectApp')
 
 .factory('ReviewFactory', function($http, $q) {
   // Stores data returned from APIs
-  var responseContextData = {};
+  debugger;
+  var responseContext = {};
 
   var getResponseData = function(responseId, callback) {
 
@@ -16,7 +17,7 @@ angular.module('pitchPerfectApp')
     var responseObj = $http.get('/api/responses/' + responseId)
       .success(function(resp) {
         // Add the response data to the Context Object
-        responseContextData.responseObj = resp;
+        responseContext.responseObj = resp;
         return resp;
       });
 
@@ -27,7 +28,7 @@ angular.module('pitchPerfectApp')
       var questionObj = $http.get('/api/questions/' + data.data.questionId)
         .success(function(resp) {
           // Add the question data to the Context Object
-          responseContextData.questionObj = resp;
+          responseContext.questionObj = resp;
           theData.questionTitle = resp.title;
         });
 
@@ -38,7 +39,7 @@ angular.module('pitchPerfectApp')
       var videoUrl = $http.get('/api/videos/url/' + data.data.videoId)
         .success(function(resp) {
           // Add the video data to the Context Object
-          responseContextData.videoObj = resp;
+          responseContext.videoObj = resp;
           theData.videoUrl = resp.url;
         });
 
@@ -76,7 +77,7 @@ angular.module('pitchPerfectApp')
   // Expose the action to the controller
   return {
     getResponseData: getResponseData,
-    responseContextData: responseContextData,
+    responseContext: responseContext,
     saveReview: saveReview
   };
 });

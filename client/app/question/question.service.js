@@ -3,7 +3,7 @@
 angular.module('pitchPerfectApp')
 
 
-.factory('QuestionFactory', function($upload, $http) {
+.factory('QuestionFactory', function($upload, $http, $state, ShareFactory) {
 
   var contextQuestion = {};
 
@@ -42,6 +42,8 @@ angular.module('pitchPerfectApp')
     $http.post('/api/responses', tempObj)
       .success(function(newResponse) {
         // Push this reponse to the UserDeck
+        ShareFactory.shareContext.responseId = newResponse._id;
+
         updateUserDeckWithResponse(tempObj.userDeckId, tempObj.questionId, newResponse._id);
       });
   };
@@ -57,6 +59,9 @@ angular.module('pitchPerfectApp')
       .success(function(updatedResponse) {
         console.log('Response Updated!', updatedResponse);
       });
+
+      $state.go('share');
+
   };
 
   // Expose the action to the controller

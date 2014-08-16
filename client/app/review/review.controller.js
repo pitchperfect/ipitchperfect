@@ -2,7 +2,15 @@
 /*globals Popcorn */
 
 angular.module('pitchPerfectApp')
-  .controller('ReviewCtrl', function($scope, $sce, ReviewFactory) {
+  .controller('ReviewCtrlCreate', function($scope, $sce, ReviewFactory) {
+
+    debugger;
+    //if reviewMode = Create then
+        //  targetResponse = responseId to use
+    // if reviewMode = View then
+      //
+
+
 
     $scope.url;
 
@@ -44,11 +52,11 @@ angular.module('pitchPerfectApp')
       // Assemble pertinent data for the new Review Object
       var createReviewData = {};
       createReviewData.annotations = $scope.allAnnotations;
-      createReviewData.responseId = ReviewFactory.responseContextData.responseObj._id;
-      createReviewData.questionId = ReviewFactory.responseContextData.questionObj._id;
-      createReviewData.responseCreatorId = ReviewFactory.responseContextData.responseObj.userId;
-      createReviewData.videoId = ReviewFactory.responseContextData.responseObj.videoId;
-      createReviewData.userDeckId = ReviewFactory.responseContextData.responseObj.userDeckId;
+      createReviewData.responseId = ReviewFactory.responseContext.responseObj._id;
+      createReviewData.questionId = ReviewFactory.responseContext.questionObj._id;
+      createReviewData.responseCreatorId = ReviewFactory.responseContext.responseObj.userId;
+      createReviewData.videoId = ReviewFactory.responseContext.responseObj.videoId;
+      createReviewData.userDeckId = ReviewFactory.responseContext.responseObj.userDeckId;
 
       // Create the Review
       ReviewFactory.saveReview(createReviewData);
