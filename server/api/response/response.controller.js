@@ -28,9 +28,12 @@ exports.index = function(req, res) {
 
 // Get a single response
 exports.show = function(req, res) {
+  console.log('server - response id is ' + req.params.id);
+
   Response.findById(req.params.id, function (err, response) {
     if(err) { return handleError(res, err); }
     if(!response) { return res.send(404); }
+      console.log('server - got response ', response);
     return res.json(response);
   });
 };

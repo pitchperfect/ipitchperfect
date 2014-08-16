@@ -7,82 +7,61 @@ angular.module('pitchPerfectApp')
 
   var contextQuestion = {};
 
-  var createVideo = function(blob, questionObj, successCallback){
-
-  	$upload.upload({
+  var createVideo = function(blob, questionObj, successCallback) {
+    // Use $upload to handle multipart/form post processing with the video file
+    $upload.upload({
       url: '/api/videos',
-      data: {key: 'value'},
+      data: {
+        key: 'value'
+      },
       file: blob,
     }).progress(
       function(evt) {
+        // Upload progess.  Can be harnessed later in the UI
         console.log('percent: ' + parseInt(100.0 * evt.loaded / evt.total));
       }
     ).success(
       function(data) {
+        // Video Obj successfully created in DB.
+        // Now create Response Obj with above video
         createResponse(data._id, questionObj);
         successCallback();
       }
     );
   };
 
-  var createResponse = function(videoId, questionObj){
-
-    var tempObj ={};
+  var createResponse = function(videoId, questionObj) {
+    // Assemble pertinent data for new Response Obj
+    var tempObj = {};
     tempObj.questionId = questionObj.fullQuestionObject._id;
     tempObj.title = questionObj.fullQuestionObject.title;
     tempObj.videoId = videoId;
-    tempObj.deckId = questionObj.currentUserDeckId;
+    tempObj.userDeckId = questionObj.currentUserDeckId;
 
+    // Create response
     $http.post('/api/responses', tempObj)
-    .success(function(newResponse) {
-
-      updateUserDeckWithResponse(tempObj.deckId, tempObj.questionId, newResponse._id );
-
-    });
-
+      .success(function(newResponse) {
+        // Push this reponse to the UserDeck
+        updateUserDeckWithResponse(tempObj.userDeckId, tempObj.questionId, newResponse._id);
+      });
   };
 
   var updateUserDeckWithResponse = function(deckId, questionId, responseId) {
+    // Assemble all pertinent data for the update
+    var tempObj = {};
+    tempObj.questionId = questionId;
+    tempObj.responseId = responseId;
 
-      var tempObj = {};
-      tempObj.questionId = questionId;
-      tempObj.responseId = responseId;
-
-
-      $http.put('/api/userdecks/' + deckId, tempObj)
-        .success(function(updatedQuestion) {
-          console.log('Question Updated!', updatedQuestion);
-
-        });
+    // Push the response to the UserDeck
+    $http.put('/api/userdecks/' + deckId + '/response', tempObj)
+      .success(function(updatedResponse) {
+        console.log('Response Updated!', updatedResponse);
+      });
   };
 
+  // Expose the action to the controller
   return {
     contextQuestion: contextQuestion,
     createVideo: createVideo
   };
 });
-
-// Submit video.
-// $scope.submitVideo = function (videoId) {
-//   // Actually want all questions from deck id.
-//
-//   var postObject = {
-//     userId: InterviewFactory.questionObj.userId,
-//     video: videoId,
-//     deck: InterviewFactory.questionObj.deck,
-//     userDeck: InterviewFactory.userDeck._id,
-//     question: InterviewFactory.questionObj._id,
-//     questionTitle: InterviewFactory.questionObj.title,
-//     description: '1min 30sec long',
-//     textVideo: 'new text video',
-//     active: true,
-//   };
-//   console.log('postObject', postObject);
-//
-//   $http.post('/api/responses', postObject).success(function(createdResponse) {
-//       console.log('@interview, response created', createdResponse);
-//
-//   }).error(function(err) {
-//     console.log('error creating response', err);
-//   }); //.bind(this));
-// };
