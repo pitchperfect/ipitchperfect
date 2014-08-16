@@ -10,8 +10,8 @@ var UserdeckSchema = new Schema({
   description: String,
   questions: [{type: Schema.Types.ObjectId, ref: 'Question'}],
   //response: [{type: Schema.Types.ObjectId, ref: 'Response'}],
-  responses: { type: Schema.Types.Mixed, default: {'question':[]}},
-  reviews:  [{type: Schema.Types.ObjectId, ref: 'Review'}],
+  responses: { type: Schema.Types.Mixed, default: {'questionId':[]}},
+  reviews: { type: Schema.Types.Mixed, default: {'responseId':[]}},
   questionsResponded: Schema.Types.Mixed,
   responsesReviewed: Schema.Types.Mixed,
   created_at: { type: Date, default: Date.now },
@@ -24,8 +24,5 @@ UserdeckSchema.pre('save', function(next) {
   this.updated_at = now;
   next();
 });
-
-
-
 
 module.exports = mongoose.model('Userdeck', UserdeckSchema);
