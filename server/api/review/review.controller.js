@@ -5,7 +5,9 @@ var Review = require('./review.model');
 
 // Get list of reviews
 exports.index = function(req, res) {
-  Review.find(function (err, reviews) {
+  var author = req.user._id;
+  Review.loadRecent(author, function (err, reviews) {
+    console.log(reviews);
     if(err) { return handleError(res, err); }
     return res.json(200, reviews);
   });

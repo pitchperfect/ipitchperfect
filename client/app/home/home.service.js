@@ -18,6 +18,14 @@ angular.module('pitchPerfectApp')
     });
   };
 
+  var getRequests = function (setRequests){
+    console.log('am i here?');
+    $http.get('/api/reviews').success(function(reviews) {
+      console.log('MY REQUESTS !!', reviews);
+      setRequests(reviews);
+    });
+  };
+
   var createDeck = function (postDeckObject, submitDeckCb) {
     $http.post('/api/decks', postDeckObject)
     .success(submitDeckCb);
@@ -26,6 +34,7 @@ angular.module('pitchPerfectApp')
 
   return {
     getAllUserDecks: getAllUserDecks,
+    getRequests: getRequests,
     createDeck: createDeck,
   };
 

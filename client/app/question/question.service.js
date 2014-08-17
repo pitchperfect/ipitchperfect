@@ -32,11 +32,12 @@ angular.module('pitchPerfectApp')
 
   var createResponse = function(videoId, questionObj) {
     // Assemble pertinent data for new Response Obj
-    var tempObj = {};
-    tempObj.questionId = questionObj.fullQuestionObject._id;
-    tempObj.title = questionObj.fullQuestionObject.title;
-    tempObj.videoId = videoId;
-    tempObj.userDeckId = questionObj.currentUserDeckId;
+    var tempObj = {
+      questionId: questionObj.fullQuestionObject._id,
+      title: questionObj.fullQuestionObject.title,
+      videoId: videoId,
+      userDeckId: questionObj.currentUserDeckId,
+    };
 
     // Create response
     $http.post('/api/responses', tempObj)
@@ -50,9 +51,10 @@ angular.module('pitchPerfectApp')
 
   var updateUserDeckWithResponse = function(deckId, questionId, responseId) {
     // Assemble all pertinent data for the update
-    var tempObj = {};
-    tempObj.questionId = questionId;
-    tempObj.responseId = responseId;
+    var tempObj = {
+      questionId: questionId,
+      responseId: responseId
+    };
 
     // Push the response to the UserDeck
     $http.put('/api/userdecks/' + deckId + '/response', tempObj)
@@ -61,6 +63,7 @@ angular.module('pitchPerfectApp')
       });
 
       $state.go('share');
+
 
   };
 

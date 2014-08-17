@@ -139,7 +139,7 @@
 
 
   		<div class="col-md-6 column">
-        <!-- NOTIFICATIONS -->
+        <!-- REVIEW REQUESTS -->
         <div class="panel panel-success">
 
           <div class="panel-heading text-center">
@@ -149,20 +149,13 @@
 
           <div class="panel-body">
 
-            <!--  Notification LIST -->
+            <!--  NOTIFICATION LIST -->
             <div class="list-group">
-              <div class="list-group-item" ng-click="sendToReview(singleNotification)">
-                <h5> Request from: 'John Doe'</h5>
-                <span class="small">'Personal Narrative'</span>
-                <small class="small faint">Requested on: Aug 15th, 2014</small>
-              </div>
-
-              <div ng-repeat="singleNotification in allNotifications">
-                <div class="list-group-item" ng-click="sendToReview(singleNotification)">
-                  <h5>{{ singleNotification.author }}</h5>
-                  <span class="small">{{singleNotification.title}}</span>
-                  <span class="small">{{singleNotification.description}}</span>
-                  <small class="small faint">Last Updated: {{singleNotification.created_at | date : 'mediumDate'}}</small>
+              <div ng-repeat="request in requests">
+                <div class="list-group-item" ng-click="sendToReview(request)">
+                  <h5>Request from: {{ request.userId.name }}</h5>
+                  <!-- <span class="small">{{request.title}}</span> -->
+                  <small class="small faint">Last Updated: {{request.created_at | date : 'mediumDate'}}</small>
                 </div>
               </div>
 

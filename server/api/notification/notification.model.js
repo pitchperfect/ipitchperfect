@@ -4,7 +4,7 @@ var mongoose = require('mongoose'),
     Schema = mongoose.Schema;
 
 var NotificationSchema = new Schema({
-  author: {type: Schema.Types.ObjectId, ref: 'User'},
+  userId: {type: Schema.Types.ObjectId, ref: 'User'},
   receiver: {type: Schema.Types.ObjectId, ref: 'User'},
   response: String, //{type: Schema.Types.ObjectId, ref: 'Response'},
   title: String,
