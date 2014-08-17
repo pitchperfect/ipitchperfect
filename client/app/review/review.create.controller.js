@@ -2,17 +2,19 @@
 /*globals Popcorn */
 
 angular.module('pitchPerfectApp')
-  .controller('ReviewCtrlCreate', function($scope, $sce, ReviewFactory) {
+  .controller('ReviewCtrlCreate', function($scope, $state, $sce, ReviewFactory) {
 
-    debugger;
-    //if reviewMode = Create then
-        //  targetResponse = responseId to use
-    // if reviewMode = View then
-      //
+    var reviewContext = ReviewFactory.reviewContext;
 
-    $scope.url;
+    if (!reviewContext.targetResponseId){
+      alert('no target response, going home');
+      $state.go('home');
+    } else {
 
-    var responseData = {};
+
+    }
+
+    $scope.url = '';
 
     // When the response is retrieved form the service, it will
     // use this function to update $scope elements
@@ -22,20 +24,18 @@ angular.module('pitchPerfectApp')
       // This is required by Angular to allow resources from other domains
       //  In our case, the video hosted on Azure
       var trustSrc = function(src) {
-        return $sce.trustAsResourceUrl(src)
+        return $sce.trustAsResourceUrl(src);
       };
 
       $scope.url = trustSrc(url);
 
       // Attempt to auto play video after load.  Not working.
-      var myVideo = document.getElementById("video-response");
+      var myVideo = document.getElementById('video-response');
       myVideo.play();
 
     };
-    // Hard code response_id for testing.  TBD.
-    alert('hard code the response id in the review controller for this to work');
-    //break;
-    ReviewFactory.getResponseData('53efc88aec24afc92b95cc0f', setDataCallback);
+
+    ReviewFactory.getResponseData(reviewContext.targetResponseId, setDataCallback);
 
     // Popcorn is lib for video features
     var popcorn = new Popcorn('#video-response');
@@ -48,14 +48,14 @@ angular.module('pitchPerfectApp')
     $scope.saveReview = function() {
 
       // Assemble pertinent data for the new Review Object
-      var createReviewData = {};
-      createReviewData.annotations = $scope.allAnnotations;
-      createReviewData.responseId = ReviewFactory.responseContext.responseObj._id;
-      createReviewData.questionId = ReviewFactory.responseContext.questionObj._id;
-      createReviewData.responseCreatorId = ReviewFactory.responseContext.responseObj.userId;
-      createReviewData.videoId = ReviewFactory.responseContext.responseObj.videoId;
-      createReviewData.userDeckId = ReviewFactory.responseContext.responseObj.userDeckId;
-
+      var createReviewData = {
+        annotations: $scope.allAnnotations,
+        responseId: reviewContext.responseObj._id,
+        questionId: reviewContext.questionObj._id,
+        responseCreatorId: reviewContext.responseObj.userId,
+        videoId: reviewContext.responseObj.videoId,
+        userDeckId: reviewContext.responseObj.userDeckId
+      };
       // Create the Review
       ReviewFactory.saveReview(createReviewData);
 
