@@ -1,10 +1,14 @@
 'use strict';
 
 angular.module('pitchPerfectApp')
-  .controller('InterviewCtrl', function ($scope, $window, $interval, InterviewFactory, QuestionFactory, $state) {
+  .controller('InterviewCtrl',
+    function ($scope, $window, $interval, InterviewFactory, QuestionFactory, $state) {
+
+    $scope.mediaStream = null;
 
     $scope.processInterview = false;
     $scope.instructions = false;
+    $scope.displayPreview = false;
 
     $scope.title = InterviewFactory.contextObject.title;
     $scope.description = InterviewFactory.contextObject.description;
@@ -15,11 +19,26 @@ angular.module('pitchPerfectApp')
       $scope.processInterview = !$scope.processInterview;
     };
 
+    $scope.togglePreview = function() {
+      $scope.displayPreview = !$scope.displayPreview;
+
+      var btnPreview = $window.document.getElementById('btnShowPreview');
+
+      if ($scope.displayPreview) {
+        $scope.startPreviewVideo();
+        btnPreview.innerHTML = 'Stop Preview';
+      } else {
+        $scope.stopCamera();
+        btnPreview.innerHTML = 'Show Preview';
+      }
+    };
 
     $scope.getAllQuestions = function () {
       if ('questions' in InterviewFactory.contextObject) {
         for (var i = 0; i < InterviewFactory.contextObject.questions.length; i++) {
-          InterviewFactory.getQuestion(i, $scope.getQuestionResponseStatus, $scope.getQuestionReviewStatus);
+          InterviewFactory.getQuestion(i,
+                                       $scope.getQuestionResponseStatus,
+                                       $scope.getQuestionReviewStatus);
         }
       }
     };
@@ -42,6 +61,11 @@ angular.module('pitchPerfectApp')
       return 'No Peer Reviews';
     };
 
+    $scope.enableBeginInterview = function() {
+      return ((InterviewFactory.contextObject !== undefined) &&
+              (InterviewFactory.contextObject.questionsStore !== undefined) &&
+              (InterviewFactory.contextObject.questionsStore.length > 0));
+    };
 
     $scope.showInstructions = function (question, index) {
       question = question || InterviewFactory.contextObject.questionsStore[0];
@@ -49,14 +73,10 @@ angular.module('pitchPerfectApp')
 
       QuestionFactory.contextQuestion = question;
 
-
       // Add the userDeckId to the question object for existing user decks
       if (InterviewFactory.workingFromUserDeck){
         QuestionFactory.contextQuestion.currentUserDeckId = InterviewFactory.contextObject._id;
       }
-
-
-
 
       $scope.questionSelectedIndex = index +1;
       $scope.instructions = !$scope.instructions;
@@ -89,6 +109,7 @@ angular.module('pitchPerfectApp')
 
             // Success callback
             function(stream) {
+              $scope.mediaStream = stream;
               video.src = URL.createObjectURL(stream);
               video.muted = true;
               video.controls = false;
@@ -105,10 +126,24 @@ angular.module('pitchPerfectApp')
       }
     };
 
+    $scope.stopCamera = function() {
+      // Stop the video streaming if it's running.
+      if ($scope.mediaStream !== null) {
+        var video = $window.document.getElementById('video-preview');
+        video.pause();
+        $scope.mediaStream.stop();
+      }
+    };
+
+    $scope.returnHome = function() {
+      $scope.stopCamera();
+      $state.go('home');
+    };
+
     $scope.questionSelected = function () {
+      $scope.stopCamera();
       $state.go('question');
     };
 
-    $scope.startPreviewVideo();
     $scope.getAllQuestions();
   });

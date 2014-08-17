@@ -3,9 +3,9 @@
 angular.module('pitchPerfectApp')
   .config(function ($stateProvider) {
     $stateProvider
-      .state('review', {
-        url: '/review',
-        templateUrl: 'app/review/review.html',
-        controller: 'ReviewCtrl'
+      .state('reviewCreate', {
+        url: '/reviewcreate',
+        templateUrl: 'app/review/reviewcreate.html',
+        controller: 'ReviewCtrlCreate'
       });
   });

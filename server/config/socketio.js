@@ -19,6 +19,7 @@ function onConnect(socket) {
 
   // Insert sockets below
   require('../api/notification/notification.socket').register(socket);
+  require('../api/review/review.socket').register(socket);
   require('../api/video/video.socket').register(socket);
   require('../api/userdeck/userdeck.socket').register(socket);
   require('../api/question/question.socket').register(socket);

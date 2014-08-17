@@ -25,7 +25,7 @@
 
                 <button id="btn-start-recording" class="btn btn-info" ng-click="pauseRecording(); changeProcessInterviewStatus(); changeInterviewStatus();">Annotate</button>
 
-                <button id="btn-save-recording" class="btn btn-info" disabled ng-click="saveRecording();">Done</button>
+                <button id="btn-save-recording" class="btn btn-info" ng-click="saveReview();">Done</button>
                 <!-- route to /share -->
                 <h2 id="download-url"></h2>
                 <br />
@@ -60,8 +60,8 @@
         <div class="col-md-6 column text-center">
 
             <div id="video-box">
-                <video class="video-panel" id="video-response" controls>
-                    <source src="http://upload.wikimedia.org/wikipedia/commons/a/a8/Hacky_sack1.ogg" type="video/webm">
+                <video class="video-panel" id="video-response" controls ng-src="{{url}}" type="video/webm">
+
                 </video>
             </div>
         </div>
