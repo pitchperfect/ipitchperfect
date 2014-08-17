@@ -1,10 +1,11 @@
 'use strict';
 
 angular.module('pitchPerfectApp')
-  .controller('HomeCtrl', function ($scope, HomeFactory, InterviewFactory, $state) {
+  .controller('HomeCtrl', function ($scope, HomeFactory, InterviewFactory, $state, socket, $http) {
     $scope.submitBox = false;
     $scope.allDecks = [];
     $scope.allUserDecks = [];
+    $scope.allNotifications = [];
 
     $scope.getUserDecksCb = function (allUserDecks) {
       $scope.allUserDecks = allUserDecks;
@@ -64,6 +65,43 @@ angular.module('pitchPerfectApp')
       //Auth.getCurrentUser;
     };
 
-    $scope.reloadPageContent();
 
+    //////
+    // Grab the initial set of available comments
+    $http.get('/api/notifications').success(function(notification) {
+      console.log('GOT NOTIFS', notification);
+      $scope.allNotifications = notification;
+
+      // Update array with any new or deleted items pushed from the socket
+      socket.syncUpdates('notification', $scope.notification, function(event, notification, notifications) {
+        // This callback is fired after the comments array is updated by the socket listeners
+        console.log('NOTIFS UPDATED', notification, notifications, event);
+        // sort the array every time its modified
+        notifications.sort(function(a, b) {
+          a = new Date(a.date);
+          b = new Date(b.date);
+          return a>b ? -1 : a<b ? 1 : 0;
+        });
+      });
+    });
+
+    // Clean up listeners when the controller is destroyed
+    $scope.$on('$destroy', function () {
+      socket.unsyncUpdates('notification');
+    });
+
+    // // Use our rest api to post a new comment
+    // $scope.addComment = function() {
+    //   $http.post('/api/notifications', { content: $scope.newNotification });
+    //   $scope.newNotification = '';
+    // };
+    //////
+
+
+
+
+
+
+
+    $scope.reloadPageContent();
   });

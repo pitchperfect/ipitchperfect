@@ -13,7 +13,7 @@ You know your material. You’ve done your homework. However, when the interview
 
 A job Interview can be a high stakes proposition: your livelihood and career direction can be radically affected by how well you respond to questions in this high-pressure setting.
 
-__pitchPerfect__ provides a safe platform where you can master the ability to communicate with confidence and show your work in the best light possible. Work at your own speed as you iteratively hone your skills and incorporate helpful feedback from colleagues.
+__pitchPerfect__ provides a safe platform where you can master the ability to communicate with confidence and show your work in the best light possible. Work at your own speed as you iteratively hone your skills and incorporate valuable feedback from colleagues.
 
 Don’t learn while you burn - get your hiring pitch perfect before you enter the interview. They won’t be deciding upon you, you will be deciding on them.
 
