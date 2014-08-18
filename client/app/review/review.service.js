@@ -5,84 +5,81 @@ angular.module('pitchPerfectApp')
 .factory('ReviewFactory', function($http, $q) {
   // Stores data returned from APIs
 
-  var reviewContext = {};
+  return { //open return
 
-  //testing
-  //reviewContext.targetResponseId = '53efc88aec24afc92b95cc0f';
+    reviewContext: {},
 
-  var getResponseData = function(responseId, callback) {
+    getResponseData: function(responseId, callback) {
 
-    // Promise array used for sequencing below
-    var promises = [];
-    var theData = {};
+      // Promise array used for sequencing below
+      var promises = [];
+      var theData = {};
+      var reviewContext = this.reviewContext;
 
-    // Promise for response
-    var responseObj = $http.get('/api/responses/' + responseId)
-      .success(function(resp) {
-        // Add the response data to the Context Object
-        reviewContext.responseObj = resp;
-        return resp;
-      });
-
-    //  Continue once the response comes back
-    responseObj.then(function(data) {
-
-      //Promise for question
-      var questionObj = $http.get('/api/questions/' + data.data.questionId)
+      // Promise for response
+      var responseObj = $http.get('/api/responses/' + responseId)
         .success(function(resp) {
-          // Add the question data to the Context Object
-          reviewContext.questionObj = resp;
-          theData.questionTitle = resp.title;
+          // Add the response data to the Context Object
+          reviewContext.responseObj = resp;
+          return resp;
         });
 
-      // Add to promise array
-      promises.push(questionObj);
+      //  Continue once the response comes back
+      responseObj.then(function(data) {
 
-      //Promise for video
-      var videoUrl = $http.get('/api/videos/url/' + data.data.videoId)
-        .success(function(resp) {
-          // Add the video data to the Context Object
-          reviewContext.videoObj = resp;
-          theData.videoUrl = resp.url;
-        });
-
-      // Add to promise array
-      promises.push(videoUrl);
-
-      // Execute in sequence
-      $q.all(promises).then(function() {
-        //Update $scope via the passed in callback
-        callback(theData.videoUrl, theData.questionTitle);
-
-        console.log('review context from the factory ', reviewContext);
-      });
-
-    });
-  };
-
-  var saveReview = function(createReviewData) {
-    // Create review data assembled on client
-    $http.post('/api/reviews', createReviewData)
-      .success(function(newReview) {
-
-        // Assemble the data to be updated in the UserDeck
-        var tempObj = {};
-        tempObj.responseId = newReview.responseId;
-        tempObj.reviewId = newReview._id;
-        var userDeckId = newReview.userDeckId;
-
-        // Update the UserDeck with the new review
-        $http.put('/api/userdecks/' + userDeckId + '/review', tempObj)
-          .success(function(updatedReview) {
-            console.log('Review Updated!', updatedReview);
+        //Promise for question
+        var questionObj = $http.get('/api/questions/' + data.data.questionId)
+          .success(function(resp) {
+            // Add the question data to the Context Object
+            reviewContext.questionObj = resp;
+            theData.questionTitle = resp.title;
           });
-      });
-  };
 
-  // Expose the action to the controller
-  return {
-    getResponseData: getResponseData,
-    reviewContext: reviewContext,
-    saveReview: saveReview
-  };
+        // Add to promise array
+        promises.push(questionObj);
+
+        //Promise for video
+        var videoUrl = $http.get('/api/videos/url/' + data.data.videoId)
+          .success(function(resp) {
+            // Add the video data to the Context Object
+            reviewContext.videoObj = resp;
+            theData.videoUrl = resp.url;
+          });
+
+        // Add to promise array
+        promises.push(videoUrl);
+
+        // Execute in sequence
+        $q.all(promises).then(function() {
+          //Update $scope via the passed in callback
+          callback(theData.videoUrl, theData.questionTitle);
+
+          console.log('review context FROM THE FACTORY ', reviewContext);
+        });
+
+      });
+    },
+
+    saveReview: function(createReviewData) {
+      // Create review data assembled on client
+
+      $http.put('/api/reviews'+ '/' + createReviewData._id, createReviewData)
+        .success(function(updatedReview) {
+
+          // Assemble the data to be updated in the UserDeck
+          var tempObj = {};
+          tempObj.responseId = updatedReview.responseId;
+          tempObj.reviewId = updatedReview._id;
+          var userDeckId = updatedReview.userDeckId;
+
+          // Update the UserDeck with the new review
+          $http.put('/api/userdecks/' + userDeckId + '/review', tempObj)
+            .success(function(updatedUserDeck) {
+              console.log('User Deck Updated!', updatedUserDeck);
+            });
+        });
+    }
+
+  } //close return object
+
 });
