@@ -19,6 +19,23 @@ angular.module('pitchPerfectApp')
   };
 
 
+  var createReview = function(authorRequested) {
+    // Assemble pertinent data for new Response Obj
+    var tempObj = {
+      responseId: shareContext.responseId,
+      author: authorRequested,
+      completed: false,
+    };
+
+    // Create response
+    $http.post('/api/reviews', tempObj)
+      .success(function(newReview) {
+        // Push this reponse to the UserDeck
+        console.log('review created', newReview);
+      });
+  };
+
+
   var sendInvites = function(invites){
 
     // For Celine
@@ -30,9 +47,10 @@ angular.module('pitchPerfectApp')
   };
 
   return {
+    shareContext: shareContext,
     getAllUsers: getAllUsers,
+    createReview: createReview,
     sendInvites: sendInvites,
-    shareContext: shareContext
   };
 
 });

@@ -2,7 +2,7 @@
 'use strict';
 
 angular.module('pitchPerfectApp')
-  .factory('socket', function(socketFactory) {
+  .factory('socket', function(socketFactory, $rootScope) {
 
     // socket.io now auto-configures its connection when we ommit a connection url
     var ioSocket = io(null, {
@@ -68,6 +68,17 @@ angular.module('pitchPerfectApp')
       unsyncUpdates: function (modelName) {
         socket.removeAllListeners(modelName + ':save');
         socket.removeAllListeners(modelName + ':remove');
+      },
+
+      emit: function (eventName, data, callback) {
+        socket.emit(eventName, data, function () {
+          var args = arguments;
+          $rootScope.$apply(function () {
+              if (callback) {
+                  callback.apply(socket, args);
+              }
+          });
+        });
       }
     };
   });

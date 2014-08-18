@@ -139,7 +139,33 @@
 
 
   		<div class="col-md-6 column">
+        <!-- REVIEW REQUESTS -->
+        <div class="panel panel-success">
 
+          <div class="panel-heading text-center">
+            <h3 class="panel-title">Review Requests</h3>
+          </div>
+
+
+          <div class="panel-body">
+
+            <!--  NOTIFICATION LIST -->
+            <div class="list-group">
+              <div ng-repeat="review in reviews">
+                <div class="list-group-item" ng-click="sendToReview(review)">
+                  <h5>Request from: {{ review.userId.name }}</h5>
+                  <!-- <span class="small">{{review.title}}</span> -->
+                  <small class="small faint">Last Updated: {{review.updated_at | date : 'mediumDate'}}</small>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+
+
+
+        <!-- USER DECKS -->
         <div class="panel panel-success">
 
           <div class="panel-heading text-center">

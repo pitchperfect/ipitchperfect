@@ -153,7 +153,7 @@ angular.module('pitchPerfectApp')
     // Create response based on this blob
     QuestionFactory.createVideo(videoBlob, questionObj, $scope.stopCamera);
 
-    $state.go('interview');
+    //$state.go('interview');
   };
 
   $scope.stopRecording = function() {

@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('pitchPerfectApp')
-  .controller('LoginCtrl', function ($scope, Auth, $location, $window) {
+  .controller('LoginCtrl', function ($scope, Auth, $location, $window, User, socket) {
     $scope.user = {};
     $scope.errors = {};
 
@@ -16,6 +16,12 @@ angular.module('pitchPerfectApp')
         .then( function() {
           // Logged in, redirect to home
           $location.path('/');
+
+          User.get({}, function(user){
+            console.log(user._id);
+            socket.emit('user connected', user._id);
+          });
+
         })
         .catch( function(err) {
           $scope.errors.other = err.message;

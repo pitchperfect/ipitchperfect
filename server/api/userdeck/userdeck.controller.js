@@ -64,9 +64,12 @@ exports.updateResponse = function(req, res) {
   if (req.body._id) {
     delete req.body._id;
   }
-
+  console.log('req.params.id', req.params.id);
   // Find the right deck
   Userdeck.findById(req.params.id, function(err, userdeck) {
+    var keysToUpdate = {};
+    var questionResponded;
+
     if (err) {
       return handleError(res, err);
     }
@@ -82,8 +85,7 @@ exports.updateResponse = function(req, res) {
       array.push(req.body.responseId);
 
       // Mongo string move
-      var keysToUpdate = {};
-      var questionResponded = 'responses.' + req.body.questionId;
+      questionResponded = 'responses.' + req.body.questionId;
       keysToUpdate[questionResponded] = array;
 
       // Use the $set Mongo move
@@ -98,14 +100,14 @@ exports.updateResponse = function(req, res) {
       // First response for Question, so create the array
 
       // Mongo string move
-      var keysToUpdate = {};
-      var questionResponded = 'responses.' + req.body.questionId;
+      questionResponded = 'responses.' + req.body.questionId;
       keysToUpdate[questionResponded] = [req.body.responseId];
-
+      console.log(keysToUpdate);
       // Use the $set Mongo move
       userdeck.update({
         $set: keysToUpdate
       }, function(err, deck) {
+        console.log('final update:', deck)
         // Console.log('arguments', arguments);
         // Would be nice to get an err status here
       });
@@ -117,6 +119,9 @@ exports.updateResponse = function(req, res) {
 exports.updateReview = function(req, res) {
 
   Userdeck.findById(req.params.id, function(err, userdeck) {
+    var keysToUpdate = {};
+    var responseResponded;
+
     if (err) {
       return handleError(res, err);
     }
@@ -131,8 +136,7 @@ exports.updateReview = function(req, res) {
       array.push(req.body.reviewId);
 
       // Mongo string move
-      var keysToUpdate = {};
-      var responseResponded = 'reviews.' + req.body.responseId;
+      responseResponded = 'reviews.' + req.body.responseId;
       keysToUpdate[responseResponded] = array;
 
       // Update the UserDeck with the updated review array
@@ -150,8 +154,7 @@ exports.updateReview = function(req, res) {
       // First Review for this Response, so create the array
 
       // Mongo string move
-      var keysToUpdate = {};
-      var responseResponded = 'reviews.' + req.body.responseId;
+      responseResponded = 'reviews.' + req.body.responseId;
       keysToUpdate[responseResponded] = [req.body.reviewId];
 
       // Use the $set Mongo move
