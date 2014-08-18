@@ -18,11 +18,10 @@ angular.module('pitchPerfectApp')
     });
   };
 
-  var getRequests = function (setRequests){
-    console.log('am i here?');
+  var getRequests = function (setReviewRequests){
     $http.get('/api/reviews').success(function(reviews) {
-      console.log('MY REQUESTS !!', reviews);
-      setRequests(reviews);
+      console.log('my requests', reviews);
+      setReviewRequests(reviews);
     });
   };
 

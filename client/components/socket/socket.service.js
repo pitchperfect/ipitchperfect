@@ -2,7 +2,7 @@
 'use strict';
 
 angular.module('pitchPerfectApp')
-  .factory('socket', function(socketFactory) {
+  .factory('socket', function(socketFactory, $rootScope) {
 
     // socket.io now auto-configures its connection when we ommit a connection url
     var ioSocket = io(null, {
@@ -34,6 +34,8 @@ angular.module('pitchPerfectApp')
          * Syncs item creation/updates on 'model:save'
          */
         socket.on(modelName + ':save', function (item) {
+          console.log('item', item);
+          console.log('array1', array);
           var oldItem = _.find(array, {_id: item._id});
           var index = array.indexOf(oldItem);
           var event = 'created';
@@ -43,8 +45,10 @@ angular.module('pitchPerfectApp')
           if (oldItem) {
             array.splice(index, 1, item);
             event = 'updated';
+            console.log('array2', array);
           } else {
             array.push(item);
+            console.log('array3', array);
           }
 
           cb(event, item, array);
@@ -68,6 +72,17 @@ angular.module('pitchPerfectApp')
       unsyncUpdates: function (modelName) {
         socket.removeAllListeners(modelName + ':save');
         socket.removeAllListeners(modelName + ':remove');
+      },
+
+      emit: function (eventName, data, callback) {
+        socket.emit(eventName, data, function () {
+          var args = arguments;
+          $rootScope.$apply(function () {
+              if (callback) {
+                  callback.apply(socket, args);
+              }
+          });
+        });
       }
     };
   });

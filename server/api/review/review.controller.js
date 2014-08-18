@@ -25,11 +25,18 @@ exports.show = function(req, res) {
 // Creates a new review in the DB.
 exports.create = function(req, res) {
   req.body.userId = req.user._id;
-  Review.create(req.body, function(err, review) {
+
+  var review = new Review(req.body);
+  review.save(function(err, review) {
+    console.log('review saved', review);
     if(err) { return handleError(res, err); }
-      console.log('just created this review', review);
     return res.json(201, review);
   });
+  // Review.create(req.body, function(err, review) {
+  //   if(err) { return handleError(res, err); }
+  //     console.log('just created this review', review);
+  //   return res.json(201, review);
+  // });
 };
 
 // Updates an existing review in the DB.

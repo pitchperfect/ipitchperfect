@@ -5,7 +5,7 @@ angular.module('pitchPerfectApp')
     $scope.submitBox = false;
     $scope.allDecks = [];
     $scope.allUserDecks = [];
-    $scope.allNotifications = [];
+    $scope.reviews = [];
 
     $scope.getUserDecksCb = function (allUserDecks) {
       $scope.allUserDecks = allUserDecks;
@@ -15,9 +15,38 @@ angular.module('pitchPerfectApp')
       $scope.allDecks = decks;
     };
 
-    $scope.setRequests = function (requests) {
-      $scope.requests = requests;
+    $scope.setReviewRequests = function (reviewsOnLoad) {
+      $scope.reviews = reviewsOnLoad;
+
+      // Update array with any new or deleted items pushed from the socket
+      socket.syncUpdates('review', $scope.reviews, function(event, review, reviews) {
+        // This callback is fired after the comments array is updated by the socket listeners
+        // sort the array every time its modified
+        reviews.sort(function(a, b) {
+          a = new Date(a.created_at);
+          b = new Date(b.created_at);
+          return a>b ? -1 : a<b ? 1 : 0;
+        });
+        // $scope.reviews = reviews;
+      });
+      // socket.syncUpdates('review', $scope.reviews, function(event, review, reviews) {
+      //   // This callback is fired after the comments array is updated by the socket listeners
+      //   console.log('requests synching', review, reviews);
+      //   // sort the array every time its modified
+      //   console.log('array4', reviews);
+      //   reviews.sort(function(a, b) {
+      //     var dateA = a['created_at'];
+      //     var dateB = b['created_at'];
+      //     a = new Date(dateA);
+      //     b = new Date(dateB);
+      //     return a>b ? -1 : a<b ? 1 : 0;
+      //   });
+      // });
     };
+
+    $scope.$on('$destroy', function () {
+      socket.unsyncUpdates('request');
+    });
 
     $scope.sendToInterview = function (model, isUserdeck) {
       console.log('model', model);
@@ -66,7 +95,7 @@ angular.module('pitchPerfectApp')
 
     $scope.reloadPageContent = function () {
       HomeFactory.getAllUserDecks($scope.getDecksCb, $scope.getUserDecksCb);
-      HomeFactory.getRequests($scope.setRequests);
+      HomeFactory.getRequests($scope.setReviewRequests);
     };
 
 

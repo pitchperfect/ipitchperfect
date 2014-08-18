@@ -151,9 +151,9 @@
 
             <!--  NOTIFICATION LIST -->
             <div class="list-group">
-              <div ng-repeat="request in requests">
-                <div class="list-group-item" ng-click="sendToReview(request)">
-                  <h5>Request from: {{ request.userId.name }}</h5>
+              <div ng-repeat="review in reviews">
+                <div class="list-group-item" ng-click="sendToReview(review)">
+                  <h5>Request from: {{ review.userId }}</h5>
                   <!-- <span class="small">{{request.title}}</span> -->
                   <small class="small faint">Last Updated: {{request.created_at | date : 'mediumDate'}}</small>
                 </div>
