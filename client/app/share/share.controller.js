@@ -7,11 +7,9 @@ angular.module('pitchPerfectApp')
   $scope.showNote = false;
   $scope.allUsers = [];
   $scope.usersSelected = [];  // invitees id's
-  console.log('ShareFactory.shareContext', ShareFactory.shareContext);
 
   // Callback function used to synch API data to the UI
   $scope.setAllUsers = function(allUsers){
-    console.log(allUsers);
   	$scope.allUsers = allUsers;
   };
 
