@@ -153,9 +153,9 @@
             <div class="list-group">
               <div ng-repeat="review in reviews">
                 <div class="list-group-item" ng-click="sendToReview(review)">
-                  <h5>Request from: {{ review.userId }}</h5>
-                  <!-- <span class="small">{{request.title}}</span> -->
-                  <small class="small faint">Last Updated: {{request.created_at | date : 'mediumDate'}}</small>
+                  <h5>Request from: {{ review.userId.name }}</h5>
+                  <!-- <span class="small">{{review.title}}</span> -->
+                  <small class="small faint">Last Updated: {{review.updated_at | date : 'mediumDate'}}</small>
                 </div>
               </div>
 

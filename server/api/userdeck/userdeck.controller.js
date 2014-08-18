@@ -69,7 +69,6 @@ exports.updateResponse = function(req, res) {
   Userdeck.findById(req.params.id, function(err, userdeck) {
     var keysToUpdate = {};
     var questionResponded;
-    console.log('userdeck found', userdeck);
 
     if (err) {
       return handleError(res, err);

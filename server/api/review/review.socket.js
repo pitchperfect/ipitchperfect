@@ -11,17 +11,12 @@ exports.register = function(socket, connectUsers) {
     onSave(connectUsers, socket, doc);
   });
   Review.schema.post('remove', function (doc) {
-    onRemove(socket, doc); //integrate: connectUsers
+    onRemove(socket, doc);
   });
 }
 
 function onSave(connectUsers, socket, doc, cb) {
-  // console.log('review1 in pipe', Review);
-  //console.log('connect obj in pipe', connectUsers);
-
-  console.log('doc in pipe', doc);
-  console.log('boolean in pipe', connectUsers[doc.author]);
-  if(connectUsers[doc.author]){
+  if(connectUsers[doc.author]) {
     Review.populate(doc, {path:'userId', select: 'name'}, function(err, comment) {
       connectUsers[doc.author].emit('review:save', doc);
     });

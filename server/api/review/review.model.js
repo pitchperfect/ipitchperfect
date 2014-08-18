@@ -26,8 +26,6 @@ ReviewSchema.statics = {
   loadRecent: function(author, cb) {
     this.find({author: author})
       .populate({path:'userId', select: 'name'})
-      // .sort('-created_at')
-      // .limit(20)
       .exec(cb);
   }
 };

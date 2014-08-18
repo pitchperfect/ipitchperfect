@@ -7,7 +7,6 @@ var Review = require('./review.model');
 exports.index = function(req, res) {
   var author = req.user._id;
   Review.loadRecent(author, function (err, reviews) {
-    console.log(reviews);
     if(err) { return handleError(res, err); }
     return res.json(200, reviews);
   });
@@ -28,7 +27,6 @@ exports.create = function(req, res) {
 
   var review = new Review(req.body);
   review.save(function(err, review) {
-    console.log('review saved', review);
     if(err) { return handleError(res, err); }
     return res.json(201, review);
   });

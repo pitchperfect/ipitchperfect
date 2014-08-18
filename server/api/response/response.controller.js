@@ -16,24 +16,12 @@ exports.index = function(req, res) {
   });
 };
 
-
-// Get a specific response
-// exports.getSpecificResponse = function(req, res) {
-//   Response.findById(req.params.id, function (err, response) {
-//     if(err) { return handleError(res, err); }
-//     if(!response) { return res.send(404); }
-//     return res.json(response);
-//   });
-// };
-
 // Get a single response
 exports.show = function(req, res) {
-  console.log('server - response id is ' + req.params.id);
 
   Response.findById(req.params.id, function (err, response) {
     if(err) { return handleError(res, err); }
     if(!response) { return res.send(404); }
-      console.log('server - got response ', response);
     return res.json(response);
   });
 };
@@ -45,7 +33,6 @@ exports.create = function(req, res) {
 
   Response.create(req.body, function(err, response) {
     if(err) { return handleError(res, err); }
-    console.log('from Response post ', response);
 
     return res.json(201, response);
 

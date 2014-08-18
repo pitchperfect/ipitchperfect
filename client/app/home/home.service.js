@@ -20,7 +20,7 @@ angular.module('pitchPerfectApp')
 
   var getRequests = function (setReviewRequests){
     $http.get('/api/reviews').success(function(reviews) {
-      console.log('my requests', reviews);
+      console.log('user\'s requests', reviews);
       setReviewRequests(reviews);
     });
   };
