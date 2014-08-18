@@ -7,6 +7,11 @@ angular.module('pitchPerfectApp')
     $scope.allUserDecks = [];
     $scope.reviews = [];
 
+    $scope.goToReview = function () {
+      $state.go('reviewView',{ reviewId : '53f26e564b0bceff30ee17a7' })
+    };
+
+
     $scope.getUserDecksCb = function (allUserDecks) {
       $scope.allUserDecks = allUserDecks;
     };

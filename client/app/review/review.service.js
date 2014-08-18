@@ -9,11 +9,69 @@ angular.module('pitchPerfectApp')
 
     reviewContext: {},
 
+    getReviewData: function(reviewId, callback) {
+
+      var reviewContext = this.reviewContext;
+      var callbackData = {};
+      var promises = [];
+
+      var reviewObj = $http.get('/api/reviews/' + reviewId)
+        .success(function(review) {
+          // Add the response data to the Context Object
+          reviewContext.reviewObj = review;
+          callbackData.annotations = review.annotations;
+          //callback(reviewContext.reviewObj.annotations);
+          console.log('review Context is now ', reviewContext);
+          return review;
+        });
+
+      reviewObj.then(function(review) {
+        review = review.data;
+
+        var questionObj = $http.get('/api/questions/' + review.questionId)
+          .success(function(question) {
+            // Add the question data to the Context Object
+            reviewContext.questionObj = question;
+            callbackData.questionTitle = question.title;
+          });
+
+        promises.push(questionObj);
+
+        var videoUrl = $http.get('/api/videos/url/' + review.videoId)
+          .success(function(video) {
+            // Add the video data to the Context Object
+            reviewContext.videoObj = video;
+            callbackData.videoUrl = video.url;
+          });
+
+        // Add to promise array
+        promises.push(videoUrl);
+
+        var userName = $http.get('/api/users/' + review.userId)
+          .success(function(user) {
+            // Add the video data to the Context Object
+            reviewContext.userObj = user;
+            callbackData.responderName = user.name;
+          });
+
+        promises.push(userName);
+
+        // Execute in sequence
+        $q.all(promises).then(function() {
+          //Update $scope via the passed in callback
+          callback(callbackData);
+          console.log('the DATA is  ', callbackData);
+        });
+
+      });
+
+    },
+
     getResponseData: function(responseId, callback) {
 
       // Promise array used for sequencing below
       var promises = [];
-      var theData = {};
+      var callbackData = {};
       var reviewContext = this.reviewContext;
 
       // Promise for response
@@ -32,7 +90,7 @@ angular.module('pitchPerfectApp')
           .success(function(resp) {
             // Add the question data to the Context Object
             reviewContext.questionObj = resp;
-            theData.questionTitle = resp.title;
+            callbackData.questionTitle = resp.title;
           });
 
         // Add to promise array
@@ -43,7 +101,7 @@ angular.module('pitchPerfectApp')
           .success(function(resp) {
             // Add the video data to the Context Object
             reviewContext.videoObj = resp;
-            theData.videoUrl = resp.url;
+            callbackData.videoUrl = resp.url;
           });
 
         // Add to promise array
@@ -52,7 +110,7 @@ angular.module('pitchPerfectApp')
         // Execute in sequence
         $q.all(promises).then(function() {
           //Update $scope via the passed in callback
-          callback(theData.videoUrl, theData.questionTitle);
+          callback(callbackData.videoUrl, callbackData.questionTitle);
 
           console.log('review context FROM THE FACTORY ', reviewContext);
         });
@@ -63,17 +121,17 @@ angular.module('pitchPerfectApp')
     saveReview: function(createReviewData) {
       // Create review data assembled on client
 
-      $http.put('/api/reviews'+ '/' + createReviewData._id, createReviewData)
+      $http.put('/api/reviews' + '/' + createReviewData._id, createReviewData)
         .success(function(updatedReview) {
 
           // Assemble the data to be updated in the UserDeck
-          var tempObj = {};
-          tempObj.responseId = updatedReview.responseId;
-          tempObj.reviewId = updatedReview._id;
+          var paramsToUpdate = {};
+          paramsToUpdate.responseId = updatedReview.responseId;
+          paramsToUpdate.reviewId = updatedReview._id;
           var userDeckId = updatedReview.userDeckId;
 
           // Update the UserDeck with the new review
-          $http.put('/api/userdecks/' + userDeckId + '/review', tempObj)
+          $http.put('/api/userdecks/' + userDeckId + '/review', paramsToUpdate)
             .success(function(updatedUserDeck) {
               console.log('User Deck Updated!', updatedUserDeck);
             });
