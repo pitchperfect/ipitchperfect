@@ -1,0 +1,88 @@
+<div id="question">
+
+    <!-- Question Title -->
+    <div class="container">
+        <div class="col-md-12 column">
+
+            <div class="page-header">
+                <h1>Question:
+                    <div class="text-center">
+                        <small>
+                            <span>{{question}}</span>
+                        </small>
+
+                    </div>
+                </h1>
+            </div>
+
+        </div>
+    </div>
+
+
+    <div class="container">
+        <div class="col-md-12 column text-center">
+            <div class="row clearfix">
+
+                <button id="btn-save-recording" class="btn btn-info" ng-click="goToInterview();">Done</button>
+                <!-- route to /share -->
+                <h2 id="download-url"></h2>
+                <br />
+            </div>
+
+            <div class="row clearfix" ng-show="processInterview">
+                <span>&nbsp;</span>
+            </div>
+
+        </div>
+    </div>
+
+
+
+    <div class="container" ng-hide="processInterview">
+        <div class="col-md-12 column text-center">
+            <div>
+                <span id="userAlert">{{alertUser}}</span>
+            </div>
+
+            <div class="row clearfix">
+                <span>&nbsp;</span>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- see userDeck List in /home for how to add list of annotations -->
+
+    <!-- Video container -->
+    <div class="container">
+        <div class="col-md-6 column text-center">
+
+            <div id="video-box">
+                <video class="video-panel" id="video-response" controls ng-src="{{url}}" type="video/webm">
+
+                </video>
+            </div>
+        </div>
+
+        <div class="col-md-6 column text-center">
+            <div >
+              Click An Annotation to Jump to Location
+            </div>
+
+            <!--  ANNOTATIONS LIST-->
+            <div class="list-group">
+                <div ng-repeat="singleAnnotation in allAnnotations">
+                    <div class="list-group-item text-left" ng-click="playAnnotation(singleAnnotation.timelineActual)">
+                        <small class="small faint">Timeline: {{singleAnnotation.timelineActual}}</small>
+                        <span class="small">{{singleAnnotation.description}}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row clearfix">
+        <span>&nbsp;</span>
+    </div>
+
+</div>

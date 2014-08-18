@@ -6,12 +6,12 @@ angular.module('pitchPerfectApp')
 
     var reviewContext = ReviewFactory.reviewContext;
 
+    console.log('review context COMING IN is  ', reviewContext);
+
+
     if (!reviewContext.targetResponseId){
       console.log('no target response, going home');
       $state.go('home');
-    } else {
-
-
     }
 
     $scope.url = '';
@@ -36,6 +36,7 @@ angular.module('pitchPerfectApp')
     };
 
     ReviewFactory.getResponseData(reviewContext.targetResponseId, setDataCallback);
+    console.log('review context AFTER SERVICE CALL is  ', reviewContext);
 
     // Popcorn is lib for video features
     var popcorn = new Popcorn('#video-response');
@@ -47,17 +48,24 @@ angular.module('pitchPerfectApp')
 
     $scope.saveReview = function() {
 
+      console.log('reviewContext IN SAVE is ', ReviewFactory.reviewContext);
+
       // Assemble pertinent data for the new Review Object
       var createReviewData = {
+        _id: reviewContext._id,
         annotations: $scope.allAnnotations,
-        responseId: reviewContext.responseObj._id,
+        //responseId: reviewContext.responseObj._id,
         questionId: reviewContext.questionObj._id,
-        responseCreatorId: reviewContext.responseObj.userId,
+        //responseCreatorId: reviewContext.responseObj.userId,
         videoId: reviewContext.responseObj.videoId,
-        userDeckId: reviewContext.responseObj.userDeckId
+        userDeckId: reviewContext.responseObj.userDeckId,
+        complete: true
       };
       // Create the Review
+      console.log('createReviewData object is ', createReviewData);
+
       ReviewFactory.saveReview(createReviewData);
+      $state.go('home');
 
     };
 
