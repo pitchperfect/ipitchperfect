@@ -38,8 +38,8 @@ angular.module('pitchPerfectApp')
         // This callback is fired after the comments array is updated by the socket listeners
         // sort the array every time its modified
         reviews.sort(function(a, b) {
-          a = new Date(a.created_at);
-          b = new Date(b.created_at);
+          //a = new Date(a.created_at); //*********
+          //b = new Date(b.created_at); //*********
           return a>b ? -1 : a<b ? 1 : 0;
         });
       });
