@@ -50,12 +50,14 @@ exports.create = function(req, res) {
 
         /* CREATE DECK */
         if (req.body.questions.length === qCollection.length) {
-          Deck.create(req.body, function(err, deck) {
-            console.log('deck created:', deck);
-            if(err) { return handleError(res, err); }
 
+          var deck = new Deck(req.body);
+          deck.save(function(err, deck) {
+            // console.log('deck created:', deck);
+            if(err) { return handleError(res, err); }
             return res.json(201, deck);
           });
+
         }
 
       });
@@ -65,16 +67,11 @@ exports.create = function(req, res) {
 
 // Updates an existing deck in the DB.
 exports.update = function(req, res) {
-  // console.log('**** deck update params:', req.params);
-  // console.log('**** deck update body:', req.params);
 
   if(req.body._id) { delete req.body._id; }
   Deck.findById(req.params.id, function (err, deck) {
     if (err) { return handleError(res, err); }
     if(!deck) { return res.send(404); }
-
-    console.log('deck to update', deck);
-    // if () -> deck.questions.push(secondQuestionId);
 
     var updated = _.merge(deck, req.body);
     updated.save(function (err) {

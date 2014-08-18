@@ -7,7 +7,7 @@ angular.module('pitchPerfectApp')
     var reviewContext = ReviewFactory.reviewContext;
 
     if (!reviewContext.targetResponseId){
-      alert('no target response, going home');
+      console.log('no target response, going home');
       $state.go('home');
     } else {
 
