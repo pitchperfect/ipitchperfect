@@ -7,11 +7,9 @@ angular.module('pitchPerfectApp')
   $scope.showNote = false;
   $scope.allUsers = [];
   $scope.usersSelected = [];  // invitees id's
-  console.log('ShareFactory.shareContext', ShareFactory.shareContext);
 
   // Callback function used to synch API data to the UI
   $scope.setAllUsers = function(allUsers){
-    console.log(allUsers);
   	$scope.allUsers = allUsers;
   };
 
@@ -22,14 +20,18 @@ angular.module('pitchPerfectApp')
 	$scope.gotoHome = function() {
 		$('#myModal').modal('hide');
 		// This is a kludge to allows time for the modal fadeout
-		var goHome = function() {
-			$state.go('home');
+		var goToNextPage = function() {
+			$state.go('interview');
 		};
 		// Route to /home
-		setTimeout(goHome, 500);
+		setTimeout(goToNextPage, 500);
 	};
 
-	// Pre-process names and emails, then send to API
+	$scope.cancelShare = function() {
+    $state.go('interview');
+  };
+
+  // Pre-process names and emails, then send to API
   $scope.processInvites = function(){
   	// Show the modal
   	$('#myModal').modal('show');

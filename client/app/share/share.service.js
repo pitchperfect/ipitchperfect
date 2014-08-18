@@ -5,13 +5,16 @@ angular.module('pitchPerfectApp')
 
 .factory('ShareFactory', function($http) {
 
+  // shareContext has:
+  //  - responseId
   var shareContext = {};
 
-
+  /**
+   * Returns all users but the one currently logged in.
+   */
   var getAllUsers = function (callback) {
-    $http.get('/api/users')
+    $http.get('/api/users/notMe')
     .success(function(allUsers) {
-      console.log(allUsers);
       callback(allUsers);
     }).error(function(data, status, headers, config) {
       console.log('getAllUsers error:', data, status, headers, config);
@@ -21,14 +24,14 @@ angular.module('pitchPerfectApp')
 
   var createReview = function(authorRequested) {
     // Assemble pertinent data for new Response Obj
-    var tempObj = {
+    var review = {
       responseId: shareContext.responseId,
       author: authorRequested,
       completed: false,
     };
 
     // Create response
-    $http.post('/api/reviews', tempObj)
+    $http.post('/api/reviews', review)
       .success(function(newReview) {
         // Push this reponse to the UserDeck
         console.log('review created', newReview);

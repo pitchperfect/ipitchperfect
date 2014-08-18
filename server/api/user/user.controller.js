@@ -11,10 +11,20 @@ var validationError = function(res, err) {
 
 /**
  * Get list of users
- * restriction: 'admin'
  */
 exports.index = function(req, res) {
   User.find({}, '-salt -hashedPassword', function (err, users) {
+    if(err) return res.send(500, err);
+    res.json(200, users);
+  });
+};
+
+/**
+ * Returns all users but the one currently logged in.
+ */
+exports.getAllOtherUsers = function(req, res) {
+  var currentUserId = req.user._id;
+  User.find({_id: {$ne: currentUserId}}, '-salt -hashedPassword', function (err, users) {
     if(err) return res.send(500, err);
     res.json(200, users);
   });
