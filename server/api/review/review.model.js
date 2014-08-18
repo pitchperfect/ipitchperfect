@@ -6,12 +6,12 @@ var mongoose = require('mongoose'),
 var ReviewSchema = new Schema({
   userId: {type: Schema.Types.ObjectId, ref: 'User'},            // who requested
   responseId: {type: Schema.Types.ObjectId, ref: 'Response'},    // what to be reviewed
-  // questionId: {type: Schema.Types.ObjectId, ref: 'Question'},
-  // videoId: {type: Schema.Types.ObjectId, ref: 'Video'},
+  questionId: {type: Schema.Types.ObjectId, ref: 'Question'},
+  videoId: {type: Schema.Types.ObjectId, ref: 'Video'},
   author: {type: Schema.Types.ObjectId, ref: 'User'}, // whom invited to review
-  // userDeckId:{type: Schema.Types.ObjectId, ref: 'Userdeck'},
+  userDeckId:{type: Schema.Types.ObjectId, ref: 'Userdeck'},
   completed: Boolean,                                             // Task completed ?
-  annotations: Array,                                            // when task completed.
+  annotations: {type: Array, default: []},                                           // when task completed.
   created_at: { type: Date, default: Date.now },
   updated_at: { type: Date}
 });
