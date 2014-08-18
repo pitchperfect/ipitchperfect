@@ -20,14 +20,18 @@ angular.module('pitchPerfectApp')
 	$scope.gotoHome = function() {
 		$('#myModal').modal('hide');
 		// This is a kludge to allows time for the modal fadeout
-		var goHome = function() {
-			$state.go('home');
+		var goToNextPage = function() {
+			$state.go('interview');
 		};
 		// Route to /home
-		setTimeout(goHome, 500);
+		setTimeout(goToNextPage, 500);
 	};
 
-	// Pre-process names and emails, then send to API
+	$scope.cancelShare = function() {
+    $state.go('interview');
+  };
+
+  // Pre-process names and emails, then send to API
   $scope.processInvites = function(){
   	// Show the modal
   	$('#myModal').modal('show');
