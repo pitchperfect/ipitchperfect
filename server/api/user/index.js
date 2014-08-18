@@ -9,6 +9,7 @@ var router = express.Router();
 
 // TOOK OUT AUTHENTICATION TEMPORARILY
 router.get('/', auth.isAuthenticated(), controller.index);
+router.get('/notMe', auth.isAuthenticated(), controller.getAllOtherUsers);
 router.delete('/:id', auth.hasRole('admin'), controller.destroy);
 router.get('/me', auth.isAuthenticated(), controller.me);
 router.put('/:id/password', auth.isAuthenticated(), controller.changePassword);

@@ -32,12 +32,13 @@
                 </div>
 
                 <p>
-                    <a class="btn" ng-click="toggleNote()">Add Personal Note »</a>
+                    <a class="btn" ng-click="toggleNote();">Add Personal Note »</a>
                 </p>
                 <div ng-show="showNote" class="form-group">
                     <textarea rows="5" style="width:100%" placeholder="Hey, would you have a minute to review my interview video? Thanks!" ng-model="specialNote"></textarea>
                 </div>
-                <button ng-click="processInvites()" class="btn btn-primary btn-default">Share</button>
+                <button ng-click="processInvites();" class="btn btn-primary btn-default">Share</button>
+                <button ng-click="cancelShare();" class="btn btn-primary btn-danger">Cancel</button>
             </form>
         </div>
         <div class="col-md-3 column">
