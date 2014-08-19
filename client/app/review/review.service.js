@@ -20,8 +20,6 @@ angular.module('pitchPerfectApp')
           // Add the response data to the Context Object
           reviewContext.reviewObj = review;
           callbackData.annotations = review.annotations;
-          //callback(reviewContext.reviewObj.annotations);
-          console.log('review Context is now ', reviewContext);
           return review;
         });
 
@@ -60,7 +58,6 @@ angular.module('pitchPerfectApp')
         $q.all(promises).then(function() {
           //Update $scope via the passed in callback
           callback(callbackData);
-          console.log('the DATA is  ', callbackData);
         });
 
       });
@@ -112,7 +109,6 @@ angular.module('pitchPerfectApp')
           //Update $scope via the passed in callback
           callback(callbackData.videoUrl, callbackData.questionTitle);
 
-          console.log('review context FROM THE FACTORY ', reviewContext);
         });
 
       });
@@ -132,12 +128,12 @@ angular.module('pitchPerfectApp')
 
           // Update the UserDeck with the new review
           $http.put('/api/userdecks/' + userDeckId + '/review', paramsToUpdate)
-            .success(function(updatedUserDeck) {
-              console.log('User Deck Updated!', updatedUserDeck);
+            .success(function() {
+              //will pass back userDeck model into function above if needed
             });
         });
     }
 
-  } //close return object
+  }; //close return object
 
 });

@@ -34,7 +34,7 @@ angular.module('pitchPerfectApp')
     // Assemble pertinent data for new Response Obj
     var tempObj = {
       questionId: questionObj.fullQuestionObject._id,
-      title: questionObj.fullQuestionObject.title,
+      questionTitle: questionObj.fullQuestionObject.title,
       videoId: videoId,
       userDeckId: questionObj.currentUserDeckId,
     };
