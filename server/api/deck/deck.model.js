@@ -8,14 +8,14 @@ var DeckSchema = new Schema({
   title: String,
   description: String,
   questions: [{type: Schema.Types.ObjectId, ref: 'Question'}],
-  created_at: { type: Date, default: Date.now },
-  updated_at: { type: Date},
+  createdAt: { type: Date, default: Date.now },
+  updatedAt: { type: Date},
   active: Boolean
 });
 
 DeckSchema.pre('save', function(next) {
   var now = new Date();
-  this.updated_at = now;
+  this.updatedAt = now;
   next();
 });
 
