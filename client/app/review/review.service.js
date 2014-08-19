@@ -128,8 +128,8 @@ angular.module('pitchPerfectApp')
 
           // Update the UserDeck with the new review
           $http.put('/api/userdecks/' + userDeckId + '/review', paramsToUpdate)
-            .success(function(updatedUserDeck) {
-
+            .success(function() {
+              //will pass back userDeck model into function above if needed
             });
         });
     }
