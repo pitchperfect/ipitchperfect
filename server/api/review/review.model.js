@@ -24,7 +24,7 @@ ReviewSchema.pre('save', function(next) {
 
 ReviewSchema.statics = {
   loadRecent: function(author, cb) {
-    this.find({author: author})
+    this.find({author: author, completed: false})
       .populate({path:'userId', select: 'name'})
       .exec(cb);
   }
