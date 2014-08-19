@@ -10,6 +10,8 @@ angular.module('pitchPerfectApp')
   var questionObj = QuestionFactory.contextQuestion;
   $scope.alertUser = '';
 
+  $scope.btnDisabled = {};
+
   $scope.getQuestion = function () {
     //console.log('testing contextQuestion Obj:', QuestionFactory.contextQuestion);
     var contextQuestion = QuestionFactory.contextQuestion;
@@ -86,20 +88,15 @@ angular.module('pitchPerfectApp')
   };
 
   $scope.startRecording = function() {
-    var btnStartRecording = $window.document.getElementById('btn-start-recording');
-    var btnStopRecording  = $window.document.getElementById('btn-stop-recording');
-
-    var btnReplayRecording = $window.document.getElementById('btn-replay-recording');
-    var btnExitRecording = $window.document.getElementById('btn-exit-recording');
-    var btnSaveRecording = $window.document.getElementById('btn-save-recording');
 
     // var downloadURL = $window.document.getElementById('download-url');
 
-    btnStartRecording.disabled = true;
-    btnStopRecording.disabled = false;
-    btnExitRecording.disabled = true;
-    btnSaveRecording.disabled = true;
-    btnReplayRecording.disabled = true;
+    $scope.btnDisabled.start = true;
+    $scope.btnDisabled.stop = false;
+    $scope.btnDisabled.exit = true;
+    $scope.btnDisabled.save = true;
+    $scope.btnDisabled.replay = true;
+    
     videoElement.style.visibility = 'visible';
     // downloadURL.innerHTML = 'Smile, you are being recorded';
 
@@ -160,21 +157,15 @@ angular.module('pitchPerfectApp')
     console.log('stopRecording called.');
     $scope.processInterview = !$scope.processInterview;
 
-    var btnStartRecording = $window.document.getElementById('btn-start-recording');
-    var btnStopRecording  = $window.document.getElementById('btn-stop-recording');
-
-    var btnReplayRecording = $window.document.getElementById('btn-replay-recording');
-    var btnExitRecording = $window.document.getElementById('btn-exit-recording');
-    var btnSaveRecording = $window.document.getElementById('btn-save-recording');
-
     //var downloadURL = $window.document.getElementById('download-url');
 
-    btnStartRecording.disabled = false;
-    btnStopRecording.disabled = true;
-    btnExitRecording.disabled = false;
-    btnSaveRecording.disabled = false;
-    btnReplayRecording.disabled = false;
-    btnReplayRecording.style.visibility = 'visible';
+    $scope.btnDisabled.start = false;
+    $scope.btnDisabled.stop = true;
+    $scope.btnDisabled.exit = false;
+    $scope.btnDisabled.save = false;
+    $scope.btnDisabled.replay = false;
+
+    //btnReplayRecording.style.visibility = 'visible';
     videoElement.style.visibility = 'visible';
 
     $scope.audioVideoRecorder.stopRecording(
