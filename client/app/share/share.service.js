@@ -22,6 +22,17 @@ angular.module('pitchPerfectApp')
   };
 
 
+  var getResponseData = function (responseId, callback) {
+
+    $http.get('/api/responses/'+responseId)
+    .success(function(response) {
+      callback(response);
+    }).error(function(data, status, headers, config) {
+      console.log('getResponseData error:', data, status, headers, config);
+    });
+  };
+
+
   var createReview = function(authorRequested) {
     // Assemble pertinent data for new Response Obj
     var review = {
@@ -32,9 +43,8 @@ angular.module('pitchPerfectApp')
 
     // Create response
     $http.post('/api/reviews', review)
-      .success(function(newReview) {
-        // Push this reponse to the UserDeck
-        console.log('review created', newReview);
+      .success(function() {
+        // Review returned above if needed
       });
   };
 
@@ -54,6 +64,7 @@ angular.module('pitchPerfectApp')
     getAllUsers: getAllUsers,
     createReview: createReview,
     sendInvites: sendInvites,
+    getResponseData: getResponseData
   };
 
 });

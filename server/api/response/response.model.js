@@ -10,14 +10,14 @@ var ResponseSchema = new Schema({
   userDeckId: {type: Schema.Types.ObjectId, ref: 'Userdeck'},
   questionTitle: String,
   description: String,
-  created_at: { type: Date, default: Date.now },
-  updated_at: { type: Date},
+  createdAt: { type: Date, default: Date.now },
+  updatedAt: { type: Date},
   active: Boolean
 });
 
 ResponseSchema.pre('save', function(next) {
   var now = new Date();
-  this.updated_at = now;
+  this.updatedAt = now;
   next();
 });
 
