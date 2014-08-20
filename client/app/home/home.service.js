@@ -30,12 +30,6 @@ angular.module('pitchPerfectApp')
     .success(submitDeckCb);
   };
 
-  var goToReview = function(){
-
-
-  };
-
-
   return {
     getAllUserDecks: getAllUserDecks,
     getRequests: getRequests,

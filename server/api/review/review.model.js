@@ -12,19 +12,19 @@ var ReviewSchema = new Schema({
   userDeckId:{type: Schema.Types.ObjectId, ref: 'Userdeck'},
   completed: Boolean,                                             // Task completed ?
   annotations: {type: Array, default: []},                                           // when task completed.
-  created_at: { type: Date, default: Date.now },
-  updated_at: { type: Date}
+  createdAt: { type: Date, default: Date.now },
+  updatedAt: { type: Date}
 });
 
 ReviewSchema.pre('save', function(next) {
   var now = new Date();
-  this.updated_at = now;
+  this.updatedAt = now;
   next();
 });
 
 ReviewSchema.statics = {
   loadRecent: function(author, cb) {
-    this.find({author: author})
+    this.find({author: author, completed: false})
       .populate({path:'userId', select: 'name'})
       .exec(cb);
   }
