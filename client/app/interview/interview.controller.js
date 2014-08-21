@@ -4,9 +4,10 @@ angular.module('pitchPerfectApp')
   .controller('InterviewCtrl',
     function ($scope, $window, $interval, InterviewFactory, QuestionFactory, $state) {
 
+    var processInterview = false;
+
     $scope.mediaStream = null;
 
-    $scope.processInterview = false;
     $scope.instructions = false;
     $scope.displayPreview = false;
 
@@ -15,8 +16,8 @@ angular.module('pitchPerfectApp')
     $scope.questions = InterviewFactory.contextObject.questionsStore;
     $scope.questionSelectedIndex = '';
 
-    $scope.changeProcessInterviewStatus = function () {
-      $scope.processInterview = !$scope.processInterview;
+    var toggleProcessInterviewStatus = function () {
+      processInterview = !processInterview;
     };
 
     $scope.togglePreview = function() {
@@ -79,6 +80,12 @@ angular.module('pitchPerfectApp')
               (InterviewFactory.contextObject.questionsStore.length > 0));
     };
 
+    $scope.returnToInterview = function() {
+      $scope.instructions = !$scope.instructions;
+      toggleProcessInterviewStatus();
+      //$state.go('interview');
+    };
+
     $scope.goToReview = function(question) {
       if ($scope.hasReviews(question)) {
         var questionId = question.fullQuestionObject._id;
@@ -88,7 +95,29 @@ angular.module('pitchPerfectApp')
       }
     };
 
+    $scope.goToQuestion = function(question) {
+      if (question) {
+        // No op
+      }
+
+      $scope.stopCamera();
+      $state.go('question');
+    };
+
+    $scope.goToResponse = function(question) {
+      // goes to question page with selected response.
+      if ($scope.hasResponses(question)) {
+        // var questionId = question.fullContextObject._id;
+        // var responses = InterviewFactory.contextObject.responses[questionId];
+        // var response = responses[0];
+        //$state.go('')
+      }
+    };
+
     $scope.showInstructions = function (question, index) {
+
+      toggleProcessInterviewStatus();
+
       question = question || InterviewFactory.contextObject.questionsStore[0];
       index = index || 0;
 
@@ -159,11 +188,6 @@ angular.module('pitchPerfectApp')
     $scope.returnHome = function() {
       $scope.stopCamera();
       $state.go('home');
-    };
-
-    $scope.questionSelected = function () {
-      $scope.stopCamera();
-      $state.go('question');
     };
 
     $scope.getAllQuestions();
