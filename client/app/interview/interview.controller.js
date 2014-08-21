@@ -36,28 +36,32 @@ angular.module('pitchPerfectApp')
     $scope.hasResponses = function(question) {
       var questionId = question.fullQuestionObject._id;
       var responses = InterviewFactory.contextObject.responses[questionId];
-      if ((responses != null) && (responses.length > 0))
+      if ((responses !== null) && (responses.length > 0)) {
         return true;
+      }
       return false;
     };
 
     $scope.hasReviews = function(question) {
       var questionId = question.fullQuestionObject._id;
       var reviews = InterviewFactory.contextObject.reviews[questionId];
-      if ((reviews != null) && (reviews.length > 0))
+      if ((reviews !== null) && (reviews.length > 0)) {
         return true;
+      }
       return false;
     };
 
     $scope.getReviewStatus = function(question) {
-      if ($scope.hasReviews(question))
+      if ($scope.hasReviews(question)) {
         return 'View the reviews';
+      }
       return 'No reviews';
     };
 
     $scope.getResponseStatus = function(question) {
-      if ($scope.hasResponses(question))
+      if ($scope.hasResponses(question)) {
         return 'View your responses';
+      }
       return 'Not attempted';
     };
 

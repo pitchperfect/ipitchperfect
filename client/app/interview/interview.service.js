@@ -9,7 +9,7 @@ angular.module('pitchPerfectApp')
     _id: null,
     title: null,
     description: null,
-    questions: null, // what type of object is this?
+    questions: [], // what type of object is this?
     questionsStore: [],
     active: false,
     responses: {}, // key=questionId, value=response from mongo
@@ -41,7 +41,7 @@ angular.module('pitchPerfectApp')
 
   var getResponsesForQuestion = function(questionId, contextRef) {
     console.log('getResponsesForQuestion(): ' + questionId);
-    if (contextRef.responses == null) {
+    if (contextRef.responses === null) {
       contextRef.responses = {};
     } else {
       delete contextRef.responses[questionId];
@@ -72,7 +72,7 @@ angular.module('pitchPerfectApp')
 
   var getReviewsForQuestion = function(questionId, contextRef) {
     console.log('getReviewsForQuestion(): ' + questionId);
-    if (contextRef.reviews == null) {
+    if (contextRef.reviews === null) {
       contextRef.reviews = {};
     } else {
       delete contextRef.reviews[questionId];
@@ -101,7 +101,7 @@ angular.module('pitchPerfectApp')
     });
   };
 
-  var getQuestion = function (i, questionResponseStatusCb, questionReviewStatusCb) {
+  var getQuestion = function (i) {
     var contextRef = this.contextObject;
     var questionId = contextRef.questions[i];
 
