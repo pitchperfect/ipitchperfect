@@ -1,39 +1,76 @@
 <div ng-include="'components/navbar/navbar.html'"></div>
+<div id="main">
 
-<header class="hero-unit" id="banner">
+  <header class="hero-unit" id="banner">
+
+    <div class="container">
+      <div class="row">
+        <div class="col-sm-12">
+
+          <div class="col-sm-6 hidden-xs background-picture text-center">
+            <!-- APP INTRO -->
+            <!-- <h2 id="intro-quote">thanks to feedback from my friends</h2> -->
+            <h1 id="main-title">i pitchPerfect</h1>
+            <!-- <h3  id="main-quote"> Accelerate your ability to crush the technical interview</h3> -->
+          </div>
+
+          <div class="col-sm-6 col-xs-12">
+            <div ui-view></div>
+            <!-- <div ui-view="addLogin"></div> -->
+            <!-- <div ui-view="addSignup"></div> -->
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+  </header>
+  <!-- <div class="container">
+
+  </div> -->
+
   <div class="container">
-    <h1>I, pitchPerfect!</h1>
-    <p class="lead">Beast the technical interview</p>
-    <img src="assets/images/monkey.jpg" alt="I'm a Monkey">
-    <p></p>
-    <p>“Tomorrow’s victory is today’s practice.” – Chris Bradford, <i>Way of the Warrior</i></p>
-  </div>
-</header>
+    <div class="row">
+      <div class="col-sm-12">
 
-<div class="container">
-  <div class="row">
-    <div class="col-lg-12">
-      <h1 class="page-header">Features:</h1>
-      <ul class="nav nav-tabs nav-stacked col-md-4 col-lg-4 col-sm-6" ng-repeat="thing in awesomeThings">
-        <li><a href="#" tooltip="{{thing.info}}">{{thing.name}}<button type="button" class="close" ng-click="deleteThing(thing)">&times;</button></a></li>
-      </ul>
+        <section class="row sub-section">
+          <div class="col-sm-4">
+            <h3>Beast the Tech Interview</h3>
+            <p>
+              <b>pitchPerfect</b> will sharpen your interview, build your confidence and allow you to land that dream job!
+            </p>
+            <p>
+              <!-- Learn by doing as you practice answering interview questions and share your answers as video snippets with trusted colleagues and mentors. -->
+              <!-- 100% confident in your ability to communicate -->
+              Getting started is easy. Once signed in, choose an interview or create a new one.
+            </p>
+            <p>
+              Don’t learn while you burn, signup on <b>pitchPerfect</b> today.
+            </p>
+
+          </div>
+          <div class="col-sm-4">
+            <h3>For Interviewees</h3>
+            <p>
+              Moving through a series of short interview prompts, <b>pitchPerfect</b> makes it easy for you to record your responses in video format and refine your answers until you are pleased with the result.
+            </p>
+            <p>
+              Once you are ready, you can share your answers with others for useful feedback.
+            </p>
+          </div>
+          <div class="col-sm-4">
+            <h3>For Interviewers</h3>
+            <p>
+              Mastering the art of the technical interview not only takes practice, it takes insight into the common traps.
+            </p>
+            <p>
+              Providing constructive feedback and critique to peers will refine your own presentation skills and dramatically accelerate your own ability to crush the technical interview.
+            </p>
+          </div>
+        </section>
+      </div>
     </div>
   </div>
-
-  <form class="thing-form">
-    <label>Syncs in realtime across clients</label>
-    <p class="input-group">
-      <input type="text" class="form-control" placeholder="Add a new thing here." ng-model="newThing">
-      <span class="input-group-btn">
-        <button type="submit" class="btn btn-primary" ng-click="addThing()">Add New</button>
-      </span>
-    </p>
-  </form>
 </div>
 
-<footer class="footer">
-  <div class="container">
-      <p><a href="https://twitter.com/tyhenkel">@tyhenkel</a> |
-         <a href="https://github.com/DaftMonk/generator-angular-fullstack/issues?state=open">Issues</a></p>
-  </div>
-</footer>
+<div ng-include="'components/footer/footer.html'"></div>

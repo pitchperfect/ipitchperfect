@@ -1,11 +1,9 @@
-<div ng-include="'components/navbar/navbar.html'"></div>
+<div id="signup">
 
-<div class="container">
-  <div class="row">
-    <div class="col-sm-12">
-      <h1>Sign up</h1>
-    </div>
-    <div class="col-sm-12">
+    <div class="col-sm-2"></div>
+    <div class="col-sm-8">
+      <h1 id="phone-title" class="col-xs-12 hidden-sm hidden-md hidden-lg account-header">iPitchPerfect Sign up</h1>
+      <h1 class="account-header hidden-xs">Sign up</h1>
       <form class="form" name="form" ng-submit="register(form)" novalidate>
 
         <div class="form-group" ng-class="{ 'has-success': form.name.$valid && submitted,
@@ -54,7 +52,7 @@
           </p>
         </div>
 
-        <div>
+        <div class="text-center">
           <button class="btn btn-inverse btn-lg btn-login" type="submit">
             Sign up
           </button>
@@ -64,13 +62,14 @@
         </div>
 
         <hr>
-        <div>
+        <!-- <div>
           <a class="btn btn-google-plus" href="" ng-click="loginOauth('google')">
             <i class="fa fa-google-plus"></i> Connect with Google+
           </a>
-        </div>
+        </div> -->
       </form>
     </div>
-  </div>
+    <div class="col-sm-2"></div>
+
   <hr>
 </div>

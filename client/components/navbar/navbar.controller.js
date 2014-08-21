@@ -5,17 +5,6 @@ angular.module('pitchPerfectApp')
     $scope.menu = [{
       'title': 'Welcome',
       'link': '/'
-    }, {
-      'title': 'Home',
-      'link': '/home'
-    },{'title': 'Interview',
-      'link': '/interview'
-    },{
-      'title': 'Review Create',
-      'link': '/reviewcreate'
-    },{
-      'title': 'Share',
-      'link': '/share'
     }];
 
     $scope.isCollapsed = true;
