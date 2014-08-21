@@ -36,7 +36,7 @@ angular.module('pitchPerfectApp')
     $scope.hasResponses = function(question) {
       var questionId = question.fullQuestionObject._id;
       var responses = InterviewFactory.contextObject.responses[questionId];
-      if ((responses !== null) && (responses.length > 0)) {
+      if ((responses) && (responses.length > 0)) {
         return true;
       }
       return false;
@@ -45,7 +45,7 @@ angular.module('pitchPerfectApp')
     $scope.hasReviews = function(question) {
       var questionId = question.fullQuestionObject._id;
       var reviews = InterviewFactory.contextObject.reviews[questionId];
-      if ((reviews !== null) && (reviews.length > 0)) {
+      if ((reviews) && (reviews.length > 0)) {
         return true;
       }
       return false;

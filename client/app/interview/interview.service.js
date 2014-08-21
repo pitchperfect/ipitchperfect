@@ -41,7 +41,7 @@ angular.module('pitchPerfectApp')
 
   var getResponsesForQuestion = function(questionId, contextRef) {
     console.log('getResponsesForQuestion(): ' + questionId);
-    if (contextRef.responses === null) {
+    if (!contextRef.responses) {
       contextRef.responses = {};
     } else {
       delete contextRef.responses[questionId];
@@ -72,7 +72,7 @@ angular.module('pitchPerfectApp')
 
   var getReviewsForQuestion = function(questionId, contextRef) {
     console.log('getReviewsForQuestion(): ' + questionId);
-    if (contextRef.reviews === null) {
+    if (!contextRef.reviews) {
       contextRef.reviews = {};
     } else {
       delete contextRef.reviews[questionId];
