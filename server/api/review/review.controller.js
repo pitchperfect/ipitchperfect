@@ -3,7 +3,7 @@
 var _ = require('lodash');
 var Review = require('./review.model');
 
-// Get list of reviews
+// Get list of reviews by author
 exports.index = function(req, res) {
   var author = req.user._id;
   Review.loadRecent(author, function (err, reviews) {
@@ -17,6 +17,23 @@ exports.show = function(req, res) {
   Review.findById(req.params.id, function (err, review) {
     if(err) { return handleError(res, err); }
     if(!review) { return res.send(404); }
+    return res.json(review);
+  });
+};
+
+exports.showForQuestionId = function(req, res) {
+  var questionId = req.params.id;
+
+  Review.find({questionId: questionId}, function(err, review) {
+    console.log('err is ' + err);
+    console.log('review is ' + review);
+
+    if (err) {
+      return handleError(res, err);
+    }
+    if (!review) {
+      return res.send(404);
+    }
     return res.json(review);
   });
 };

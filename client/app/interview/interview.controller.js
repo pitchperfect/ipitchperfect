@@ -33,38 +33,59 @@ angular.module('pitchPerfectApp')
       }
     };
 
+    $scope.hasResponses = function(question) {
+      var questionId = question.fullQuestionObject._id;
+      var responses = InterviewFactory.contextObject.responses[questionId];
+      if ((responses !== null) && (responses.length > 0)) {
+        return true;
+      }
+      return false;
+    };
+
+    $scope.hasReviews = function(question) {
+      var questionId = question.fullQuestionObject._id;
+      var reviews = InterviewFactory.contextObject.reviews[questionId];
+      if ((reviews !== null) && (reviews.length > 0)) {
+        return true;
+      }
+      return false;
+    };
+
+    $scope.getReviewStatus = function(question) {
+      if ($scope.hasReviews(question)) {
+        return 'View the reviews';
+      }
+      return 'No reviews';
+    };
+
+    $scope.getResponseStatus = function(question) {
+      if ($scope.hasResponses(question)) {
+        return 'View your responses';
+      }
+      return 'Not attempted';
+    };
+
     $scope.getAllQuestions = function () {
       if ('questions' in InterviewFactory.contextObject) {
         for (var i = 0; i < InterviewFactory.contextObject.questions.length; i++) {
-          InterviewFactory.getQuestion(i,
-                                       $scope.getQuestionResponseStatus,
-                                       $scope.getQuestionReviewStatus);
+          InterviewFactory.getQuestion(i);
         }
       }
-    };
-
-    $scope.getQuestionResponseStatus = function (id) {
-      if ('questionsResponded' in InterviewFactory.contextObject) {
-        if (InterviewFactory.contextObject.questionsResponded[id]) {
-          return 'Attempted';
-        }
-      }
-      return 'Not Attempted';
-    };
-
-    $scope.getQuestionReviewStatus = function (id) {
-      if ('responsesReviewed' in InterviewFactory.contextObject) {
-        if (InterviewFactory.contextObject.responsesReviewed[id]) {
-          return 'Peer Reviewed';
-        }
-      }
-      return 'No Peer Reviews';
     };
 
     $scope.enableBeginInterview = function() {
       return ((InterviewFactory.contextObject !== undefined) &&
               (InterviewFactory.contextObject.questionsStore !== undefined) &&
               (InterviewFactory.contextObject.questionsStore.length > 0));
+    };
+
+    $scope.goToReview = function(question) {
+      if ($scope.hasReviews(question)) {
+        var questionId = question.fullQuestionObject._id;
+        var reviews = InterviewFactory.contextObject.reviews[questionId];
+        var review = reviews[0];
+        $state.go('reviewView', { reviewId : review._id });
+      }
     };
 
     $scope.showInstructions = function (question, index) {

@@ -8,7 +8,7 @@ var router = express.Router();
 
 router.get('/', controller.index);
 
-//router.get('/:deck/:question', controller.getSpecificResponse);
+router.get('/forQuestion/:id', auth.isAuthenticated(), controller.showForQuestionId);
 router.get('/:id', controller.show);
 
 router.post('/', auth.isAuthenticated(), controller.create);
