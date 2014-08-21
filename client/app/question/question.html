@@ -24,7 +24,6 @@
           ng-click="stopRecording();"
           ng-hide="processInterview">Stop Recording</button>
 
-
         <!-- These show up when recording is going on: -->
         <button id="btn-exit-recording" class="btn btn-danger" ng-disabled="btnDisabled.exit"
           ng-show="processInterview"
@@ -42,7 +41,10 @@
 
         <button id="btn-save-recording" class="btn btn-success" ng-disabled="btnDisabled.save"
           ng-show="processInterview"
-          ng-click="saveRecording();">Save</button><!-- route to /share -->
+          ng-click="saveRecording();">Save and Share</button><!-- route to /share -->
+        <button id="btn-save-recording" class="btn btn-success" disabled
+          ng-show="processInterview"
+          ng-click="saveRecording();">Save and Next</button><!-- route to /share -->
         <br />
       </div>
 

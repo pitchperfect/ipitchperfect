@@ -5,7 +5,17 @@ angular.module('pitchPerfectApp')
 
 .factory('InterviewFactory', function($http, $resource) {
 
-  var contextObject = {};
+  var contextObject = {
+    _id: null,
+    title: null,
+    description: null,
+    questions: [], // what type of object is this?
+    questionsStore: [],
+    active: false,
+    responses: {}, // key=questionId, value=response from mongo
+    reviews: {},
+  };
+
   var workingFromUserDeck = false;
 
 
@@ -29,10 +39,74 @@ angular.module('pitchPerfectApp')
     });
   };
 
+  var getResponsesForQuestion = function(questionId, contextRef) {
+    console.log('getResponsesForQuestion(): ' + questionId);
+    if (!contextRef.responses) {
+      contextRef.responses = {};
+    } else {
+      delete contextRef.responses[questionId];
+    }
 
-  var getQuestion = function (i, questionResponseStatusCb, questionReviewStatusCb) {
+    var ResponseResource = $resource('/api/responses/forQuestion/:id',
+    {
+      id: questionId
+    },
+    {
+      get: {
+        method: 'GET',
+        isArray: true,
+        params: {
+          id: questionId
+        }
+      }
+    });
+
+    var responses = ResponseResource.query(function() {
+      for (var x=0; x<responses.length; x++) {
+        var response = responses[x];
+        contextRef.responses[questionId] = [];
+        contextRef.responses[questionId].push(response);
+      }
+    });
+  };
+
+  var getReviewsForQuestion = function(questionId, contextRef) {
+    console.log('getReviewsForQuestion(): ' + questionId);
+    if (!contextRef.reviews) {
+      contextRef.reviews = {};
+    } else {
+      delete contextRef.reviews[questionId];
+    }
+
+    var ReviewResource = $resource('/api/reviews/forQuestion/:id',
+    {
+      id: questionId
+    },
+    {
+      get: {
+        method: 'GET',
+        isArray: true,
+        params: {
+          id: questionId
+        }
+      }
+    });
+
+    var reviews = ReviewResource.query(function() {
+      for (var x=0; x<reviews.length; x++) {
+        var review = reviews[x];
+        contextRef.reviews[questionId] = [];
+        contextRef.reviews[questionId].push(review);
+      }
+    });
+  };
+
+  var getQuestion = function (i) {
     var contextRef = this.contextObject;
     var questionId = contextRef.questions[i];
+
+    getResponsesForQuestion(questionId, contextRef);
+    getReviewsForQuestion(questionId, contextRef);
 
     console.log('getThisQuestion:', questionId);
 
@@ -49,12 +123,17 @@ angular.module('pitchPerfectApp')
     });
 
     getQuestions.get({}, function(question) {
-      var temporyQuestionObj = {};
-      temporyQuestionObj.fullQuestionObject = question;
-      temporyQuestionObj.responseStatus = questionResponseStatusCb(questionId);
-      temporyQuestionObj.peerReviewStatus = questionReviewStatusCb(questionId);
+      var questionData = {
+        fullQuestionObject: question,
+        // responseStatus: null,
+        // peerReviewStatus: null
 
-      contextRef.questionsStore[i] = temporyQuestionObj;
+      };
+
+      // questionData.responseStatus = questionResponseStatusCb(questionId);
+      // questionData.peerReviewStatus = questionReviewStatusCb(questionId);
+
+      contextRef.questionsStore[i] = questionData;
     }, function(err) {
       console.log('question err:', err);
     });
@@ -65,6 +144,7 @@ angular.module('pitchPerfectApp')
     contextObject: contextObject,
     workingFromUserDeck: workingFromUserDeck,
     createAUserDeck: createAUserDeck,
-    getQuestion: getQuestion
+    getQuestion: getQuestion,
+    getReviewsForQuestion : getReviewsForQuestion
   };
 });

@@ -51,20 +51,18 @@ angular.module('pitchPerfectApp')
 
   var updateUserDeckWithResponse = function(deckId, questionId, responseId) {
     // Assemble all pertinent data for the update
-    var tempObj = {
+    var response = {
       questionId: questionId,
       responseId: responseId
     };
 
     // Push the response to the UserDeck
-    $http.put('/api/userdecks/' + deckId + '/response', tempObj)
+    $http.put('/api/userdecks/' + deckId + '/response', response)
       .success(function(updatedResponse) {
         console.log('Response Updated!', updatedResponse);
-      });
+    });
 
-      $state.go('share');
-
-
+    $state.go('share');
   };
 
   // Expose the action to the controller
