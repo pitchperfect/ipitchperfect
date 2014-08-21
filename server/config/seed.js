@@ -12,6 +12,7 @@ var Question = require('../api/question/question.model');
 var Response = require('../api/response/response.model');
 var Userdeck = require('../api/userdeck/userdeck.model');
 var Response = require('../api/response/response.model');
+var Review = require('../api/review/review.model');
 
 Thing.find({}).remove(function() {
   Thing.create({
@@ -39,7 +40,8 @@ Deck.find({}).remove(function() { console.log('Decks deleted')});
 Question.find({}).remove(function() { console.log('Questions deleted')});
 Response.find({}).remove(function() { console.log('Responses deleted')});
 Userdeck.find({}).remove(function() { console.log('Userdecks deleted')});
-Response.find({}).remove(function() { console.log('Userdecks deleted')});
+Response.find({}).remove(function() { console.log('Responses deleted')});
+Review.find({}).remove(function() { console.log('Reviews deleted')});
 
 /** Find all user - delete all stored **/
 User.find({}).remove(function() {
@@ -224,6 +226,16 @@ User.find({}).remove(function() {
 
   });
 
+  User.create({
+    provider: 'local',
+    role: 'user',
+    name: 'Joey Bag O\'Donuts',
+    email: 'joey@joey.com',
+    password: 'joey'
+  }, function() {
+      console.log('finished populating Joey');
+    }
+  );
 
   User.create({
     provider: 'local',

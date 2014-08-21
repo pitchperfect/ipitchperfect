@@ -4,26 +4,23 @@
         </div>
         <div class="col-md-6 column">
             <h2>
-                Share Your Interview
+                Share Your Interview Response
             </h2>
             <p>
                 <b>Question:</b>
                 <em>{{questionTitle}}</em>
             </p>
-            <p>
-                Share with people via email:
-            </p>
+            <p>Share your response with others:</p>
             <form role="form">
                 <div class="form-group">
-                    <label for="exampleInputEmail1">Email address</label>
-                    <textarea style="width:100%" id="invitees" ng-model="invitees" placeholder="alan.turing@enigma.com,"></textarea>
+                    <label for="invitees">Users:</label>
+                    <textarea style="width:100%" id="invitees" ng-model="invitees"></textarea>
                 </div>
-
 
                 <!-- Single button drop down list -->
                 <div class="btn-group" dropdown is-open="status.isopen">
                     <button type="button" class="btn btn-primary dropdown-toggle" ng-disabled="disabled">
-                        Button dropdown
+                        Select Users
                         <span class="caret"></span>
                     </button>
                     <ul class="dropdown-menu" role="menu">

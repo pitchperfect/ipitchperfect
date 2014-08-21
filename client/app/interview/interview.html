@@ -17,24 +17,24 @@
 		</div>
 	</div>
 
-
-
-	<!--  -->
 	<div class="container">
 
-	  <!-- View yourself & replaced by prompt at start of user interface-->
-	  <div class="row clearfix">
-
+		<div class="row clearfix">
 			<div class="col-md-2 column">
+				<ul class="list-group question-blocks"
+					ng-repeat="question in questions" ng-hide="instructions">
+					<li class="list-group-item list-group-item-info">Question {{$index +1}}</li>
 
-				<ul class="list-group question-blocks" ng-repeat="question in questions" ng-hide="instructions">
-					<li class="list-group-item list-group-item-info" ng-click="showInstructions(question, $index)">Q.{{$index +1}} Status</li>
+					<li class="list-group-item list-group-item-link"
+						ng-class="{'list-group-item-success': hasResponses(question)}"
+						ng-click="showInstructions(question, $index);">
+						{{getResponseStatus(question)}}</li>
+
 					<li class="list-group-item"
-					ng-class="{'list-group-item-success': question.responseStatus === 'Attempted'}"
-					ng-click="showInstructions(question, $index)">{{question.responseStatus}}</li>
-					<li class="list-group-item"
-					ng-class="{'list-group-item-success': question.peerReviewStatus === 'Peer Reviewed'}"
-					ng-click="showInstructions(question, $index)">{{question.peerReviewStatus}}</li>
+						ng-class="{'list-group-item-success': hasReviews(question)}"
+						ng-class="{'list-group-item-link': hasReviews(question)}"
+						ng-click="goToReview(question);">
+						{{getReviewStatus(question)}}</li>
 				</ul>
 			</div>
 
