@@ -1,62 +1,53 @@
 <div ng-include="'components/navbar/navbar.html'"></div>
 <div id="main">
 
-<header class="hero-unit" id="banner">
+  <header class="hero-unit" id="banner">
+
+    <div class="container">
+      <div class="row">
+        <div class="col-sm-12">
+
+          <div class="col-sm-6 hidden-xs background-picture text-center">
+            <!-- APP INTRO -->
+            <!-- <h2 id="intro-quote">thanks to feedback from my friends</h2> -->
+            <h1 id="main-title">i pitchPerfect</h1>
+          </div>
+
+          <div class="col-sm-6 col-xs-12">
+
+            <div ui-view></div>
+            <!-- <div ui-view="addLogin"></div> -->
+            <!-- <div ui-view="addSignup"></div> -->
+
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+  </header>
 
   <div class="container">
     <div class="row">
       <div class="col-sm-12">
 
-        <div class="col-sm-6 hidden-xs background-picture text-center">
-          <!-- APP INTRO -->
-          <!-- <h2 id="intro-quote">thanks to feedback from my friends</h2> -->
-          <h1 id="main-title">iPitchPerfect</h1>
-        </div>
-
-        <div class="col-sm-6 col-xs-12">
-
-          <div ui-view></div>
-          <!-- <div ui-view="addLogin"></div> -->
-          <!-- <div ui-view="addSignup"></div> -->
-
-        </div>
+        <section class="row sub-section">
+          <div class="col-sm-4">
+            <h2>Prepare interview</h2>
+            <p>pitchPerfect is an online community for improving technical interview skills.</p>
+          </div>
+          <div class="col-sm-4">
+            <h2>For interviewees</h2>
+            <p>Real industry used questions will guide you through a practice interview, so you can master your interview skills.</p>
+          </div>
+          <div class="col-sm-4">
+            <h2>For interviewers</h2>
+            <p>pitchPerfect ...</p>
+          </div>
+        </section>
       </div>
     </div>
   </div>
-
-
-</header>
-
-<div class="container">
-  <div class="row">
-    <div class="col-sm-12">
-
-      <section class="row sub-section">
-        <div class="col-sm-4">
-          <h2>Prepare interview</h2>
-          <p>pitchPerfect is an online community for improving technical interview skills.</p>
-        </div>
-        <div class="col-sm-4">
-          <h2>For interviewees</h2>
-          <p>Real industry used questions will guide you through a practice interview, so you can master your interview skills.</p>
-        </div>
-        <div class="col-sm-4">
-          <h2>For interviewers</h2>
-          <p>pitchPerfect ...</p>
-        </div>
-      </section>
-    </div>
-  </div>
 </div>
 
-
-
-
-<div class="col-md-12 footer-clear"></div>
-<div class="footer col-md-12">
-  <div class="container">
-    <p class="text-muted">&copy; 2014 pitchPerfect</p>
-  </div>
-</div>
-
-</div>
+<div ng-include="'components/footer/footer.html'"></div>
