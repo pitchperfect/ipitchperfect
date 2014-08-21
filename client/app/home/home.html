@@ -1,56 +1,21 @@
 <div ng-include="'components/navbar/navbar.html'"></div>
 
-
 <div id="home">
-
-  <div class="container">
-
+  <div id="container-header" class="container">
     <div class="row clearfix">
-      <span>&nbsp;</span>
-    </div>
-
-    <div id="bg" class="row clearfix">
-
-      <div class="col-md-3 column"></div>
-      <div id="title-top-spacing" class="col-md-6 column">
-
+      <div class="col-md-12 column">
 
         <div class="page-header text-center">
-          <h1>ipitchPerfect
-            <div>
-              <small><span>The Tech Coaching Platform</span></small>
-            </div>
-          </h1>
+          <h1>i pitchPerfect</h1>
         </div>
+
       </div>
-
-
-      <div class="col-md-3 column">
-        <div id="request-panel" class="panel panel-primary">
-
-          <div class="panel-body">
-            <div class="list-group">
-
-              <a href="/review" class="list-group-item">
-                <h5><img src="/assets/images/monkey.jpg" height=25 width=25 alt="David Deriso" class="img-circle"> David Deriso: Hack Reactor 1 - Softball questions</h5>
-              </a>
-              <a href="/review" class="list-group-item">
-                <h5>Celine Otter: Hack Reactor 3 - JavaScript (Core)</h5>
-              </a>
-            </div>
-          </div>
-        </div>
-      </div>
-
     </div>
+  </div>
 
-    <div class="row clearfix">
-      <div id="title-shadow"></div>
-    </div>
-  	<div class="row clearfix">
-
-
+  <div  id="container-body" class="container">
   		<div class="col-md-6 column">
+
 
         <!-- SUBMIT DECK -->
         <div class="panel panel-info" ng-show="submitBox">
@@ -141,7 +106,7 @@
 
   		<div class="col-md-6 column">
         <!-- REVIEW REQUESTS -->
-        <div class="panel panel-success">
+        <div class="panel panel-success" ng-if="reviews.length > 0">
 
           <div class="panel-heading text-center">
             <h3 class="panel-title">Review Requests</h3>
@@ -200,7 +165,8 @@
           </div>
         </div>
 
-  		</div>
   	</div>
   </div>
 </div>
+
+<div ng-include="'components/footer/footer.html'"></div>

@@ -1,13 +1,10 @@
-<div ng-include="'components/navbar/navbar.html'"></div>
 
-<div class="container">
-  <div class="row">
-    <div class="col-sm-12">
-      <h1>Login</h1>
-      <p>Accounts are reset on server restart from <code>server/config/seed.js</code>. Default account is <code>test@test.com</code> / <code>test</code></p>
-      <p>Admin account is <code>admin@admin.com</code> / <code>admin</code></p>
-    </div>
-    <div class="col-sm-12">
+  <div id="login">
+    <div class="col-sm-2"></div>
+
+    <div class="col-sm-8">
+        <h1 id="phone-title" class="col-xs-12 hidden-sm hidden-md hidden-lg account-header">iPitchPerfect Login</h1>
+        <h1 class="account-header hidden-xs">Login</h1>
       <form class="form" name="form" ng-submit="login(form)" novalidate>
 
         <div class="form-group">
@@ -38,18 +35,14 @@
             Login
           </button>
           <a class="btn btn-default btn-lg btn-register" href="/signup">
-            Register
+            Sign up
           </a>
         </div>
 
         <hr>
-        <div>
-          <a class="btn btn-google-plus" href="" ng-click="loginOauth('google')">
-            <i class="fa fa-google-plus"></i> Connect with Google+
-          </a>
-        </div>
       </form>
     </div>
+    <div class="col-sm-2"></div>
+    <hr>
+
   </div>
-  <hr>
-</div>

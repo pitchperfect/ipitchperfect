@@ -11,8 +11,8 @@ angular.module('pitchPerfectApp', [
 ])
   .config(function ($stateProvider, $urlRouterProvider, $locationProvider, $httpProvider) {
     $urlRouterProvider
-      //.when('/', '/home')
-      .otherwise('/');
+      .when('/', '/home')
+      .otherwise('/login');
 
     $locationProvider.html5Mode(true);
     $httpProvider.interceptors.push('authInterceptor');
