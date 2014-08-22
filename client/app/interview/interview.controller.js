@@ -80,12 +80,18 @@ angular.module('pitchPerfectApp')
               (InterviewFactory.contextObject.questionsStore.length > 0));
     };
 
+    /**
+     * Returns the page to its initial state. Called when 'Cancel' is clicked
+     * on the interview instructions panel.
+     */
     $scope.returnToInterview = function() {
       $scope.instructions = !$scope.instructions;
       toggleProcessInterviewStatus();
-      //$state.go('interview');
     };
 
+    /**
+     * Transitions the user to the review page for the selected question/response.
+     */
     $scope.goToReview = function(question) {
       if ($scope.hasReviews(question)) {
         var questionId = question.fullQuestionObject._id;
