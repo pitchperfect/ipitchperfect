@@ -2,16 +2,49 @@
 
 angular.module('pitchPerfectApp')
   .controller('QuestionCtrl',
-    function($scope, $window, $timeout, $interval, $upload, QuestionFactory, $state, InterviewFactory) {
+    function($scope, $window, $timeout, $interval, $upload, $state, $stateParams, $sce,
+      QuestionFactory, InterviewFactory, ResponseFactory) {
 
+      $scope.responseVideoUrl = null;
       $scope.mediaStream = null;
       $scope.audioVideoRecorder = null;
-      var videoElement = $('#video-record')[0];
-      var questionObj = QuestionFactory.contextQuestion;
       $scope.alertUser = '';
-
       $scope.btnDisabled = {};
       $scope.videoShow = true;
+
+      var responseId = null;
+      var videoElement = $('#video-record')[0];
+      var questionObj = QuestionFactory.contextQuestion;
+
+
+      var init = function() {
+        if (!$stateParams.responseId){
+          console.log('No target response. Not setting up a response video.');
+        } else {
+          responseId = $stateParams.responseId;
+        }
+
+        var loadResponseVideo = function() {
+          // When the response is retrieved form the service, it will
+          // use this function to update $scope elements
+          var setDataCallback = function(theData) {
+            // This is required by Angular to allow resources from other domains
+            //  In our case, the video hosted on Azure
+            var trustSrc = function(src) {
+              return $sce.trustAsResourceUrl(src);
+            };
+            $scope.responseVideoUrl = trustSrc(theData.videoUrl);
+          };
+
+          ResponseFactory.getResponseData(responseId, setDataCallback);
+        };
+
+        if (responseId !== null) {
+          loadResponseVideo();
+        }
+      };
+      init();
+
 
       $scope.getQuestion = function() {
         var contextQuestion = QuestionFactory.contextQuestion;
