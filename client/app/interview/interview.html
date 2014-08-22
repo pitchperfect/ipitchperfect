@@ -41,23 +41,22 @@
 			<div class="col-md-8 column">
 				<!-- alert box -->
 				<div class="col-md-offset-2 col-md-8 column" ng-show="instructions">
-					<div class="alert alert-success alert-dismissable">
-						<button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+					<div class="alert alert-success">
 						<div class="text-center">
-							<h4>Instructions!</h4>
-							<span id="facetime-small" class="glyphicon glyphicon-facetime-video"
-							ng-click="changeProcessInterviewStatus()"></span>
+							<h4>Instructions:</h4>
+							<span id="facetime-small" class="glyphicon glyphicon-facetime-video"></span>
 						</div>
 						<div class="text-center">
-							<strong>Q.{{questionSelectedIndex}}</strong> is about to begin.<br />
-							<strong></strong> Try to keep your answers to less than 1 minute.<br />
-							<strong></strong> Notifications will be given every 30 seconds.<br /><br />
-							<strong></strong> Good Luck !<br /><br />
+							<strong>Question {{questionSelectedIndex}}</strong> is about to begin.
+							<br/>Try to keep your answers short, ideally to less than 1 minute.
+							<br/>Notifications will be given every 30 seconds.
+							<br/><br/>Good Luck!<br/><br/>
 						</div>
 						<div class="text-center">
-
-							<button type="button" class="btn btn-success" ng-click="questionSelected()">Start</button>
-							<a href="/home"><button class="btn btn-info">Cancel</button></a>
+							<button type="button" class="btn btn-danger"
+								ng-click="returnToInterview();">Cancel</button>
+							<button type="button" class="btn btn-success"
+								ng-click="goToQuestion();">Begin</button>
 						</div>
 					</div>
 				</div>
@@ -95,6 +94,5 @@
 			<div class="col-md-2 column"></div>
 
 	  </div>
-
 
 </div>

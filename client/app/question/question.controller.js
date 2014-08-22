@@ -44,7 +44,7 @@ angular.module('pitchPerfectApp')
           if ($scope.sec === 59) {
             $scope.sec = 0;
             $scope.min = $scope.min + 1;
-            $scope.alertUser = $scope.min + 'min, wrap up your answer!';
+            $scope.alertUser = $scope.min + ' min, wrap up your answer!';
             return;
           }
           $scope.sec++;
@@ -54,13 +54,11 @@ angular.module('pitchPerfectApp')
         }, 1000, 0);
       };
 
-      $scope.startCountDown(4, 'Smile, you are being recorded');
-
       $scope.changeProcessInterviewStatus = function() {
         $scope.processInterview = !$scope.processInterview;
 
         if (!$scope.processInterview) {
-          $scope.startCountDown(4, 'Smile, you are being recorded');
+          $scope.startCountDown(4, 'Recording started.');
         }
       };
 
@@ -68,8 +66,8 @@ angular.module('pitchPerfectApp')
         console.log('captureUserMedia called.');
 
         $window.navigator.getUserMedia = navigator.getUserMedia ||
-          navigator.mozGetUserMedia ||
-          navigator.webkitGetUserMedia;
+                                         navigator.mozGetUserMedia ||
+                                         navigator.webkitGetUserMedia;
 
         $window.navigator.getUserMedia(
           // Configuration
@@ -88,24 +86,18 @@ angular.module('pitchPerfectApp')
       };
 
       $scope.startRecording = function() {
-
-        // var downloadURL = $window.document.getElementById('download-url');
-
         $scope.btnDisabled.start = true;
         $scope.btnDisabled.stop = false;
         $scope.btnDisabled.exit = true;
         $scope.btnDisabled.save = true;
         $scope.btnDisabled.replay = true;
 
-        //videoElement.style.visibility = 'visible';
         $scope.videoShow = true;
-        // downloadURL.innerHTML = 'Smile, you are being recorded';
 
         $scope.captureUserMedia(
           function(stream) {
             $scope.mediaStream = stream;
 
-            // need videoElement variable decl
             videoElement.src = $window.URL.createObjectURL(stream);
             videoElement.muted = true;
             videoElement.controls = false;
@@ -186,5 +178,6 @@ angular.module('pitchPerfectApp')
         );
       };
 
+      $scope.startCountDown(4, 'Recording started.');
       $scope.getQuestion();
     });

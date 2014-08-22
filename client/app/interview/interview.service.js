@@ -9,7 +9,7 @@ angular.module('pitchPerfectApp')
     _id: null,
     title: null,
     description: null,
-    questions: [], // what type of object is this?
+    questions: [],
     questionsStore: [],
     active: false,
     responses: {}, // key=questionId, value=response from mongo

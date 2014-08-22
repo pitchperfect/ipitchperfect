@@ -5,7 +5,10 @@ angular.module('pitchPerfectApp')
 
 .factory('QuestionFactory', function($upload, $http, $state, ShareFactory) {
 
-  var contextQuestion = {};
+  var contextQuestion = {
+    contextQuestion: null,
+    responses: []
+  };
 
   var createVideo = function(blob, questionObj, successCallback) {
     // Use $upload to handle multipart/form post processing with the video file
@@ -32,7 +35,7 @@ angular.module('pitchPerfectApp')
 
   var createResponse = function(videoId, questionObj) {
     // Assemble pertinent data for new Response Obj
-    var tempObj = {
+    var responseObj = {
       questionId: questionObj.fullQuestionObject._id,
       questionTitle: questionObj.fullQuestionObject.title,
       videoId: videoId,
@@ -40,12 +43,12 @@ angular.module('pitchPerfectApp')
     };
 
     // Create response
-    $http.post('/api/responses', tempObj)
+    $http.post('/api/responses', responseObj)
       .success(function(newResponse) {
         // Push this reponse to the UserDeck
         ShareFactory.shareContext.responseId = newResponse._id;
 
-        updateUserDeckWithResponse(tempObj.userDeckId, tempObj.questionId, newResponse._id);
+        updateUserDeckWithResponse(responseObj.userDeckId, responseObj.questionId, newResponse._id);
       });
   };
 

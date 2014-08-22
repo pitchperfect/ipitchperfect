@@ -14,11 +14,9 @@
     </div>
   </div>
 
-
   <div class="container">
     <div class="col-md-12 column text-center">
       <div class="row clearfix">
-
 
         <button id="btn-stop-recording" class="btn btn-danger" ng-disabled="btnDisabled.stop"
           ng-click="stopRecording();"
@@ -29,11 +27,9 @@
           ng-show="processInterview"
           ng-click="exitRecording();">Cancel</button><!-- route to /interview -->
 
-
         <button id="btn-start-recording" class="btn btn-primary"
           ng-show="processInterview" ng-disabled="btnDisabled.start"
-          ng-click="startRecording(); changeProcessInterviewStatus();">Re-Record</button>
-
+          ng-click="changeProcessInterviewStatus();">Re-Record</button>
 
         <button id="btn-replay-recording" class="btn btn-primary" ng-disabled="btnDisabled.replay"
           ng-show="processInterview"
@@ -42,32 +38,12 @@
         <button id="btn-save-recording" class="btn btn-success" ng-disabled="btnDisabled.save"
           ng-show="processInterview"
           ng-click="saveRecording();">Save and Share</button><!-- route to /share -->
+
         <button id="btn-save-recording" class="btn btn-success" disabled
           ng-show="processInterview"
           ng-click="saveRecording();">Save and Next</button><!-- route to /share -->
         <br />
       </div>
-
-      <!--  Press to Re-record -->
-      <!-- <a href="/question" ng-show="processInterview"> -->
-        <!-- <button class="btn btn-info"
-          ng-show="processInterview"
-          ng-click="changeProcessInterviewStatus(); changeInterviewStatus();">Re-record</button> -->
-      <!-- </a> -->
-
-      <!--  Press to Return to Deck video -->
-      <!-- <a href="/interview" ng-show="processInterview">
-        <button class="btn btn-info">Disregard Video</button>
-      </a> -->
-
-      <!--  Press to Share video -->
-      <!-- <a href="/share" ng-show="processInterview">
-        <button class="btn btn-info">Save & Share</button>
-      </a> -->
-      <!-- <div class="row clearfix" ng-show="processInterview">
-        <span>&nbsp;</span>
-      </div> -->
-
     </div>
   </div>
 
