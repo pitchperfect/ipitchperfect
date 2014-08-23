@@ -101,27 +101,33 @@ angular.module('pitchPerfectApp')
       }
     };
 
-    $scope.goToQuestion = function(question) {
-      if (question) {
-        // No op
+    $scope.goToQuestionOrResponse = function(question, index) {
+      if ($scope.hasResponses(question)) {
+        $scope.goToResponse(question);
+      } else {
+        $scope.showInstructions(question, index);
       }
+    };
 
+    $scope.goToQuestion = function() {
       $scope.stopCamera();
       $state.go('question');
     };
 
+    /**
+     * Transitions the user to the questions page for the selected question/response.
+     */
     $scope.goToResponse = function(question) {
-      // goes to question page with selected response.
       if ($scope.hasResponses(question)) {
-        // var questionId = question.fullContextObject._id;
-        // var responses = InterviewFactory.contextObject.responses[questionId];
-        // var response = responses[0];
-        //$state.go('')
+        var questionId = question.fullQuestionObject._id;
+        var responses = InterviewFactory.contextObject.responses[questionId];
+        var response = responses[0];
+        QuestionFactory.contextQuestion.selectedResponse = response;
+        $state.go('question');
       }
     };
 
     $scope.showInstructions = function (question, index) {
-
       toggleProcessInterviewStatus();
 
       question = question || InterviewFactory.contextObject.questionsStore[0];
