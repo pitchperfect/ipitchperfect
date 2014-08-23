@@ -78,7 +78,7 @@
 
 					<li class="list-group-item list-group-item-link"
 						ng-class="{'list-group-item-success': hasResponses(question)}"
-						ng-click="showInstructions(question, $index);">
+						ng-click="goToQuestionOrResponse(question, $index);">
 						{{getResponseStatus(question)}}</li>
 
 					<li class="list-group-item"

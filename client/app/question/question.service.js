@@ -7,7 +7,8 @@ angular.module('pitchPerfectApp')
 
   var contextQuestion = {
     contextQuestion: null,
-    responses: []
+    responses: [],
+    selectedResponse: null
   };
 
   var createVideo = function(blob, questionObj, successCallback) {
