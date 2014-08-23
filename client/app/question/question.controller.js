@@ -3,7 +3,7 @@
 angular.module('pitchPerfectApp')
   .controller('QuestionCtrl',
     function($scope, $window, $timeout, $interval, $upload, QuestionFactory, $state, InterviewFactory) {
-
+      $scope.videoPlaying = false;
       $scope.mediaStream = null;
       $scope.audioVideoRecorder = null;
       var videoElement = $('#video-record')[0];
@@ -40,11 +40,14 @@ angular.module('pitchPerfectApp')
       $scope.startStopWatch = function() {
         $scope.sec = 0;
         $scope.min = 0;
+        $scope.halfMin = 0;
         $interval(function() {
-          if ($scope.sec === 59) {
+          if ($scope.sec === 30) {
             $scope.sec = 0;
-            $scope.min = $scope.min + 1;
-            $scope.alertUser = $scope.min + ' min, wrap up your answer!';
+            $scope.halfMin = $scope.halfMin === 0 ? 30 : 0;
+            $scope.min = $scope.min + ($scope.halfMin === 0 ? 0 : 1);
+
+            $scope.alertUser = $scope.min + 'min '+ $scope.halfMin + ' secs';
             return;
           }
           $scope.sec++;
@@ -58,7 +61,7 @@ angular.module('pitchPerfectApp')
         $scope.processInterview = !$scope.processInterview;
 
         if (!$scope.processInterview) {
-          $scope.startCountDown(4, 'Recording started.');
+          $scope.startCountDown(4, 'You\'re on!');
         }
       };
 
@@ -113,6 +116,9 @@ angular.module('pitchPerfectApp')
 
       $scope.replayRecording = function() {
         videoElement.play();
+        $scope.videoPlaying = true;
+
+
       };
 
       $scope.exitRecording = function() {
@@ -178,6 +184,6 @@ angular.module('pitchPerfectApp')
         );
       };
 
-      $scope.startCountDown(4, 'Recording started.');
+      $scope.startCountDown(4, 'You\'re on!');
       $scope.getQuestion();
     });

@@ -1,4 +1,6 @@
-<div id="question">
+<div ng-include="'components/navbar/navbar.html'"></div>
+
+<div id="review">
 
     <!-- Question Title -->
     <div class="container">
@@ -25,7 +27,6 @@
 
                 <button id="btn-save-recording" class="btn btn-info" ng-click="goToInterview();">Done</button>
                 <!-- route to /share -->
-                <h2 id="download-url"></h2>
                 <br />
             </div>
 
@@ -64,9 +65,9 @@
             </div>
         </div>
 
-        <div class="col-md-6 column text-center">
+        <div class="col-md-6 column">
             <div >
-              Click An Annotation to Jump to Location
+              <b>Click An Annotation to Jump to Location</b>
             </div>
 
             <!--  ANNOTATIONS LIST-->
@@ -86,3 +87,4 @@
     </div>
 
 </div>
+<div ng-include="'components/footer/footer.html'"></div>

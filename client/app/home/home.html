@@ -90,7 +90,7 @@
                 <div class="list-group-item" ng-click="sendToInterview(singleDeck, false)">
                   <h5>{{ singleDeck.title }}</h5>
                   <span class="small">{{singleDeck.description}}</span>
-                  <small class="small faint">Last Updated: {{singleDeck.updated_at | date : 'mediumDate'}}</small>
+                  <small class="small faint">Last Updated: {{singleDeck.updatedAt | date : 'mediumDate'}}</small>
                 </div>
               </div>
         		</div>
@@ -109,7 +109,7 @@
         <div class="panel panel-success" ng-if="reviews.length > 0">
 
           <div class="panel-heading text-center">
-            <h3 class="panel-title">Review Requests</h3>
+            <h3 class="panel-title">Peer Videos to Review</h3>
           </div>
 
 
@@ -121,7 +121,7 @@
                 <div class="list-group-item" ng-click="sendToReview(review)">
                   <h5>Request from: {{ review.userId.name }}</h5>
                   <!-- <span class="small">{{review.title}}</span> -->
-                  <small class="small faint">Last Updated: {{review.updated_at | date : 'mediumDate'}}</small>
+                  <small class="small faint">Last Updated: {{review.updatedAt | date : 'mediumDate'}}</small>
                 </div>
               </div>
 
@@ -157,7 +157,7 @@
                 <div class="list-group-item" ng-click="sendToInterview(singleUserDeck, true)">
                   <h5>{{ singleUserDeck.title }}</h5>
                   <span class="small">{{singleUserDeck.description}}</span>
-                  <small class="small faint">Last Updated: {{singleUserDeck.updated_at | date : 'mediumDate'}}</small>
+                  <small class="small faint">Last Updated: {{singleUserDeck.updatedAt | date : 'mediumDate'}}</small>
                 </div>
               </div>
 

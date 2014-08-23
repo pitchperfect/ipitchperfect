@@ -1,4 +1,6 @@
-<div id="question">
+<div ng-include="'components/navbar/navbar.html'"></div>
+
+<div id="review-create">
 
     <!-- Question Title -->
     <div class="container">
@@ -23,11 +25,10 @@
         <div class="col-md-12 column text-center">
             <div class="row clearfix">
 
-                <button id="btn-start-recording" class="btn btn-info" ng-click="pauseRecording(); changeProcessInterviewStatus(); changeInterviewStatus();">Annotate</button>
+                <!-- <button id="btn-start-recording" class="btn btn-info" ng-click="pauseRecording(); changeProcessInterviewStatus(); changeInterviewStatus();">Annotate</button> -->
 
-                <button id="btn-save-recording" class="btn btn-info" ng-click="saveReview();">Done</button>
+                <button id="btn-save-recording" class="btn btn-success" ng-click="saveReview();">Done</button>
                 <!-- route to /share -->
-                <h2 id="download-url"></h2>
                 <br />
             </div>
 
@@ -90,3 +91,4 @@
     </div>
 
 </div>
+<div ng-include="'components/footer/footer.html'"></div>
