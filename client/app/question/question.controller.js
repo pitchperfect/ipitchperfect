@@ -2,7 +2,7 @@
 
 angular.module('pitchPerfectApp')
   .controller('QuestionCtrl',
-    function($scope, $window, $timeout, $interval, $upload, $state, $stateParams, $sce,
+    function($scope, $window, $timeout, $interval, $upload, $state, $sce,
       QuestionFactory, InterviewFactory, ResponseFactory) {
 
       $scope.responseVideoUrl = null;
@@ -11,6 +11,7 @@ angular.module('pitchPerfectApp')
       $scope.alertUser = '';
       $scope.btnDisabled = {};
       $scope.videoShow = true;
+      $scope.videoPlayShow = false;
 
       var responseId = null;
       var videoElement = $('#video-record')[0];
@@ -18,33 +19,62 @@ angular.module('pitchPerfectApp')
 
 
       var init = function() {
-        if (!$stateParams.responseId){
+        var loadVideo = false;
+
+        if (!questionObj.selectedResponse){
           console.log('No target response. Not setting up a response video.');
         } else {
-          responseId = $stateParams.responseId;
+          console.log('Target response is ' + questionObj.selectedResponse._id);
+          responseId = questionObj.selectedResponse._id;
+          loadVideo = true;
         }
 
         var loadResponseVideo = function() {
+          console.log('loadResponseVideo called.');
+
           // When the response is retrieved form the service, it will
           // use this function to update $scope elements
-          var setDataCallback = function(theData) {
+          var setDataCallback = function() {
+            console.log('setDataCallback called.');
+
             // This is required by Angular to allow resources from other domains
             //  In our case, the video hosted on Azure
             var trustSrc = function(src) {
               return $sce.trustAsResourceUrl(src);
             };
-            $scope.responseVideoUrl = trustSrc(theData.videoUrl);
+
+            $scope.responseVideoUrl = trustSrc(ResponseFactory.responseContext.videoUrl);
+            console.log('responseVideoUrl=' + $scope.responseVideoUrl);
+            $scope.setUpResponsePlay($scope.responseVideoUrl);
           };
 
+          console.log('calling ResponseFactory.getResponseData');
           ResponseFactory.getResponseData(responseId, setDataCallback);
         };
 
-        if (responseId !== null) {
+        if (loadVideo) {
+          console.log('loadResponseVideo');
           loadResponseVideo();
         }
       };
       init();
 
+
+      $scope.setUpResponsePlay = function(url) {
+        console.log('setUpResponsePlay');
+        $scope.btnDisabled.start = true;
+        $scope.btnDisabled.stop = false;
+        $scope.btnDisabled.exit = true;
+        $scope.btnDisabled.save = false;
+        $scope.btnDisabled.replay = true;
+
+        $scope.processInterview = true;
+
+        videoElement.src = url;
+        videoElement.muted = false;
+        videoElement.controls = true;
+        //videoElement.play();
+      };
 
       $scope.getQuestion = function() {
         var contextQuestion = QuestionFactory.contextQuestion;
@@ -177,15 +207,11 @@ angular.module('pitchPerfectApp')
         var videoBlob = $scope.audioVideoRecorder.getBlob();
         // Create response based on this blob
         QuestionFactory.createVideo(videoBlob, questionObj, $scope.stopCamera);
-
-        //$state.go('interview');
       };
 
       $scope.stopRecording = function() {
         console.log('stopRecording called.');
         $scope.processInterview = !$scope.processInterview;
-
-        //var downloadURL = $window.document.getElementById('download-url');
 
         $scope.btnDisabled.start = false;
         $scope.btnDisabled.stop = true;
@@ -211,6 +237,13 @@ angular.module('pitchPerfectApp')
         );
       };
 
-      $scope.startCountDown(4, 'Recording started.');
-      $scope.getQuestion();
+      var begin = function() {
+        if (questionObj.selectedResponse) {
+          //$scope.playResponse();
+        } else {
+          $scope.startCountDown(4, 'Recording started.');
+          $scope.getQuestion();
+        }
+      };
+      begin();
     });

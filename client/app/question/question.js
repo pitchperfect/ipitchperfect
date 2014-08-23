@@ -7,10 +7,5 @@ angular.module('pitchPerfectApp')
         url: '/question',
         templateUrl: 'app/question/question.html',
         controller: 'QuestionCtrl'
-      })
-      .state('questionView', {
-        params:['responseId'],
-        templateUrl: 'app/question/question.html',
-        controller: 'QuestionCtrl'
       });
   });

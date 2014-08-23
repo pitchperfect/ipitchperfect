@@ -6,10 +6,13 @@ angular.module('pitchPerfectApp')
   var responseContext = {
     responseObj: null,
     questionObj: null,
-    videoObj: null
+    videoObj: null,
+    videoUrl: null
   };
 
   var getResponseData = function(responseId, callback) {
+
+    console.log('getResponseData called. responseId=' + responseId);
 
     // Promise array used for sequencing below
     var promises = [];
@@ -19,6 +22,9 @@ angular.module('pitchPerfectApp')
     // Promise for response
     var responseObj = $http.get('/api/responses/' + responseId)
       .success(function(resp) {
+
+        console.log('responseObj success resp=' + resp);
+
         // Add the response data to the Context Object
         responseContext.responseObj = resp;
         return resp;
@@ -39,10 +45,18 @@ angular.module('pitchPerfectApp')
       // promises.push(questionObj);
 
       //Promise for video
+      console.log('data.data.videoId=' + data.data.videoId);
+
       var videoUrl = $http.get('/api/videos/url/' + data.data.videoId)
         .success(function(resp) {
+
+          console.log('videoUrl.success');
+
+          console.log('resp.url=' + resp.url);
+
           // Add the video data to the Context Object
           responseContext.videoObj = resp;
+          responseContext.videoUrl = resp.url;
           callbackData.videoUrl = resp.url;
         });
 
@@ -51,8 +65,10 @@ angular.module('pitchPerfectApp')
 
       // Execute in sequence
       $q.all(promises).then(function() {
+
+        console.log('q.all called');
         //Update $scope via the passed in callback
-        callback(callbackData.videoUrl, callbackData.questionTitle);
+        callback(callbackData.videoUrl);
 
       });
 
