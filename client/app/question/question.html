@@ -1,3 +1,5 @@
+<div ng-include="'components/navbar/navbar.html'"></div>
+
 <div id="question">
 
   <!-- Question Title -->
@@ -5,7 +7,7 @@
     <div class="col-md-12 column">
 
       <div class="page-header">
-        <h1>Question:
+        <h1> <!-- Question: -->
           <div class="text-center">
             <small><span>{{question}}</span></small>
           </div>
@@ -23,32 +25,32 @@
           ng-hide="processInterview">Stop Recording</button>
 
         <!-- These show up when recording is going on: -->
+
+        <!-- <button id="btn-replay-recording" class="btn btn-primary" ng-disabled="btnDisabled.replay"
+          ng-show="processInterview"
+          ng-click="replayRecording();">Play</button> -->
         <button id="btn-exit-recording" class="btn btn-danger" ng-disabled="btnDisabled.exit"
           ng-show="processInterview"
           ng-click="exitRecording();">Cancel</button><!-- route to /interview -->
-
         <button id="btn-start-recording" class="btn btn-primary"
           ng-show="processInterview" ng-disabled="btnDisabled.start"
           ng-click="changeProcessInterviewStatus();">Re-Record</button>
 
-        <button id="btn-replay-recording" class="btn btn-primary" ng-disabled="btnDisabled.replay"
-          ng-show="processInterview"
-          ng-click="replayRecording();">Play</button>
 
         <button id="btn-save-recording" class="btn btn-success" ng-disabled="btnDisabled.save"
           ng-show="processInterview"
           ng-click="saveRecording();">Save and Share</button><!-- route to /share -->
 
-        <button id="btn-save-recording" class="btn btn-success" disabled
+        <!-- <button id="btn-save-recording" class="btn btn-success" disabled
           ng-show="processInterview"
-          ng-click="saveRecording();">Save and Next</button><!-- route to /share -->
+          ng-click="saveRecording();">Save and Next</button> --> <!-- route to /share -->
         <br />
       </div>
     </div>
   </div>
 
   <div class="container" ng-hide="processInterview">
-    <div class="col-md-12 column text-center">
+    <div id="userAlertWrap" class="col-md-12 column text-center">
       <div><span id="userAlert">{{alertUser}}</span></div>
       <br/>
     </div>
@@ -58,8 +60,23 @@
   <div class="container">
     <div class="col-md-12 column text-center">
 
+      <!-- <button id="btn-replay-recording" class="btn"
+        ng-show="processInterview" ng-disabled="btnDisabled.replay"
+        ng-click="replayRecording();"> -->
+
+        <!-- <span id="btn-replay-recording" class="glyphicon glyphicon-play-circle"
+        ng-show="processInterview" ng-disabled="btnDisabled.replay"
+        ng-click="replayRecording();"></span> -->
+        <button id="btn-replay-recording" class="btn"
+          ng-show="processInterview && !videoPlaying" ng-disabled="btnDisabled.replay"
+          ng-click="replayRecording();">
+          <i class="glyphicon glyphicon-play-circle"></i>
+        </button>
+      <!-- </button> -->
+
       <div id="video-box">
-        <video id="video-record" ng-show="videoShow"></video>
+        <video id="video-record" ng-show="videoShow">
+        </video>
       </div>
 
     </div>
@@ -70,3 +87,4 @@
   </div>
 
 </div>
+<div ng-include="'components/footer/footer.html'"></div>
