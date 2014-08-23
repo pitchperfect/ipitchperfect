@@ -64,9 +64,9 @@ angular.module('pitchPerfectApp')
         console.log('setUpResponsePlay');
         $scope.btnDisabled.start = true;
         $scope.btnDisabled.stop = false;
-        $scope.btnDisabled.exit = true;
+        $scope.btnDisabled.exit = false;
         $scope.btnDisabled.save = false;
-        $scope.btnDisabled.replay = true;
+        $scope.btnDisabled.replay = false;
 
         $scope.processInterview = true;
 
