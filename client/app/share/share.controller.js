@@ -2,7 +2,7 @@
 
 angular.module('pitchPerfectApp')
 
-.controller('ShareCtrl', function ($scope, $location, $state, ShareFactory) {
+.controller('ShareCtrl', function ($scope, $location, $state, ShareFactory, InterviewFactory) {
   $scope.message = 'Hello';
   $scope.showNote = false;
   $scope.allUsers = [];
@@ -28,6 +28,7 @@ angular.module('pitchPerfectApp')
 		$('#myModal').modal('hide');
 		// This is a kludge to allows time for the modal fadeout
 		var goToNextPage = function() {
+      InterviewFactory.workingFromUserDeck = true;
 			$state.go('interview');
 		};
 		// Route to /home
@@ -35,6 +36,7 @@ angular.module('pitchPerfectApp')
 	};
 
 	$scope.cancelShare = function() {
+    InterviewFactory.workingFromUserDeck = true;
     $state.go('interview');
   };
 

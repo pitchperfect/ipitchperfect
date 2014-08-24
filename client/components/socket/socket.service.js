@@ -58,6 +58,14 @@ angular.module('pitchPerfectApp')
           _.remove(array, {_id: item._id});
           cb(event, item, array);
         });
+
+        socket.on(modelName + ':complete', function (item) {
+          console.log('item :complete', modelName, item);
+          var event = 'completed';
+
+          cb(event, item);
+        });
+
       },
 
       /**

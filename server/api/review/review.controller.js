@@ -75,24 +75,26 @@ exports.update = function(req, res) {
     var annotations = review.annotations.concat(req.body.annotations);
     console.log('annotations are ', annotations);
 
-    keysToUpdate['annotations'] = annotations;
-    keysToUpdate['questionId'] = req.body.questionId;
-    keysToUpdate['userDeckId']= req.body.userDeckId;
-    keysToUpdate['videoId'] = req.body.videoId;
-    keysToUpdate['completed'] = true;
+    review['annotations'] = annotations;
+    review['questionId'] = req.body.questionId;
+    review['userDeckId']= req.body.userDeckId;
+    review['videoId'] = req.body.videoId;
+    review['completed'] = true;
 
-console.log('keys to udpate are ', keysToUpdate);
+    console.log('keys to udpate are ', review);
 
-
-    review.update({
-      $set: keysToUpdate
-    }, function( ) {
-
-      console.log('review after update is ', review);
-      // Console.log('arguments', arguments);
+    review.save(function(err, updatedReview) {
+      console.log('review after update is ', updatedReview);
       // Would be nice to get an err status here
-      return res.json(review);
+      return res.json(updatedReview);
     });
+    // review.update({
+    //   $set: keysToUpdate
+    // }, function( ) {
+
+      // console.log('review after update is ', review);
+      // return res.json(review);
+    // });
 
   });
 };
