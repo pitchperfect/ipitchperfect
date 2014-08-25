@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('pitchPerfectApp')
-  .factory('Auth', function Auth($location, $rootScope, $http, User, $cookieStore, $q) {
+  .factory('Auth', function Auth($location, $rootScope, $http, User, $cookieStore, $q, socket) {
     var currentUser = {};
     if($cookieStore.get('token')) {
       currentUser = User.get();
@@ -46,7 +46,9 @@ angular.module('pitchPerfectApp')
        */
       logout: function() {
         $cookieStore.remove('token');
+        var id = currentUser._id;
         currentUser = {};
+        socket.emit('user logout', id);
       },
 
       /**

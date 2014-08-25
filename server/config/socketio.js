@@ -54,7 +54,6 @@ module.exports = function (socketio) {
 
     // register userId on common socket session object.
     socket.on('user connected', function (userId) {
-      socket.userId = userId
       currentAppUsers[userId] = socket;
     })
 
@@ -62,10 +61,12 @@ module.exports = function (socketio) {
     // Call onDisconnect.
     socket.on('disconnect', function () {
       onDisconnect(socket);
-      currentAppUsers[socket.userId] = null;
       console.info('[%s] DISCONNECTED', socket.address);
     });
 
+    socket.on('user logout', function (id) {
+        delete currentAppUsers[id];
+    });
 
     // Call onConnect.
     onConnect(socket);
