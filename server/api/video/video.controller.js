@@ -37,6 +37,8 @@ exports.show = function(req, res) {
   // Expects video _id passed in URI
   // Example:  ipitchperfect/videos/url/53e40bd2f32ff0ea28a
 
+  console.log('in video url getter');
+
   var videoName = req.params.id + '.webm';
 
   var blobService = azure.createBlobService(AZ_ACCT, AZ_KEY, AZ_HOST);
@@ -53,6 +55,8 @@ exports.show = function(req, res) {
   // Generate signed URL, temporary access to the video
   var sasUrl = blobService.getBlobUrl('vds1', videoName, sharedAccessPolicy);
 
+  console.log('sas url is ', sasUrl);
+
   // Return VideoURL to client
   res.json(200, {url: sasUrl});
 
@@ -61,7 +65,9 @@ exports.show = function(req, res) {
 // Creates a new video in the DB.
 exports.create = function(req, res) {
 
-//This all happens after we get a video _id from mongo  
+  req.body.userId = req.user._id;
+
+//This all happens after we get a video _id from mongo
   Video.create(req.body, function(err, video) {
 
     if(err) { return handleError(res, err); }

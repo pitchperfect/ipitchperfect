@@ -4,9 +4,6 @@ var _ = require('lodash');
 var Response = require('./response.model');
 var UserDeck = require('../userdeck/userdeck.model');
 var UserDeckController = require('../userdeck/userdeck.controller');
-// var User = require('../user/user.model');
-// var Deck = require('../deck/deck.model');
-// var Question = require('../question/question.model');
 
 // Get list of responses
 exports.index = function(req, res) {
@@ -15,16 +12,6 @@ exports.index = function(req, res) {
     return res.json(200, responses);
   });
 };
-
-
-// Get a specific response
-// exports.getSpecificResponse = function(req, res) {
-//   Response.findById(req.params.id, function (err, response) {
-//     if(err) { return handleError(res, err); }
-//     if(!response) { return res.send(404); }
-//     return res.json(response);
-//   });
-// };
 
 // Get a single response
 exports.show = function(req, res) {
@@ -35,14 +22,36 @@ exports.show = function(req, res) {
   });
 };
 
+exports.showForQuestionId = function(req, res) {
+  var questionId = req.params.id;
+  var userId = req.user._id;
+
+  Response.find({questionId: questionId, userId: userId}, function(err, response) {
+    console.log('err is ' + err);
+    console.log('response is ' + response);
+
+    if (err) {
+      return handleError(res, err);
+    }
+    if (!response) {
+      return res.send(404);
+    }
+
+    return res.json(response);
+  });
+};
+
+
 // Creates a new response in the DB.
 exports.create = function(req, res) {
-  // { userId: userId, deck: deckId, question: questionId, questionTitle: questionTitle, description: "... length", video: "videoId", textVideo: "Text video id", active: true}
+
+  req.body.userId = req.user._id;
 
   Response.create(req.body, function(err, response) {
     if(err) { return handleError(res, err); }
 
     return res.json(201, response);
+
   });
 };
 

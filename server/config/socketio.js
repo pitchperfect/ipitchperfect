@@ -5,6 +5,7 @@
 'use strict';
 
 var config = require('./environment');
+var currentAppUsers = {};
 
 // When the user disconnects.. perform this
 function onDisconnect(socket) {
@@ -18,6 +19,7 @@ function onConnect(socket) {
   });
 
   // Insert sockets below
+  require('../api/review/review.socket').register(socket, currentAppUsers);
   require('../api/video/video.socket').register(socket);
   require('../api/userdeck/userdeck.socket').register(socket);
   require('../api/question/question.socket').register(socket);
@@ -49,11 +51,21 @@ module.exports = function (socketio) {
 
     socket.connectedAt = new Date();
 
+
+    // register userId on common socket session object.
+    socket.on('user connected', function (userId) {
+      socket.userId = userId
+      currentAppUsers[userId] = socket;
+    })
+
+
     // Call onDisconnect.
     socket.on('disconnect', function () {
       onDisconnect(socket);
+      currentAppUsers[socket.userId] = null;
       console.info('[%s] DISCONNECTED', socket.address);
     });
+
 
     // Call onConnect.
     onConnect(socket);
