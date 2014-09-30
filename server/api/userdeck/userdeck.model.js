@@ -12,7 +12,7 @@ var UserdeckSchema = new Schema({
   //response: [{type: Schema.Types.ObjectId, ref: 'Response'}],
   responses: { type: Schema.Types.Mixed, default: {'questionId':[]}},
   reviews: { type: Schema.Types.Mixed, default: {'responseId':[]}},
-  // questionsResponded: Schema.Types.Mixed,
+  questionsResponded: Schema.Types.Mixed,
   responsesReviewed: Schema.Types.Mixed,
   createdAt: { type: Date, default: Date.now },
   updatedAt: { type: Date},
