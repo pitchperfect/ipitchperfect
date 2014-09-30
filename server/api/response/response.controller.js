@@ -24,8 +24,9 @@ exports.show = function(req, res) {
 
 exports.showForQuestionId = function(req, res) {
   var questionId = req.params.id;
+  var userId = req.user._id;
 
-  Response.find({questionId: questionId}, function(err, response) {
+  Response.find({questionId: questionId, userId: userId}, function(err, response) {
     console.log('err is ' + err);
     console.log('response is ' + response);
 
