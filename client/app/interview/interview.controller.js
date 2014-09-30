@@ -2,7 +2,7 @@
 
 angular.module('pitchPerfectApp')
   .controller('InterviewCtrl',
-    function ($scope, $window, $interval, InterviewFactory, QuestionFactory, $state) {
+    function ($scope, $window, $interval, InterviewFactory, QuestionFactory, $state, socket) {
 
     var processInterview = false;
 
@@ -203,4 +203,9 @@ angular.module('pitchPerfectApp')
     };
 
     $scope.getAllQuestions();
+
+    socket.syncUpdates('review', null, function() {
+      $scope.getAllQuestions();
+    });
+
   });

@@ -7,12 +7,27 @@
 var Review = require('./review.model');
 
 exports.register = function(socket, connectUsers) {
+
   Review.schema.post('save', function (doc) {
-    onSave(connectUsers, socket, doc);
+    if (doc.completed) {
+      onUpdate(connectUsers, socket, doc);
+    } else {
+      onSave(connectUsers, socket, doc);
+    }
   });
+
   Review.schema.post('remove', function (doc) {
     onRemove(socket, doc);
   });
+}
+
+
+function onUpdate(connectUsers, socket, doc, cb) {
+  console.log('updated review:', doc);
+  if(connectUsers[doc.userId]) {
+    console.log('emitting review update:', doc);
+    connectUsers[doc.userId].emit('review:complete', doc);
+  }
 }
 
 function onSave(connectUsers, socket, doc, cb) {

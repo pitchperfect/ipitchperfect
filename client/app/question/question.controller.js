@@ -236,7 +236,7 @@ angular.module('pitchPerfectApp')
             videoElement.muted = false;
             videoElement.onended = function() {
               console.log('video element on');
-
+              $scope.videoPlaying = false;
               $scope.stopCamera();
 
               videoElement.src = $window.URL.createObjectURL($scope.audioVideoRecorder.getBlob());

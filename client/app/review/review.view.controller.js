@@ -2,7 +2,7 @@
 /*globals Popcorn */
 
 angular.module('pitchPerfectApp')
-  .controller('ReviewCtrlView', function($scope, $state, $stateParams, $sce, ReviewFactory) {
+  .controller('ReviewCtrlView', function($scope, $state, $stateParams, $sce, ReviewFactory, InterviewFactory) {
 
     if (!$stateParams.reviewId){
       console.log('no target review, going home');
@@ -48,6 +48,7 @@ angular.module('pitchPerfectApp')
     };
 
     $scope.goToInterview = function() {
+      InterviewFactory.workingFromUserDeck = true;
       $state.go('interview');
     };
 
